@@ -19,20 +19,27 @@ def main():
     info_rect = (800, 0, 480, 720)
     info_surface = screen_surface.subsurface(info_rect)
 
-    scenes = [(WorldScene(), world_view_surface),
-              (InfoScene(), info_surface)]
+    world_scene  = WorldScene()
+    info_scene = InfoScene(world_scene)
+    scenes = [(world_scene, world_view_surface),
+              (info_scene, info_surface)]
 
     done = False
     clock = pygame.time.Clock()
 
     while not done:
-        for event in pygame.event.get():
+
+        pygame.event.pump()
+        key_pressed = pygame.key.get_pressed()
+        events = pygame.event.get()
+        for event in events:
             if event.type == pygame.QUIT:
                 done = True
 
-        for (scene, surface) in scenes:
+        for (scene, surface ) in scenes:
+            scene.process_input(events, key_pressed)
 
-            # scene.process_input()
+        for (scene, surface) in scenes:
             scene.compute()
             scene.render(surface)
 
