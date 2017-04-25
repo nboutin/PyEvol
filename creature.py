@@ -1,7 +1,9 @@
 import pygame
 import math
+import numpy as np
 
 from color import *
+from neural_network import NeuralNetwork
 
 
 def polar_to_cartesian(r, theta):
@@ -31,9 +33,13 @@ def rotate(point, pivot, angle):
     return int(x_new + px), int(y_new + py)
 
 
+def distance(pos, target):
+    return math.sqrt(math.pow(target[0] - pos[0], 2) + math.pow(target[1] - pos[1], 2))
+
+
 class Creature:
 
-    SIZE = 50
+    SIZE = 20
     half_size = int(SIZE / 2)
     quarter_size = int(SIZE / 4)
     body_draw_pos = (int(SIZE / 2), int(SIZE / 2))
@@ -45,14 +51,29 @@ class Creature:
     POWER_MIN = 0
     ENGINE_ANGLE = math.radians(45)
 
-    def __init__(self):
-        self.x = 400
-        self.y = 400
+    def __init__(self, x=50, y=300):
+        self.x = x
+        self.y = y
         self.theta = math.radians(0) # radians
         self.color = GREEN
         # self.surface = pygame.surface.Surface((Creature.size, Creature.size))
 
         (self.left_power, self.right_power) = (0,0)
+
+        self.nn = NeuralNetwork(2,2)
+
+    def compute(self, target_pos):
+
+        eye_left_pos = rotate((self.x, self.y-Creature.body_radius), (self.x, self.y), self.theta)
+        eye_right_pos = rotate((self.x, self.y+Creature.body_radius), (self.x, self.y), self.theta)
+
+        eye_left_dist = distance(eye_left_pos, target_pos)
+        eye_right_dist = distance(eye_right_pos, target_pos)
+
+        inputs = np.matrix([eye_left_dist, eye_right_dist])
+        powers = self.nn.compute(inputs)
+
+        self.move(powers[0], powers[1])
 
     def move(self, left_power, right_power):
 

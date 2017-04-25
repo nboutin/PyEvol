@@ -15,13 +15,18 @@ class WorldScene(SceneBase):
     def __init__(self):
         self.size = (800,800)
         self.surface = pygame.surface.Surface(self.size)
-        self.creature = Creature()
+
+        self.creatures = list()
+        for i in range(0, 50):
+            self.creatures.append(Creature(int(self.size[0]/2), int(self.size[1]/2)))
 
         (self.move_x, self.move_y) = (0,0)
         self.zoom = 1
         self.camera_pos = [0, 0]
 
         (self.left_power, self.right_power)=(0,0)
+
+        self.target_pos = [np.random.randint(0, self.size[0]), np.random.randint(0, self.size[1])]
 
     def process_input(self, events, key_pressed):
 
@@ -59,7 +64,10 @@ class WorldScene(SceneBase):
                     self.zoom -= WorldScene.ZOOM_STEP
 
     def compute(self):
-        self.creature.move(self.left_power, self.right_power)
+        # self.creature.move(self.left_power, self.right_power)
+
+        for creature in self.creatures:
+            creature.compute(self.target_pos)
 
         self.camera_pos[0] = self.size[0] / 2 - self.size[0] / 2 * self.zoom
         self.camera_pos[1] = self.size[1] / 2 - self.size[1] / 2 * self.zoom
@@ -73,7 +81,10 @@ class WorldScene(SceneBase):
         pos = [int(i/2) for i in self.size]
         pygame.draw.circle(self.surface, BLACK, pos, 50, 10)
 
-        self.creature.render(self.surface)
+        pygame.draw.circle(self.surface, RED, self.target_pos, 10)
+
+        for creature in self.creatures:
+            creature.render(self.surface)
 
         pos = [int(i * self.zoom) for i in self.size]
         surface.fill(WHITE)

@@ -22,8 +22,14 @@ class InfoScene(SceneBase):
         zoom_label = self.font.render("Zoom: {:2.2f}".format(self.world.zoom), 1, BLACK)
         surface.blit(zoom_label, (10, 10))
 
-        zoom_label = self.font.render("Power: {:2.2f}/{:2.2f}".format(self.world.creature.left_power, self.world.creature.right_power), 1, BLACK)
+        zoom_label = self.font.render("Power: {:2.2f}/{:2.2f}".format(self.world.creatures[0].left_power, self.world.creatures[0].right_power), 1, BLACK)
         surface.blit(zoom_label, (10, 30))
+
+        zoom_label = self.font.render("Inputs: {}".format(self.world.creatures[0].nn.inputs), 1, BLACK)
+        surface.blit(zoom_label, (10, 50))
+
+        zoom_label = self.font.render("Outputs: {}".format(self.world.creatures[0].nn.outputs), 1, BLACK)
+        surface.blit(zoom_label, (10, 70))
 
     def terminate(self):
         pass
