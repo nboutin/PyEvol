@@ -1,9 +1,11 @@
 import pygame
+import numpy as np
 
 from scene_base import SceneBase
 from color import *
-from creature import *
-
+from creature import Creature
+from wall import Wall
+from food import Food
 
 class WorldScene(SceneBase):
 
@@ -13,25 +15,26 @@ class WorldScene(SceneBase):
     SPEED_STEP = 0.2
 
     def __init__(self):
-        self.size = (1200, 1200)
-        self.surface = pygame.surface.Surface(self.size)
+        self.rect = pygame.rect.Rect(0, 0, 1200, 1200)
+        self.surface = pygame.surface.Surface(self.rect.size)
 
         self.creatures = list()
         for i in range(0, 50):
-            self.creatures.append(Creature(int(self.size[0]/2), int(self.size[1]/2)))
-
-        # self.creature_selected = self.creatures.pop()
-        # self.creature_selected.is_human_controlled = True
+            self.creatures.append(Creature(self.rect.center))
         self.creature_selected = None
+
+        self.wall = Wall(self.rect)
+
+        self.foods = list()
+        for i in range(0, 10):
+            self.foods.append(Food((np.random.randint(0, self.rect.width), np.random.randint(0, self.rect.height))))
 
         (self.move_x, self.move_y) = (0,0)
         self.zoom = 1
         self.camera_pos = [0, 0]
         self.mouse_click_pos = None
 
-        (self.left_power, self.right_power)=(0,0)
-
-        self.target_pos = [np.random.randint(0, self.size[0]), np.random.randint(0, self.size[1])]
+        (self.left_power, self.right_power) = (0,0)
 
     def process_input(self, events, key_pressed):
 
@@ -96,30 +99,40 @@ class WorldScene(SceneBase):
 
         # Creatures
         for creature in self.creatures:
-            creature.compute(self.target_pos)
+            creature.compute(self.foods)
 
         # Camera
-        self.camera_pos[0] = self.size[0] / 2 - self.size[0] / 2 * self.zoom
-        self.camera_pos[1] = self.size[1] / 2 - self.size[1] / 2 * self.zoom
+        self.camera_pos[0] = self.rect.width / 2 - self.rect.width / 2 * self.zoom
+        self.camera_pos[1] = self.rect.height / 2 - self.rect.height / 2 * self.zoom
 
         self.camera_pos[0] += self.move_x
         self.camera_pos[1] += self.move_y
 
     def render(self, surface):
 
+        # Background
         self.surface.fill(LIGHT_GRAY)
-        pos = [int(i/2) for i in self.size]
-        pygame.draw.circle(self.surface, BLACK, pos, 50, 10)
 
-        pygame.draw.circle(self.surface, RED, self.target_pos, 10)
+        # Center
+        pygame.draw.circle(self.surface, BLACK, self.rect.center, 50, 5)
 
+        # Wall
+        self.wall.render(self.surface)
+
+        # Food
+        for food in self.foods:
+            food.render(self.surface)
+        # pygame.draw.circle(self.surface, RED, self.target_pos, 10)
+
+        # Creatures
         if self.creature_selected:
             self.creature_selected.render(self.surface)
 
         for creature in self.creatures:
             creature.render(self.surface)
 
-        pos = [int(i * self.zoom) for i in self.size]
+        # Blit to surface
+        pos = [int(i * self.zoom) for i in self.rect.size]
         surface.fill(WHITE)
         surface.blit(pygame.transform.scale(self.surface, pos), self.camera_pos)
 
