@@ -51,6 +51,8 @@ class Creature:
     POWER_MIN = 0
     ENGINE_ANGLE = math.radians(45)
 
+    id = 0
+
     def __init__(self, x=50, y=300):
         self.x = x
         self.y = y
@@ -61,6 +63,12 @@ class Creature:
         (self.left_power, self.right_power) = (0,0)
 
         self.nn = NeuralNetwork(2,2)
+        self.is_human_controlled = False
+
+    def _get_rect(self):
+        return pygame.rect.Rect(self.x - Creature.half_size, self.y - Creature.half_size, Creature.SIZE, Creature.SIZE)
+
+    rect = property(_get_rect)
 
     def compute(self, target_pos):
 
@@ -104,6 +112,10 @@ class Creature:
         eye_pos = (self.x + Creature.quarter_size, self.y + Creature.quarter_size)
         eye_pos = rotate(eye_pos, (self.x, self.y), self.theta)
         pygame.draw.circle(surface, BLACK, eye_pos, Creature.eye_radius)
+
+        # Human controlled
+        if self.is_human_controlled:
+            pygame.draw.circle(surface, RED, (self.x, self.y), Creature.body_radius*2, 1)
 
         ##########
 

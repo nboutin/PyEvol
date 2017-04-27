@@ -20,9 +20,14 @@ class WorldScene(SceneBase):
         for i in range(0, 50):
             self.creatures.append(Creature(int(self.size[0]/2), int(self.size[1]/2)))
 
+        # self.creature_selected = self.creatures.pop()
+        # self.creature_selected.is_human_controlled = True
+        self.creature_selected = None
+
         (self.move_x, self.move_y) = (0,0)
         self.zoom = 1
         self.camera_pos = [0, 0]
+        self.mouse_click_pos = None
 
         (self.left_power, self.right_power)=(0,0)
 
@@ -54,8 +59,7 @@ class WorldScene(SceneBase):
             elif event.type == pygame.MOUSEBUTTONDOWN:
 
                 if event.button == 1:
-                    pass
-                    # mouse = pygame.mouse.get_pos()
+                    self.mouse_click_pos = pygame.mouse.get_pos()
                     # move_x = copy_screen_size[0] / 2 - mouse[0]
                     # move_y = copy_screen_size[1] / 2 - mouse[1]
                 if event.button == 4:
@@ -64,11 +68,37 @@ class WorldScene(SceneBase):
                     self.zoom -= WorldScene.ZOOM_STEP
 
     def compute(self):
-        # self.creature.move(self.left_power, self.right_power)
 
+        if self.mouse_click_pos:
+            creature_clicked = [creature for creature in self.creatures if creature.rect.collidepoint(self.mouse_click_pos)]
+            self.mouse_click_pos = None
+
+            if creature_clicked:
+                if not self.creature_selected:
+                    self.creature_selected = creature_clicked.pop()
+                    self.creature_selected.is_human_controlled = True
+                    self.creatures.pop(self.creatures.index(self.creature_selected))
+                else:
+                    self.creature_selected.is_human_controlled = False
+                    self.creatures.append(self.creature_selected)
+
+                    self.creature_selected = creature_clicked.pop()
+                    self.creature_selected.is_human_controlled = True
+                    self.creatures.pop(self.creatures.index(self.creature_selected))
+            else:
+                if self.creature_selected:
+                    self.creature_selected.is_human_controlled = False
+                    self.creatures.append(self.creature_selected)
+                    self.creature_selected = None
+
+        if self.creature_selected:
+            self.creature_selected.move(self.left_power, self.right_power)
+
+        # Creatures
         for creature in self.creatures:
             creature.compute(self.target_pos)
 
+        # Camera
         self.camera_pos[0] = self.size[0] / 2 - self.size[0] / 2 * self.zoom
         self.camera_pos[1] = self.size[1] / 2 - self.size[1] / 2 * self.zoom
 
@@ -82,6 +112,9 @@ class WorldScene(SceneBase):
         pygame.draw.circle(self.surface, BLACK, pos, 50, 10)
 
         pygame.draw.circle(self.surface, RED, self.target_pos, 10)
+
+        if self.creature_selected:
+            self.creature_selected.render(self.surface)
 
         for creature in self.creatures:
             creature.render(self.surface)
