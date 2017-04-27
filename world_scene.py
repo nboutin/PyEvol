@@ -13,7 +13,7 @@ class WorldScene(SceneBase):
     SPEED_STEP = 0.2
 
     def __init__(self):
-        self.size = (800,800)
+        self.size = (1200, 1200)
         self.surface = pygame.surface.Surface(self.size)
 
         self.creatures = list()
