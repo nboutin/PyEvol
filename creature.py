@@ -45,7 +45,7 @@ class Creature:
     half_size = int(SIZE / 2)
     quarter_size = int(SIZE / 4)
     body_draw_pos = (int(SIZE / 2), int(SIZE / 2))
-    eye_radius = 5
+    eye_radius = 3
     eye_left_pos = (int(SIZE * 3 / 4), int(SIZE / 2 - SIZE / 4))
     eye_right_pos = (int(SIZE * 3 / 4), int(SIZE / 2 + SIZE / 4))
 
@@ -64,7 +64,19 @@ class Creature:
 
         self.nn = NeuralNetwork(2,2)
         self.is_human_controlled = False
-        self.is_selected = False
+        self._is_selected = False
+
+        self.calorie = 20
+
+    @property
+    def is_selected(self):
+        return self._is_selected
+
+    @is_selected.setter
+    def is_selected(self, bool):
+        self._is_selected = bool
+        if not bool:
+            self.is_human_controlled = False
 
     def compute(self, foods):
 
@@ -99,6 +111,9 @@ class Creature:
 
         if self.left_power != 0 or self.right_power != 0:
             self.theta = math.atan2(y_result, x_result)
+
+    def eat(self, food):
+        self.calorie = food.eat(1)
 
     def render(self, surface):
         # Body

@@ -18,7 +18,7 @@ class WorldScene(SceneBase):
 
     def __init__(self):
         # Drawing
-        self.rect = pygame.rect.Rect(0, 0, 400, 400)
+        self.rect = pygame.rect.Rect(0, 0, 800, 800)
         self.surface = pygame.surface.Surface(self.rect.size)
         self.camera = Camera(self.rect)
         self.mouse_click_pos = None
@@ -77,7 +77,6 @@ class WorldScene(SceneBase):
                     self.creature_selected.is_selected = True
                     self.creatures.pop(self.creatures.index(self.creature_selected))
                 else:
-                    self.creature_selected.is_human_controlled = False
                     self.creature_selected.is_selected = False
                     self.creatures.append(self.creature_selected)
 
@@ -87,7 +86,6 @@ class WorldScene(SceneBase):
             else:
                 if self.creature_selected:
                     self.creature_selected.is_selected = False
-                    self.creature_selected.is_human_controlled = False
                     self.creatures.append(self.creature_selected)
                     self.creature_selected = None
 
@@ -114,6 +112,15 @@ class WorldScene(SceneBase):
 
             if creature.rect.colliderect(self.wall.border_bottom):
                 creature.rect.bottom = self.wall.rect.bottom
+
+        # Check food collision
+        for creature in self.creatures:
+            for food in self.foods:
+                if creature.rect.colliderect(food.rect):
+                    creature.eat(food)
+
+        # Deleted depleted foods
+        self.foods = [f for f in self.foods if f.calories > 0]
 
     def render(self, surface):
 
