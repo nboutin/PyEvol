@@ -18,7 +18,7 @@ class WorldScene(SceneBase):
 
     def __init__(self):
         # Drawing
-        self.rect = pygame.rect.Rect(0, 0, 1200, 1200)
+        self.rect = pygame.rect.Rect(0, 0, 400, 400)
         self.surface = pygame.surface.Surface(self.rect.size)
         self.camera = Camera(self.rect)
         self.mouse_click_pos = None
@@ -100,6 +100,20 @@ class WorldScene(SceneBase):
         # Creatures
         for creature in self.creatures:
             creature.compute(self.foods)
+
+        # Check wall collisions
+        for creature in self.creatures:
+            if creature.rect.colliderect(self.wall.border_right):
+                creature.rect.right = self.wall.rect.right
+
+            if creature.rect.colliderect(self.wall.border_left):
+                creature.rect.left = self.wall.rect.left
+
+            if creature.rect.colliderect(self.wall.border_top):
+                creature.rect.top = self.wall.rect.top
+
+            if creature.rect.colliderect(self.wall.border_bottom):
+                creature.rect.bottom = self.wall.rect.bottom
 
     def render(self, surface):
 
