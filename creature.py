@@ -64,6 +64,7 @@ class Creature:
 
         self.nn = NeuralNetwork(2,2)
         self.is_human_controlled = False
+        self.is_selected = False
 
     def compute(self, foods):
 
@@ -112,8 +113,8 @@ class Creature:
         eye_pos = rotate(eye_pos, self.rect.center, self.theta)
         pygame.draw.circle(surface, BLACK, eye_pos, Creature.eye_radius)
 
-        # Human controlled
-        if self.is_human_controlled:
+        # Selected by mouse click
+        if self.is_selected:
             pygame.draw.circle(surface, RED, self.rect.center, Creature.body_radius*2, 1)
 
 

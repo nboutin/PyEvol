@@ -19,7 +19,7 @@ class InfoScene(SceneBase):
     def render(self, surface):
         surface.fill(LIGHT_BLUE)
 
-        zoom_label = self.font.render("Zoom: {:2.2f}".format(self.world.zoom), 1, BLACK)
+        zoom_label = self.font.render("Zoom: {:2.2f}".format(self.world.camera.zoom), 1, BLACK)
         surface.blit(zoom_label, (10, 10))
 
         # Creature
