@@ -51,6 +51,7 @@ class Creature:
 
     POWER_MIN = 0
     ENGINE_ANGLE = math.radians(45)
+    SPEED_STEP = 0.2
 
     id = 0
 
@@ -78,6 +79,18 @@ class Creature:
         if not bool:
             self.is_human_controlled = False
 
+    def process_inputs(self, events, key_pressed):
+
+        if key_pressed[pygame.K_LEFT] or key_pressed[pygame.K_UP]:
+            self.right_power += Creature.SPEED_STEP
+        else:
+            self.right_power = max(self.right_power - Creature.SPEED_STEP, 0)
+
+        if key_pressed[pygame.K_RIGHT] or key_pressed[pygame.K_UP]:
+            self.left_power += Creature.SPEED_STEP
+        else:
+            self.left_power = max(self.left_power - Creature.SPEED_STEP, 0)
+
     def compute(self, foods):
 
         eye_left_pos = rotate(self.rect.move(0, -Creature.body_radius).center, self.rect.center, self.theta)
@@ -86,14 +99,12 @@ class Creature:
         left_distances = [distance(eye_left_pos, d.rect.center) for d in foods]
         right_distances = [distance(eye_right_pos, d.rect.center) for d in foods]
 
-        # eye_left_dist = distance(eye_left_pos, target_pos)
-        # eye_right_dist = distance(eye_right_pos, target_pos)
-
-        # inputs = np.matrix([eye_left_dist, eye_right_dist])
-        inputs = np.matrix([min(left_distances), min(right_distances)])
-        powers = self.nn.compute(inputs)
-
-        self.move(powers[0], powers[1])
+        if self.is_human_controlled:
+            self.move(self.left_power, self.right_power)
+        else:
+            inputs = np.matrix([min(left_distances), min(right_distances)])
+            powers = self.nn.compute(inputs)
+            self.move(powers[0], powers[1])
 
     def move(self, left_power, right_power):
 
@@ -113,7 +124,7 @@ class Creature:
             self.theta = math.atan2(y_result, x_result)
 
     def eat(self, food):
-        self.calorie = food.eat(1)
+        self.calorie += food.eat(1)
 
     def render(self, surface):
         # Body

@@ -34,5 +34,8 @@ class InfoScene(SceneBase):
             zoom_label = self.font.render("Outputs: {}".format(creature.nn.outputs), 1, BLACK)
             surface.blit(zoom_label, (10, 70))
 
+            zoom_label = self.font.render("Calories: {}".format(creature.calorie), 1, BLACK)
+            surface.blit(zoom_label, (10, 90))
+
     def terminate(self):
         pass
