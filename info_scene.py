@@ -6,9 +6,10 @@ from color import *
 
 class InfoScene(SceneBase):
 
-    def __init__(self, world):
+    def __init__(self, world, clock):
         self.font = pygame.font.SysFont("monospace", 15)
         self.world = world
+        self.clock = clock
 
     def process_input(self, events, key_pressed):
         pass
@@ -21,6 +22,9 @@ class InfoScene(SceneBase):
 
         zoom_label = self.font.render("Zoom: {:2.2f}".format(self.world.camera.zoom), 1, BLACK)
         surface.blit(zoom_label, (10, 10))
+
+        zoom_label = self.font.render("FPS: {:2.1f}".format(self.clock.get_fps()), 1, BLACK)
+        surface.blit(zoom_label, (150, 10))
 
         # Creature
         creature = self.world.creature_selected
@@ -36,6 +40,3 @@ class InfoScene(SceneBase):
 
             zoom_label = self.font.render("Calories: {}".format(creature.calorie), 1, BLACK)
             surface.blit(zoom_label, (10, 90))
-
-    def terminate(self):
-        pass
