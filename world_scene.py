@@ -1,6 +1,7 @@
 import pygame
 import numpy as np
 
+import parameters
 from scene_base import SceneBase
 from camera import Camera
 from color import *
@@ -20,7 +21,7 @@ class WorldScene(SceneBase):
 
         # World Objects
         self.creatures = list()
-        for i in range(0, 50):
+        for i in range(0, parameters.N_POPULATION):
             self.creatures.append(Creature(self.rect.center))
         self.creature_selected = None
 

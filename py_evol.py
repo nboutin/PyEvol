@@ -2,6 +2,7 @@ import pygame
 
 from world_scene import WorldScene
 from info_scene import InfoScene
+from genetic_algorithm import GeneticAlgorithm
 
 
 HD = (1280, 720)
@@ -31,10 +32,12 @@ def main():
     done = False
     clock = pygame.time.Clock()
 
-    world_scene  = WorldScene()
+    world_scene = WorldScene()
     info_scene = InfoScene(world_scene, clock)
     scenes = [(world_scene, world_view_surface),
               (info_scene, info_surface)]
+
+    ga = GeneticAlgorithm(world_scene)
 
     while not done:
 
