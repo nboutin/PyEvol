@@ -1,7 +1,10 @@
 
 class SceneBase:
     def __init__(self):
-        pass
+        self.next = self
+
+    def switch_to_scene(self, next_scene):
+        self.next = next_scene
 
     def process_input(self, events, key_pressed):
         print("uh-oh, you didn't override this in the child class")
@@ -13,4 +16,4 @@ class SceneBase:
         print("uh-oh, you didn't override this in the child class")
 
     def terminate(self):
-        pass
+        self.switch_to_scene(None)

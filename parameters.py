@@ -1,4 +1,8 @@
 
+# Rendering
+FPS = 30
+
+# World
 N_POPULATION = 50
 
 # Genetic Algorithm
