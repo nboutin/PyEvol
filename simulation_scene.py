@@ -1,7 +1,8 @@
 import pygame
 
+import parameters
+import result_scene
 from scene_base import SceneBase
-import main_scene
 from world_scene import WorldScene
 from info_scene import InfoScene
 
@@ -12,6 +13,7 @@ class SimulationScene(SceneBase):
         SceneBase.__init__(self)
 
         self.model = model
+        self.model.simulation_time_ms = 0
 
         self.rect = screen_rect
         self.surface = pygame.Surface(self.rect.size)
@@ -27,15 +29,22 @@ class SimulationScene(SceneBase):
     def process_input(self, events, key_pressed):
 
         for event in events:
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
-                # Move to the next scene when the user pressed Enter
-                self.switch_to_scene(main_scene.MainScene(self.rect, self.model))
-                return
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    self.switch_to_scene(result_scene.ResultScene(self.rect, self.model))
+                    return
+
+        # End of Simulation
+        if self.model.simulation_time_ms / 1000 >= parameters.SIMULATION_TIME:
+            self.switch_to_scene(result_scene.ResultScene(self.rect, self.model))
+            return
 
         self.world_scene.process_input(events, key_pressed)
         self.info_scene.process_input(events, key_pressed)
 
     def compute(self):
+        self.model.simulation_time_ms += self.model.clock.get_time()
+
         self.world_scene.compute()
         self.info_scene.compute()
 

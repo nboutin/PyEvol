@@ -52,6 +52,7 @@ class Creature:
     POWER_MIN = 0
     ENGINE_ANGLE = math.radians(45)
     SPEED_STEP = 0.2
+    K_SPEED = 2
 
     id = 0
 
@@ -59,6 +60,7 @@ class Creature:
         self.rect = pygame.rect.Rect((0,0), (Creature.SIZE, Creature.SIZE))
         self.theta = math.radians(0) # radians
         self.color = GREEN
+        self.font = pygame.font.SysFont("monospace", 10)
 
         (self.left_power, self.right_power) = (0,0)
 
@@ -66,7 +68,7 @@ class Creature:
         self.is_human_controlled = False
         self._is_selected = False
 
-        self.calorie = 20
+        self.food = 0
 
     def set_pos(self, pos):
         self.rect.center = pos
@@ -106,7 +108,7 @@ class Creature:
         else:
             inputs = np.matrix([min(left_distances), min(right_distances)])
             powers = self.nn.compute(inputs)
-            self.move(powers[0], powers[1])
+            self.move(powers[0] * Creature.K_SPEED, powers[1] * Creature.K_SPEED)
 
     def move(self, left_power, right_power):
 
@@ -126,7 +128,7 @@ class Creature:
             self.theta = math.atan2(y_result, x_result)
 
     def eat(self, food):
-        self.calorie += food.eat(1)
+        self.food += food.eat(1)
 
     def render(self, surface):
         # Body
@@ -140,6 +142,11 @@ class Creature:
         eye_pos = (self.rect.centerx + Creature.quarter_size, self.rect.centery + Creature.quarter_size)
         eye_pos = rotate(eye_pos, self.rect.center, self.theta)
         pygame.draw.circle(surface, BLACK, eye_pos, Creature.eye_radius)
+
+        # Food
+        label = self.font.render("{}".format(self.food), 1, BLACK)
+        surface.blit(label, self.rect.bottomright)
+
 
         # Selected by mouse click
         if self.is_selected:

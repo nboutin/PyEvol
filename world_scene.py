@@ -12,6 +12,8 @@ from food import Food
 
 class WorldScene(SceneBase):
 
+    FOOD_COUNT = 10
+
     def __init__(self, model):
         # Drawing
         self.rect = pygame.rect.Rect(0, 0, 800, 800)
@@ -30,7 +32,10 @@ class WorldScene(SceneBase):
         self.wall = Wall(self.rect)
 
         self.foods = list()
-        for i in range(0, 10):
+        self.add_foods(WorldScene.FOOD_COUNT)
+
+    def add_foods(self, n):
+        for i in range(0, n):
             self.foods.append(Food((np.random.randint(0, self.rect.width), np.random.randint(0, self.rect.height))))
 
     def process_input(self, events, key_pressed):
@@ -98,6 +103,7 @@ class WorldScene(SceneBase):
 
         # Delete depleted foods
         self.foods = [f for f in self.foods if f.calories > 0]
+        self.add_foods(WorldScene.FOOD_COUNT - len(self.foods))
 
     def render(self, surface):
 

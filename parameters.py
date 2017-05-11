@@ -2,8 +2,9 @@
 # Rendering
 FPS = 30
 
-# World
+# Simulation
 N_POPULATION = 50
+SIMULATION_TIME = 20 # seconds
 
 # Genetic Algorithm
 CXPB = 0.5  # probability with which two individuals are crossed

@@ -24,10 +24,13 @@ class InfoScene(SceneBase):
         surface.blit(label, (10, 10))
 
         label = self.font.render("FPS: {:2.1f}".format(self.model.clock.get_fps()), 1, BLACK)
-        surface.blit(label, (150, 10))
+        surface.blit(label, (130, 10))
 
-        label = self.font.render("Time: {:2.1f}s".format(self.model.playtime / 1000), 1, BLACK)
-        surface.blit(label, (250, 10))
+        label = self.font.render("Total Time: {:2.1f}s".format(self.model.total_time_ms / 1000), 1, BLACK)
+        surface.blit(label, (230, 10))
+
+        label = self.font.render("Simulation Time: {:2.1f}s".format(self.model.simulation_time_ms / 1000), 1, BLACK)
+        surface.blit(label, (10, 30))
 
         # Creature
         creature = self.world.creature_selected

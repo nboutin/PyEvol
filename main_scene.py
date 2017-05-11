@@ -17,9 +17,11 @@ class MainScene(SceneBase):
 
     def process_input(self, events, key_pressed):
         for event in events:
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
-                # Move to the next scene when the user pressed Enter
-                self.switch_to_scene(SimulationScene(self.rect, self.model))
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    self.switch_to_scene(SimulationScene(self.rect, self.model))
+                elif event.key == pygame.K_ESCAPE:
+                    pygame.event.post(pygame.event.Event(pygame.QUIT))
 
     def compute(self):
         pass
