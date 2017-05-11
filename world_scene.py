@@ -12,7 +12,7 @@ from food import Food
 
 class WorldScene(SceneBase):
 
-    def __init__(self):
+    def __init__(self, model):
         # Drawing
         self.rect = pygame.rect.Rect(0, 0, 800, 800)
         self.surface = pygame.surface.Surface(self.rect.size)
@@ -20,9 +20,11 @@ class WorldScene(SceneBase):
         self.mouse_click_pos = None
 
         # World Objects
-        self.creatures = list()
-        for i in range(0, parameters.N_POPULATION):
-            self.creatures.append(Creature(self.rect.center))
+        self.model = model
+        self.creatures = self.model.creatures
+
+        for c in self.creatures:
+            c.set_pos(self.rect.center)
         self.creature_selected = None
 
         self.wall = Wall(self.rect)

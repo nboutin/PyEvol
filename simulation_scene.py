@@ -18,7 +18,7 @@ class SimulationScene(SceneBase):
 
         world_rect = pygame.rect.Rect((0, 0), (self.rect.h, self.rect.h))
         self.world_surface = self.surface.subsurface(world_rect)
-        self.world_scene = WorldScene()
+        self.world_scene = WorldScene(self.model)
 
         info_rect = ((world_rect.w, 0), (self.rect.w - world_rect.w, self.rect.h))
         self.info_surface = self.surface.subsurface(info_rect)

@@ -26,6 +26,9 @@ class InfoScene(SceneBase):
         label = self.font.render("FPS: {:2.1f}".format(self.model.clock.get_fps()), 1, BLACK)
         surface.blit(label, (150, 10))
 
+        label = self.font.render("Time: {:2.1f}s".format(self.model.playtime / 1000), 1, BLACK)
+        surface.blit(label, (250, 10))
+
         # Creature
         creature = self.world.creature_selected
         if creature:

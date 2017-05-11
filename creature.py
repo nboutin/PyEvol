@@ -55,9 +55,8 @@ class Creature:
 
     id = 0
 
-    def __init__(self, pos):
+    def __init__(self):
         self.rect = pygame.rect.Rect((0,0), (Creature.SIZE, Creature.SIZE))
-        self.rect.center = pos
         self.theta = math.radians(0) # radians
         self.color = GREEN
 
@@ -68,6 +67,9 @@ class Creature:
         self._is_selected = False
 
         self.calorie = 20
+
+    def set_pos(self, pos):
+        self.rect.center = pos
 
     @property
     def is_selected(self):
