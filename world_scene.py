@@ -1,10 +1,11 @@
 import pygame
 import numpy as np
+import os.path
 
 import parameters
 from scene_base import SceneBase
 from camera import Camera
-from color import *
+import color
 from creature import Creature
 from wall import Wall
 from food import Food
@@ -13,13 +14,16 @@ from food import Food
 class WorldScene(SceneBase):
 
     FOOD_COUNT = 20
+    COLOR_BACKGROUND = color.LIGHT_GREEN
 
     def __init__(self, model):
         # Drawing
-        self.rect = pygame.rect.Rect(0, 0, 1000, 1000)
+        self.rect = pygame.rect.Rect(0, 0, 1050, 1050)
         self.surface = pygame.surface.Surface(self.rect.size)
         self.camera = Camera(self.rect)
         self.mouse_click_pos = None
+        # self.grass = pygame.image.load(os.path.join("res", "grass.jpg"))
+        # self.grass = pygame.transform.scale(self.grass, self.rect.size)
 
         # World Objects
         self.model = model
@@ -34,6 +38,13 @@ class WorldScene(SceneBase):
 
         self.foods = list()
         self.add_foods(WorldScene.FOOD_COUNT)
+
+    def __del__(self):
+        if self.best:
+            self.best.is_best = False
+
+        if self.creature_selected:
+            self.creature_selected.is_selected = False
 
     def add_foods(self, n):
         for i in range(0, n):
@@ -84,7 +95,7 @@ class WorldScene(SceneBase):
 
         max = 0
         for creature in self.creatures:
-            if creature.food >= max:
+            if creature.food > max:
                 max = creature.food
                 if self.best:
                     self.best.is_best = False
@@ -112,17 +123,16 @@ class WorldScene(SceneBase):
     def render(self, surface):
 
         # Background
-        self.surface.fill(LIGHT_GRAY)
-
-        # Center
-        pygame.draw.circle(self.surface, BLACK, self.rect.center, 50, 5)
-
-        # Wall
-        self.wall.render(self.surface)
+        self.surface.fill(WorldScene.COLOR_BACKGROUND)
+        # self.surface.blit(self.grass, (0, 0))
 
         # Food
         for food in self.foods:
             food.render(self.surface)
+
+        # Wall
+        self.wall.render(self.surface)
+
 
         # Creatures
         if self.creature_selected:
@@ -132,5 +142,5 @@ class WorldScene(SceneBase):
             creature.render(self.surface)
 
         # Blit to surface
-        surface.fill(WHITE)
+        surface.fill(color.WHITE)
         surface.blit(pygame.transform.scale(self.surface, self.camera.area.size), self.camera.area.topleft)

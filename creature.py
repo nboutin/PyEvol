@@ -49,17 +49,18 @@ class Creature:
     eye_left_pos = (int(SIZE * 3 / 4), int(SIZE / 2 - SIZE / 4))
     eye_right_pos = (int(SIZE * 3 / 4), int(SIZE / 2 + SIZE / 4))
 
+    COLOR_DEFAULT = TEAL
+    COLOR_BEST = RED
+
     POWER_MIN = 0
     ENGINE_ANGLE = math.radians(45)
     SPEED_STEP = 0.2
     K_SPEED = 2
 
-    id = 0
-
     def __init__(self):
         self.rect = pygame.rect.Rect((0,0), (Creature.SIZE, Creature.SIZE))
         self.theta = math.radians(0) # radians
-        self.color = GREEN
+        self.color = Creature.COLOR_DEFAULT
         self.font = pygame.font.SysFont("monospace", 10)
 
         (self.left_power, self.right_power) = (0,0)
@@ -67,7 +68,7 @@ class Creature:
         self.nn = NeuralNetwork(2,2)
         self.is_human_controlled = False
         self._is_selected = False
-        self.is_best = False
+        self._is_best = False
 
         self.food = 0
 
@@ -83,6 +84,18 @@ class Creature:
         self._is_selected = bool
         if not bool:
             self.is_human_controlled = False
+
+    @property
+    def is_best(self):
+        return self._is_best
+
+    @is_best.setter
+    def is_best(self, bool):
+        self._is_best = bool
+        if bool:
+            self.color = Creature.COLOR_BEST
+        else:
+            self.color = Creature.COLOR_DEFAULT
 
     def process_inputs(self, events, key_pressed):
 
@@ -158,7 +171,7 @@ class Creature:
         if self.is_selected:
             pygame.draw.circle(surface, RED, self.rect.center, Creature.body_radius*2, 1)
 
-        if self.is_best:
-            pygame.draw.circle(surface, BLUE, self.rect.center, Creature.body_radius * 2, 2)
+        # if self.is_best:
+        #     pygame.draw.circle(surface, BLUE, self.rect.center, Creature.body_radius * 2, 2)
 
 

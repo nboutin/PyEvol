@@ -21,10 +21,10 @@ class ResultScene(SceneBase):
     def process_input(self, events, key_pressed):
         for event in events:
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN: # Enter
-                    self.switch_to_scene(simulation_scene.SimulationScene(self.rect, self.model))
-                elif event.key == pygame.K_ESCAPE:
+                if event.key == pygame.K_ESCAPE:
                     self.switch_to_scene(main_scene.MainScene(self.rect, self.model))
+                elif event.key == pygame.K_RETURN: # Enter
+                    self.switch_to_scene(simulation_scene.SimulationScene(self.rect, self.model))
 
     def compute(self):
         if self.one_time:
@@ -35,7 +35,7 @@ class ResultScene(SceneBase):
             pygame.event.post(pygame.event.Event(pygame.KEYDOWN, key=pygame.K_RETURN))
 
     def render(self, surface):
-        self.surface.fill(LIGHT_BLUE)
+        self.surface.fill(LIGHT_SEA_GREEN)
 
         label = self.font.render("Enter: Start simulation", 1, BLACK)
         self.surface.blit(label, (10, 10))

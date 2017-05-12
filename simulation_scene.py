@@ -1,6 +1,7 @@
 import pygame
 
 import parameters
+import main_scene
 import result_scene
 from scene_base import SceneBase
 from world_scene import WorldScene
@@ -30,7 +31,9 @@ class SimulationScene(SceneBase):
 
         for event in events:
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN:
+                if event.key == pygame.K_ESCAPE:
+                    self.switch_to_scene(main_scene.MainScene(self.rect, self.model))
+                elif event.key == pygame.K_RETURN:
                     self.switch_to_scene(result_scene.ResultScene(self.rect, self.model))
                     return
 
