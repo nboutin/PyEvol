@@ -12,11 +12,11 @@ from food import Food
 
 class WorldScene(SceneBase):
 
-    FOOD_COUNT = 10
+    FOOD_COUNT = 20
 
     def __init__(self, model):
         # Drawing
-        self.rect = pygame.rect.Rect(0, 0, 800, 800)
+        self.rect = pygame.rect.Rect(0, 0, 1000, 1000)
         self.surface = pygame.surface.Surface(self.rect.size)
         self.camera = Camera(self.rect)
         self.mouse_click_pos = None
@@ -26,8 +26,9 @@ class WorldScene(SceneBase):
         self.creatures = self.model.creatures
 
         for c in self.creatures:
-            c.set_pos(self.rect.center)
+            c.set_pos((np.random.randint(0, self.rect.width), np.random.randint(0, self.rect.height)))
         self.creature_selected = None
+        self.best = None
 
         self.wall = Wall(self.rect)
 
@@ -81,6 +82,15 @@ class WorldScene(SceneBase):
         for creature in self.creatures:
             creature.compute(self.foods)
 
+        max = 0
+        for creature in self.creatures:
+            if creature.food >= max:
+                max = creature.food
+                if self.best:
+                    self.best.is_best = False
+                self.best = creature
+                self.best.is_best = True
+
         # Check wall collisions
         for creature in self.creatures:
             if creature.rect.colliderect(self.wall.border_right):
@@ -94,12 +104,6 @@ class WorldScene(SceneBase):
 
             if creature.rect.colliderect(self.wall.border_bottom):
                 creature.rect.bottom = self.wall.rect.bottom
-
-        # Check food collision
-        for creature in self.creatures:
-            for food in self.foods:
-                if creature.rect.colliderect(food.rect):
-                    creature.eat(food)
 
         # Delete depleted foods
         self.foods = [f for f in self.foods if f.calories > 0]

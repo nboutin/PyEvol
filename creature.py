@@ -67,6 +67,7 @@ class Creature:
         self.nn = NeuralNetwork(2,2)
         self.is_human_controlled = False
         self._is_selected = False
+        self.is_best = False
 
         self.food = 0
 
@@ -110,6 +111,11 @@ class Creature:
             powers = self.nn.compute(inputs)
             self.move(powers[0] * Creature.K_SPEED, powers[1] * Creature.K_SPEED)
 
+        # Detect food collision
+        for food in foods:
+            if self.rect.colliderect(food.rect):
+                self.eat(food)
+
     def move(self, left_power, right_power):
 
         self.left_power = max(left_power, Creature.POWER_MIN)
@@ -128,7 +134,7 @@ class Creature:
             self.theta = math.atan2(y_result, x_result)
 
     def eat(self, food):
-        self.food += food.eat(1)
+        self.food += food.eat(0.25)
 
     def render(self, surface):
         # Body
@@ -144,12 +150,15 @@ class Creature:
         pygame.draw.circle(surface, BLACK, eye_pos, Creature.eye_radius)
 
         # Food
-        label = self.font.render("{}".format(self.food), 1, BLACK)
+        label = self.font.render("{:2.1f}".format(self.food), 1, BLACK)
         surface.blit(label, self.rect.bottomright)
 
 
         # Selected by mouse click
         if self.is_selected:
             pygame.draw.circle(surface, RED, self.rect.center, Creature.body_radius*2, 1)
+
+        if self.is_best:
+            pygame.draw.circle(surface, BLUE, self.rect.center, Creature.body_radius * 2, 2)
 
 

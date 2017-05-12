@@ -32,6 +32,8 @@ class ResultScene(SceneBase):
 
             self.model.ga.compute()
 
+            pygame.event.post(pygame.event.Event(pygame.KEYDOWN, key=pygame.K_RETURN))
+
     def render(self, surface):
         self.surface.fill(LIGHT_BLUE)
 

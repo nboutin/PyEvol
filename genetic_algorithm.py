@@ -37,8 +37,15 @@ class GeneticAlgorithm:
             c.nn.set_parameters(g)
 
         self.generation = 1
+        self.min = 0
+        self.max = 0
+        self.mean = 0
+        self.std = 0
 
     def compute(self):
+
+        self.generation += 1
+
         for ind, c in zip(self.pop, self.creatures):
             ind.fitness.values = c.food,
 
@@ -46,14 +53,16 @@ class GeneticAlgorithm:
         fits = [ind.fitness.values[0] for ind in self.pop]
 
         length = len(self.pop)
-        mean = sum(fits) / length
+        self.min = min(fits)
+        self.max = max(fits)
+        self.mean = sum(fits) / length
         sum2 = sum(x * x for x in fits)
-        std = abs(sum2 / length - mean ** 2) ** 0.5
+        self.std = abs(sum2 / length - self.mean ** 2) ** 0.5
 
-        print("  Min %s" % min(fits))
-        print("  Max %s" % max(fits))
-        print("  Avg %s" % mean)
-        print("  Std %s" % std)
+        # print("  Min %s" % min(fits))
+        # print("  Max %s" % max(fits))
+        # print("  Avg %s" % mean)
+        # print("  Std %s" % std)
 
         # Select the next generation individuals
         offspring = self.toolbox.select(self.pop, len(self.pop))
