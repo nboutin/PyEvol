@@ -34,7 +34,8 @@ def main():
     while not done:
 
         # Limit frames per second
-        model.total_time_ms += clock.tick(parameters.FPS)
+        model.delta_time = clock.tick(parameters.FPS)
+        model.total_time_ms += model.delta_time
 
         pygame.event.pump()
         key_pressed = pygame.key.get_pressed()

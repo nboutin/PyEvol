@@ -19,10 +19,8 @@ class GeneticAlgorithm:
 
         self.toolbox.register("attr_float", random.uniform, -1.0, 1.0)
 
-        chromo_length = self.creatures[0].nn.weights.size
-        chromo_length += self.creatures[0].nn.bias.size
         self.toolbox.register("individual", tools.initRepeat, creator.Individual,
-                              self.toolbox.attr_float, chromo_length)
+                              self.toolbox.attr_float, self.creatures[0].nn.size)
         self.toolbox.register("population", tools.initRepeat, list, self.toolbox.individual)
 
         # Operator registration

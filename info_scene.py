@@ -1,4 +1,5 @@
 import pygame
+import datetime
 
 import color
 from scene_base import SceneBase
@@ -30,7 +31,7 @@ class InfoScene(SceneBase):
         label = self.font.render("FPS: {:2.1f}".format(self.model.clock.get_fps()), 1, InfoScene.COLOR_FONT)
         surface.blit(label, (130, line))
 
-        label = self.font.render("Total Time: {:2.1f}s".format(self.model.total_time_ms / 1000), 1, InfoScene.COLOR_FONT)
+        label = self.font.render("Total Time: {!s:0>8}".format(datetime.timedelta(milliseconds=self.model.total_time_ms)), 1, InfoScene.COLOR_FONT)
         surface.blit(label, (230, line))
 
         # 2

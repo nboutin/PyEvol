@@ -55,7 +55,7 @@ class Creature:
     POWER_MIN = 0
     ENGINE_ANGLE = math.radians(45)
     SPEED_STEP = 0.2
-    K_SPEED = 2
+    K_SPEED = 100
 
     def __init__(self):
         self.rect = pygame.rect.Rect((0,0), (Creature.SIZE, Creature.SIZE))
@@ -109,7 +109,7 @@ class Creature:
         else:
             self.left_power = max(self.left_power - Creature.SPEED_STEP, 0)
 
-    def compute(self, foods):
+    def compute(self, delta_time, foods):
 
         eye_left_pos = rotate(self.rect.move(0, -Creature.body_radius).center, self.rect.center, self.theta)
         eye_right_pos = rotate(self.rect.move(0, Creature.body_radius).center, self.rect.center, self.theta)
@@ -122,7 +122,9 @@ class Creature:
         else:
             inputs = np.matrix([min(left_distances), min(right_distances)])
             powers = self.nn.compute(inputs)
-            self.move(powers[0] * Creature.K_SPEED, powers[1] * Creature.K_SPEED)
+
+            delta_speed = delta_time * Creature.K_SPEED / 1000.0
+            self.move(powers[0] * delta_speed, powers[1] * delta_speed)
 
         # Detect food collision
         for food in foods:

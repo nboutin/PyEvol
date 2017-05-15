@@ -92,7 +92,7 @@ class WorldScene(SceneBase):
 
         # Creatures
         for creature in self.creatures:
-            creature.compute(self.foods)
+            creature.compute(self.model.delta_time, self.foods)
 
         max = 0
         for creature in self.creatures:

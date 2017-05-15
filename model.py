@@ -7,6 +7,7 @@ class Model:
     def __init__(self, clock):
         self.clock = clock
         self.total_time_ms = 0
+        self.delta_time = 0
         self.simulation_time_ms = 0
 
         self.creatures = list()
