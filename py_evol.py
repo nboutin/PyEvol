@@ -23,8 +23,9 @@ def main():
     # print (display_info)
 
     screen_rect = pygame.rect.Rect((0, 0), (display_info.current_w, display_info.current_h))
-    flags = pygame.FULLSCREEN
+    flags = pygame.FULLSCREEN | pygame.DOUBLEBUF
     screen_surface = pygame.display.set_mode(screen_rect.size, flags)
+    screen_surface.set_alpha(None)
     pygame.display.set_caption("PyEvol")
 
     model = Model(clock)

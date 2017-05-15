@@ -20,6 +20,7 @@ class WorldScene(SceneBase):
         # Drawing
         self.rect = pygame.rect.Rect(0, 0, 1050, 1050)
         self.surface = pygame.surface.Surface(self.rect.size)
+        self.surface = self.surface.convert()
         self.camera = Camera(self.rect)
         self.mouse_click_pos = None
         # self.grass = pygame.image.load(os.path.join("res", "grass.jpg"))

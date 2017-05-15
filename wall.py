@@ -1,17 +1,18 @@
 import pygame
 
-from color import *
+import color
 
 
-class Wall():
+class Wall:
 
     WIDTH = 10
+    COLOR = color.BLACK
 
     def __init__(self, rect):
         self.rect = rect
 
     def render(self, surface):
-        pygame.draw.rect(surface, BLACK, self.rect, Wall.WIDTH)
+        pygame.draw.rect(surface, Wall.COLOR, self.rect, Wall.WIDTH)
 
     @property
     def border_right(self):
