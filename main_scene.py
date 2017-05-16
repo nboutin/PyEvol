@@ -29,7 +29,9 @@ class MainScene(SceneBase):
     def render(self, surface):
         self.surface.fill(LIGHT_GREEN)
 
-        label = self.font.render("Press Enter to start simulation", 1, BLACK)
-        self.surface.blit(label, (10, 10))
+        text = "Press Enter to start simulation"
+        w,h = self.font.size(text)
+        label = self.font.render(text, 1, BLACK)
+        self.surface.blit(label, (self.rect.centerx - w, self.rect.centery))
 
         surface.blit(self.surface, (0, 0))

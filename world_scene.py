@@ -1,12 +1,9 @@
 import pygame
 import numpy as np
-import os.path
 
-import parameters
 from scene_base import SceneBase
 from camera import Camera
 import color
-from creature import Creature
 from wall import Wall
 from food import Food
 
@@ -133,7 +130,6 @@ class WorldScene(SceneBase):
 
         # Wall
         self.wall.render(self.surface)
-
 
         # Creatures
         if self.creature_selected:

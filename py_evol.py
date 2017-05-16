@@ -22,14 +22,13 @@ def main():
     display_info = pygame.display.Info()
     # print (display_info)
 
-    screen_rect = pygame.rect.Rect((0, 0), (display_info.current_w, display_info.current_h))
-    flags = pygame.FULLSCREEN | pygame.DOUBLEBUF
-    screen_surface = pygame.display.set_mode(screen_rect.size, flags)
-    screen_surface.set_alpha(None)
+    flags = 0 #pygame.FULLSCREEN | pygame.DOUBLEBUF
+    screen = pygame.display.set_mode((display_info.current_w, display_info.current_h), flags)
+    screen.set_alpha(None)
     pygame.display.set_caption("PyEvol")
 
     model = Model(clock)
-    active_scene = MainScene(screen_rect, model)
+    active_scene = MainScene(screen.get_rect(), model)
 
     while not done:
 
@@ -46,7 +45,7 @@ def main():
 
         active_scene.process_input(events, key_pressed)
         active_scene.compute()
-        active_scene.render(screen_surface)
+        active_scene.render(screen)
         active_scene = active_scene.next
 
         pygame.display.flip()
