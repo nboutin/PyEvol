@@ -31,14 +31,15 @@ class GeneticAlgorithm:
 
         self.pop = self.toolbox.population(n=parameters.N_POPULATION)
 
-        for c, g in zip(self.creatures, self.pop):
-            c.nn.set_parameters(g)
-
         self.generation = 1
         self.min = 0
         self.max = 0
         self.mean = 0
         self.std = 0
+
+    def update_creatures(self):
+        for c, g in zip(self.creatures, self.pop):
+            c.nn.set_parameters(g)
 
     def compute(self):
 
@@ -92,5 +93,4 @@ class GeneticAlgorithm:
         # The population is entirely replaced by the offspring
         self.pop[:] = offspring
 
-        for c, g in zip(self.creatures, self.pop):
-            c.nn.set_parameters(g)
+        self.update_creatures()

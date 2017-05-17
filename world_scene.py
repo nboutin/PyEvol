@@ -1,38 +1,38 @@
 import pygame
+import pymunk
 import numpy as np
 
 from scene_base import SceneBase
 from camera import Camera
 import color
-from wall import Wall
+from border import Border
 from food import Food
 
 
-class WorldScene(SceneBase):
+class WorldScene(SceneBase): # needed ?
 
     FOOD_COUNT = 20
     COLOR_BACKGROUND = color.LIGHT_GREEN
 
-    def __init__(self, model):
+    def __init__(self, simu_model):
+        # Model
+        self.simu_model = simu_model
+        self.rect = simu_model.rect
+        self.space = simu_model.space
+
         # Drawing
-        self.rect = pygame.rect.Rect(0, 0, 1050, 1050)
         self.surface = pygame.surface.Surface(self.rect.size)
         self.surface = self.surface.convert()
         self.camera = Camera(self.rect)
         self.mouse_click_pos = None
-        # self.grass = pygame.image.load(os.path.join("res", "grass.jpg"))
-        # self.grass = pygame.transform.scale(self.grass, self.rect.size)
+
+        self.border = Border(self.rect, self.space)
 
         # World Objects
-        self.model = model
-        self.creatures = self.model.creatures
+        self.creatures = simu_model.creatures
 
-        for c in self.creatures:
-            c.set_pos((np.random.randint(0, self.rect.width), np.random.randint(0, self.rect.height)))
         self.creature_selected = None
         self.best = None
-
-        self.wall = Wall(self.rect)
 
         self.foods = list()
         self.add_foods(WorldScene.FOOD_COUNT)
@@ -89,30 +89,30 @@ class WorldScene(SceneBase):
 
         # Creatures
         for creature in self.creatures:
-            creature.compute(self.model.delta_time, self.foods)
+            creature.compute(self.simu_model.delta_time, self.foods)
 
-        max = 0
+        _max = 0
         for creature in self.creatures:
-            if creature.food > max:
-                max = creature.food
+            if creature.food > _max:
+                _max = creature.food
                 if self.best:
                     self.best.is_best = False
                 self.best = creature
                 self.best.is_best = True
 
-        # Check wall collisions
-        for creature in self.creatures:
-            if creature.rect.colliderect(self.wall.border_right):
-                creature.rect.right = self.wall.rect.right
-
-            if creature.rect.colliderect(self.wall.border_left):
-                creature.rect.left = self.wall.rect.left
-
-            if creature.rect.colliderect(self.wall.border_top):
-                creature.rect.top = self.wall.rect.top
-
-            if creature.rect.colliderect(self.wall.border_bottom):
-                creature.rect.bottom = self.wall.rect.bottom
+        # # Check wall collisions
+        # for creature in self.creatures:
+        #     if creature.rect.colliderect(self.border.border_right):
+        #         creature.rect.right = self.border.rect.right
+        #
+        #     if creature.rect.colliderect(self.border.border_left):
+        #         creature.rect.left = self.border.rect.left
+        #
+        #     if creature.rect.colliderect(self.border.border_top):
+        #         creature.rect.top = self.border.rect.top
+        #
+        #     if creature.rect.colliderect(self.border.border_bottom):
+        #         creature.rect.bottom = self.border.rect.bottom
 
         # Delete depleted foods
         self.foods = [f for f in self.foods if f.calories > 0]
@@ -129,7 +129,7 @@ class WorldScene(SceneBase):
             food.render(self.surface)
 
         # Wall
-        self.wall.render(self.surface)
+        self.border.render(self.surface)
 
         # Creatures
         if self.creature_selected:

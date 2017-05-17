@@ -14,7 +14,8 @@ class SimulationScene(SceneBase):
         SceneBase.__init__(self)
 
         self.model = model
-        self.model.simulation_time_ms = 0
+        self.simu_model = model.simulation
+        self.simu_model.simulation_time_ms = 0
 
         self.rect = screen_rect
         self.surface = pygame.Surface(self.rect.size)
@@ -22,12 +23,10 @@ class SimulationScene(SceneBase):
 
         world_rect = pygame.rect.Rect((0, 0), (self.rect.h, self.rect.h))
         self.world_surface = self.surface.subsurface(world_rect)
-        # self.world_surface = self.world_surface.convert()
-        self.world_scene = WorldScene(self.model)
+        self.world_scene = WorldScene(self.model.simulation)
 
         info_rect = ((world_rect.w, 0), (self.rect.w - world_rect.w, self.rect.h))
         self.info_surface = self.surface.subsurface(info_rect)
-        # self.info_surface = self.info_surface.convert()
         self.info_scene = InfoScene(self.world_scene, self.model)
 
     def process_input(self, events, key_pressed):
@@ -41,7 +40,7 @@ class SimulationScene(SceneBase):
                     return
 
         # End of Simulation
-        if self.model.simulation_time_ms / 1000 >= parameters.SIMULATION_TIME:
+        if self.simu_model.simulation_time_ms / 1000 >= parameters.SIMULATION_TIME:
             self.switch_to_scene(result_scene.ResultScene(self.rect, self.model))
             return
 
@@ -49,7 +48,7 @@ class SimulationScene(SceneBase):
         self.info_scene.process_input(events, key_pressed)
 
     def compute(self):
-        self.model.simulation_time_ms += self.model.clock.get_time()
+        self.simu_model.simulation_time_ms += self.model.clock.get_time()
 
         self.world_scene.compute()
         self.info_scene.compute()

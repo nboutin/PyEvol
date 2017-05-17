@@ -1,8 +1,9 @@
 import pygame
 
 from scene_base import SceneBase
-from simulation_scene import SimulationScene
-from color import *
+# from simulation_scene import SimulationScene
+from result_scene import ResultScene
+import color
 
 
 class MainScene(SceneBase):
@@ -19,7 +20,7 @@ class MainScene(SceneBase):
         for event in events:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
-                    self.switch_to_scene(SimulationScene(self.rect, self.model))
+                    self.switch_to_scene(ResultScene(self.rect, self.model))
                 elif event.key == pygame.K_ESCAPE:
                     pygame.event.post(pygame.event.Event(pygame.QUIT))
 
@@ -27,11 +28,11 @@ class MainScene(SceneBase):
         pass
 
     def render(self, surface):
-        self.surface.fill(LIGHT_GREEN)
+        self.surface.fill(color.LIGHT_GREEN)
 
         text = "Press Enter to start simulation"
         w,h = self.font.size(text)
-        label = self.font.render(text, 1, BLACK)
+        label = self.font.render(text, 1, color.BLACK)
         self.surface.blit(label, (self.rect.centerx - w, self.rect.centery))
 
         surface.blit(self.surface, (0, 0))

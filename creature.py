@@ -1,8 +1,9 @@
 import pygame
+import pymunk
 import math
 import numpy as np
 
-from color import *
+import color
 from neural_network import NeuralNetwork
 
 
@@ -49,15 +50,15 @@ class Creature:
     eye_left_pos = (int(SIZE * 3 / 4), int(SIZE / 2 - SIZE / 4))
     eye_right_pos = (int(SIZE * 3 / 4), int(SIZE / 2 + SIZE / 4))
 
-    COLOR_DEFAULT = TEAL
-    COLOR_BEST = RED
+    COLOR_DEFAULT = color.TEAL
+    COLOR_BEST = color.RED
 
     POWER_MIN = 0
     ENGINE_ANGLE = math.radians(45)
     SPEED_STEP = 0.2
     K_SPEED = 100
 
-    def __init__(self):
+    def __init__(self, space):
         self.rect = pygame.rect.Rect((0,0), (Creature.SIZE, Creature.SIZE))
         self.theta = math.radians(0) # radians
         self.color = Creature.COLOR_DEFAULT
@@ -65,6 +66,16 @@ class Creature:
 
         (self.left_power, self.right_power) = (0,0)
 
+        # pymunk
+        mass = 1
+        self.radius = Creature.SIZE / 2
+        moment = pymunk.moment_for_circle(mass, 0, self.radius)
+        self.body = pymunk.Body(mass, moment)
+        self.shape = pymunk.Circle(self.body, self.radius)
+        self.line = pymunk.Segment(self.body, (0,0), (self.radius,0), 5)
+        space.add(self.body, self.shape)
+
+        # Neural Net
         self.nn = NeuralNetwork(2,2)
         self.is_human_controlled = False
         self._is_selected = False
@@ -73,6 +84,7 @@ class Creature:
         self.food = 0
 
     def set_pos(self, pos):
+        self.body.position = pos
         self.rect.center = pos
 
     @property
@@ -158,22 +170,22 @@ class Creature:
         # Eyes
         eye_pos = (self.rect.centerx + Creature.quarter_size, self.rect.centery - Creature.quarter_size)
         eye_pos = rotate(eye_pos, self.rect.center, self.theta)
-        pygame.draw.circle(surface, BLACK, eye_pos, Creature.eye_radius)
+        pygame.draw.circle(surface, color.BLACK, eye_pos, Creature.eye_radius)
 
         eye_pos = (self.rect.centerx + Creature.quarter_size, self.rect.centery + Creature.quarter_size)
         eye_pos = rotate(eye_pos, self.rect.center, self.theta)
-        pygame.draw.circle(surface, BLACK, eye_pos, Creature.eye_radius)
+        pygame.draw.circle(surface, color.BLACK, eye_pos, Creature.eye_radius)
 
         # Food
-        label = self.font.render("{:2.1f}".format(self.food), 1, BLACK)
+        label = self.font.render("{:2.1f}".format(self.food), 1, color.BLACK)
         surface.blit(label, self.rect.bottomright)
 
 
         # Selected by mouse click
         if self.is_selected:
-            pygame.draw.circle(surface, RED, self.rect.center, Creature.body_radius*2, 1)
+            pygame.draw.circle(surface, color.RED, self.rect.center, Creature.body_radius*2, 1)
 
         # if self.is_best:
-        #     pygame.draw.circle(surface, BLUE, self.rect.center, Creature.body_radius * 2, 2)
+        #     pygame.draw.circle(surface, color.BLUE, self.rect.center, Creature.body_radius * 2, 2)
 
 

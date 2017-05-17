@@ -14,6 +14,7 @@ class InfoScene(SceneBase):
         self.font = pygame.font.SysFont("monospace", 15)
         self.world = world
         self.model = model
+        self.simu_model = model.simulation
 
     def process_input(self, events, key_pressed):
         pass
@@ -36,17 +37,17 @@ class InfoScene(SceneBase):
 
         # 2
         line += InfoScene.LINE_STEP
-        label = self.font.render("Simulation Time: {:2.1f}s".format(self.model.simulation_time_ms / 1000), 1, InfoScene.COLOR_FONT)
+        label = self.font.render("Simulation Time: {:2.1f}s".format(self.simu_model.simulation_time_ms / 1000), 1, InfoScene.COLOR_FONT)
         surface.blit(label, (10, line))
 
         # 3
         line += InfoScene.LINE_STEP
-        label = self.font.render("Generation: {}".format(self.model.ga.generation), 1, InfoScene.COLOR_FONT)
+        label = self.font.render("Generation: {}".format(self.simu_model.ga.generation), 1, InfoScene.COLOR_FONT)
         surface.blit(label, (10, line))
 
         # 4
         line += InfoScene.LINE_STEP
-        ga = self.model.ga
+        ga = self.simu_model.ga
         label = self.font.render("min:{} max:{} avg:{:2.1f} std:{:2.1f}".format(ga.min, ga.max, ga.mean, ga.std), 1, InfoScene.COLOR_FONT)
         surface.blit(label, (10, line))
 
