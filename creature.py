@@ -5,6 +5,7 @@ import math
 import numpy as np
 
 import color
+import world_scene
 from neural_network import NeuralNetwork
 
 
@@ -38,6 +39,13 @@ def rotate(point, pivot, angle):
 def distance(pos, target):
     return math.sqrt(math.pow(target[0] - pos[0], 2) + math.pow(target[1] - pos[1], 2))
 
+class Eye:
+
+    def __init__(self):
+        self.pos = (0, 0)
+        self.d = 0
+        self.f = None
+
 
 class Creature:
 
@@ -62,33 +70,37 @@ class Creature:
     FORCE = 75
     MASS = 5
 
-    def __init__(self, space):
+    def __init__(self, space, pos):
         self.rect = pygame.rect.Rect((0,0), (Creature.SIZE, Creature.SIZE))
-        self.theta = math.radians(0) # radians
+        # self.theta = math.radians(0) # radians
         self.color = Creature.COLOR_DEFAULT
-        self.font = pygame.font.SysFont("monospace", 10)
+        self.eye_left = Eye()
+        self.eye_right = Eye()
 
-        (self.left_power, self.right_power) = (0,0)
+        self.font = pygame.font.SysFont("monospace", 10)
 
         # pymunk
         self.radius = Creature.SIZE / 2
         moment = pymunk.moment_for_circle(Creature.MASS, 0, self.radius)
+
         self.body = pymunk.Body(Creature.MASS, moment)
+        self.body.position = pos
+
         self.shape = pymunk.Circle(self.body, self.radius)
-        self.line = pymunk.Segment(self.body, (0,0), (self.radius,0), 5)
+        self.shape.collision_type = world_scene.collision_types['creature']
+        self.line_dir = pymunk.Segment(self.body, (0, 0), (self.radius, 0), 1)
+        self.line_eye = pymunk.Segment(self.body, (0, -self.radius), (0, +self.radius), 1)
+
         space.add(self.body, self.shape)
 
         # Neural Net
         self.nn = NeuralNetwork(2,2)
+
+        # Other
         self.is_human_controlled = False
         self._is_selected = False
         self._is_best = False
-
         self.food = 0
-
-    def set_pos(self, pos):
-        self.body.position = pos
-        self.rect.center = pos
 
     @property
     def is_selected(self):
@@ -113,63 +125,29 @@ class Creature:
             self.color = Creature.COLOR_DEFAULT
 
     def process_inputs(self, events, key_pressed):
+        pass
 
-        if key_pressed[pygame.K_LEFT] or key_pressed[pygame.K_UP]:
-            self.right_power += Creature.SPEED_STEP
-        else:
-            self.right_power = max(self.right_power - Creature.SPEED_STEP, 0)
-
-        if key_pressed[pygame.K_RIGHT] or key_pressed[pygame.K_UP]:
-            self.left_power += Creature.SPEED_STEP
-        else:
-            self.left_power = max(self.left_power - Creature.SPEED_STEP, 0)
-
-    def compute(self, delta_time, foods):
+    def compute(self, foods):
 
         # Eye position
-        self.eye_left_pos = rotate(self.rect.move(0, -Creature.body_radius).center, self.rect.center, self.theta)
-        eye_right_pos = rotate(self.rect.move(0, Creature.body_radius).center, self.rect.center, self.theta)
+        self.eye_left.pos = self.line_eye.a.rotated(self.body.angle) + self.body.position
+        self.eye_right.pos = self.line_eye.b.rotated(self.body.angle) + self.body.position
 
         # Nearest food
-        left = [(distance(self.eye_left_pos, f.rect.center), f) for f in foods]
-        (ld, self.lf) = min(left, key=lambda t: t[0])
+        left = [(distance(self.eye_left.pos, f.body.position), f) for f in foods]
+        (self.eye_left.d, self.eye_left.f) = min(left, key=lambda t: t[0])
 
-        right = [(distance(eye_right_pos, f.rect.center), f) for f in foods]
-        (rd, rf) = min(right, key=lambda t: t[0])
+        right = [(distance(self.eye_right.pos, f.body.position), f) for f in foods]
+        (self.eye_right.d, self.eye_right.f) = min(right, key=lambda t: t[0])
 
         # Control
-        if self.is_human_controlled:
-            self.move(self.left_power, self.right_power)
-        else:
-            inputs = np.matrix([ld, rd])
-            powers = self.nn.compute(inputs)
+        inputs = np.matrix([self.eye_left.d, self.eye_right.d])
+        powers = self.nn.compute(inputs)
 
-            p1 = powers[0] * Creature.FORCE
-            p2 = powers[1] * Creature.FORCE
-            self.body.apply_force_at_local_point((p1, 0), (0, -self.radius))
-            self.body.apply_force_at_local_point((p2, 0), (0, +self.radius))
-
-        # Detect food collision
-        for food in foods:
-            if self.rect.colliderect(food.rect):
-                self.eat(food)
-
-    def move(self, left_power, right_power):
-
-        self.left_power = max(left_power, Creature.POWER_MIN)
-        self.right_power = max(right_power, Creature.POWER_MIN)
-
-        (x_l, y_l) = polar_to_cartesian(self.left_power, self.theta + Creature.ENGINE_ANGLE)
-        (x_r, y_r) = polar_to_cartesian(self.right_power, self.theta - Creature.ENGINE_ANGLE)
-
-        x_result = x_l + x_r
-        y_result = y_l + y_r
-
-        self.rect.x += int(x_result)
-        self.rect.y += int(y_result)
-
-        if self.left_power != 0 or self.right_power != 0:
-            self.theta = math.atan2(y_result, x_result)
+        p1 = powers[0] * Creature.FORCE
+        p2 = powers[1] * Creature.FORCE
+        self.body.apply_force_at_local_point((p1, 0), (0, -self.radius))
+        self.body.apply_force_at_local_point((p2, 0), (0, +self.radius))
 
     def eat(self, food):
         self.food += food.eat(0.25)
@@ -177,33 +155,45 @@ class Creature:
     def render(self, surface):
 
         self.rect.center = pymunk.pygame_util.to_pygame(self.body.position, surface)
-        self.theta = self.body.angle
-
-        # Eye sight
-        pygame.draw.line(surface, color.RED, self.eye_left_pos, self.lf.rect.center)
+        # self.theta = self.body.angle
 
         # Body
         pygame.draw.circle(surface, self.color, self.rect.center, Creature.body_radius)
 
         # Eyes
-        eye_pos = (self.rect.centerx + Creature.quarter_size, self.rect.centery - Creature.quarter_size)
-        eye_pos = rotate(eye_pos, self.rect.center, self.theta)
-        pygame.draw.circle(surface, color.BLACK, eye_pos, Creature.eye_radius)
-
-        eye_pos = (self.rect.centerx + Creature.quarter_size, self.rect.centery + Creature.quarter_size)
-        eye_pos = rotate(eye_pos, self.rect.center, self.theta)
-        pygame.draw.circle(surface, color.BLACK, eye_pos, Creature.eye_radius)
+        # eye_pos = (self.rect.centerx + Creature.quarter_size, self.rect.centery - Creature.quarter_size)
+        # eye_pos = rotate(eye_pos, self.rect.center, self.theta)
+        # pygame.draw.circle(surface, color.BLACK, eye_pos, Creature.eye_radius)
+        #
+        # eye_pos = (self.rect.centerx + Creature.quarter_size, self.rect.centery + Creature.quarter_size)
+        # eye_pos = rotate(eye_pos, self.rect.center, self.theta)
+        # pygame.draw.circle(surface, color.BLACK, eye_pos, Creature.eye_radius)
 
         # Food
         label = self.font.render("{:2.1f}".format(self.food), 1, color.BLACK)
-        surface.blit(label, self.rect.bottomright)
+        surface.blit(label, self.rect.midbottom)
 
+        # Eye sight
+        p = pymunk.pygame_util.to_pygame(self.eye_left.pos, surface)
+        pygame.draw.line(surface, color.RED, p, self.eye_left.f.rect.center)
+
+        p = pymunk.pygame_util.to_pygame(self.eye_right.pos, surface)
+        pygame.draw.line(surface, color.RED, p, self.eye_right.f.rect.center)
+
+        # Line direction and eye
+        self.draw_line(self.line_dir, surface, color.BLACK)
+        self.draw_line(self.line_eye, surface, color.BLACK)
 
         # Selected by mouse click
         if self.is_selected:
             pygame.draw.circle(surface, color.RED, self.rect.center, Creature.body_radius*2, 1)
 
-        # if self.is_best:
-        #     pygame.draw.circle(surface, color.BLUE, self.rect.center, Creature.body_radius * 2, 2)
+    def draw_line(self, line, surface, color_):
+        a = self.body.position + line.a.rotated(self.body.angle)
+        b = self.body.position + line.b.rotated(self.body.angle)
+        a = pymunk.pygame_util.to_pygame(a, surface)
+        b = pymunk.pygame_util.to_pygame(b, surface)
+        pygame.draw.line(surface, color_, a, b, 1)
+
 
 

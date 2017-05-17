@@ -9,6 +9,8 @@ from border import Border
 from food import Food
 
 
+collision_types = {"creature": 1, "food": 2, }
+
 class WorldScene(SceneBase): # needed ?
 
     FOOD_COUNT = 20
@@ -37,6 +39,14 @@ class WorldScene(SceneBase): # needed ?
         self.foods = list()
         self.add_foods(WorldScene.FOOD_COUNT)
 
+        handler_creature_food = self.space.add_collision_handler(
+            collision_types["creature"],
+            collision_types["food"])
+
+        handler_creature_food.pre_solve = self.creature_eat_food
+        handler_creature_food.data['creatures'] = self.creatures
+        handler_creature_food.data['foods'] = self.foods
+
     def __del__(self):
         if self.best:
             self.best.is_best = False
@@ -44,9 +54,24 @@ class WorldScene(SceneBase): # needed ?
         if self.creature_selected:
             self.creature_selected.is_selected = False
 
+    @staticmethod
+    def creature_eat_food(arbiter, space, data):
+        creature_shape = arbiter.shapes[0]
+        food_shape = arbiter.shapes[1]
+
+        c = next((c for c in data['creatures'] if c.shape == creature_shape), None)
+        f = next((f for f in data['foods'] if f.shape == food_shape), None)
+
+        if c and f:
+            c.eat(f)
+        else:
+            print("creature_eat_food error {} {}".format(c, f))
+        return True
+
     def add_foods(self, n):
         for i in range(0, n):
-            self.foods.append(Food((np.random.randint(0, self.rect.width), np.random.randint(0, self.rect.height))))
+            pos = (np.random.randint(0, self.rect.width), np.random.randint(0, self.rect.height))
+            self.foods.append(Food(pos, self.space))
 
     def process_input(self, events, key_pressed):
 
@@ -89,7 +114,7 @@ class WorldScene(SceneBase): # needed ?
 
         # Creatures
         for creature in self.creatures:
-            creature.compute(self.simu_model.delta_time, self.foods)
+            creature.compute(self.foods)
 
         _max = 0
         for creature in self.creatures:
@@ -104,8 +129,8 @@ class WorldScene(SceneBase): # needed ?
         self.foods = [f for f in self.foods if f.calories > 0]
         self.add_foods(WorldScene.FOOD_COUNT - len(self.foods))
 
-        self.simu_model.space.step(1/30.0)
-        # self.simu_model.space.step(1 / self.simu_model.clock.get_fps())
+        # self.simu_model.space.step(1/30.0)
+        self.simu_model.space.step(1 / self.simu_model.clock.get_fps())
 
     def render(self, surface):
 

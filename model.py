@@ -38,23 +38,23 @@ class SimulationModel:
         self.space.gravity = (0.0, 0.0)
 
         self.creatures = list()
-        for i in range(0, parameters.N_POPULATION):
-            self.creatures.append(Creature(self.space))
-
-        self.ga = GeneticAlgorithm(self.creatures)
+        self.ga = None
 
     @property
     def clock(self):
         return self.__model.clock
 
     def construct(self):
-        for c in self.creatures:
-            c.set_pos((np.random.randint(0, self.rect.width), np.random.randint(0, self.rect.height)))
+        for i in range(0, parameters.N_POPULATION):
+            pos = (np.random.randint(0, self.rect.width), np.random.randint(0, self.rect.height))
+            self.creatures.append(Creature(self.space, pos))
 
+        self.ga = GeneticAlgorithm(self.creatures)
         self.ga.update_creatures()
 
     def apply_ga(self):
         self.ga.compute()
 
         for c in self.creatures:
-            c.set_pos((np.random.randint(0, self.rect.width), np.random.randint(0, self.rect.height)))
+            pos = (np.random.randint(0, self.rect.width), np.random.randint(0, self.rect.height))
+            c.body.position = pos
