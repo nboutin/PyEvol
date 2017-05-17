@@ -100,23 +100,12 @@ class WorldScene(SceneBase): # needed ?
                 self.best = creature
                 self.best.is_best = True
 
-        # # Check wall collisions
-        # for creature in self.creatures:
-        #     if creature.rect.colliderect(self.border.border_right):
-        #         creature.rect.right = self.border.rect.right
-        #
-        #     if creature.rect.colliderect(self.border.border_left):
-        #         creature.rect.left = self.border.rect.left
-        #
-        #     if creature.rect.colliderect(self.border.border_top):
-        #         creature.rect.top = self.border.rect.top
-        #
-        #     if creature.rect.colliderect(self.border.border_bottom):
-        #         creature.rect.bottom = self.border.rect.bottom
-
         # Delete depleted foods
         self.foods = [f for f in self.foods if f.calories > 0]
         self.add_foods(WorldScene.FOOD_COUNT - len(self.foods))
+
+        # self.simu_model.space.step(1/30.0)
+        self.simu_model.space.step(1 / self.simu_model.clock.get_fps())
 
     def render(self, surface):
 

@@ -40,7 +40,7 @@ class ResultScene(SceneBase):
                 self.switch_to_scene(simulation_scene.SimulationScene(self.rect, self.model))
 
             elif self.simu_model.state == SimulationModel.State.CONTINUE:
-                self.simu_model.ga.compute()
+                self.simu_model.apply_ga()
                 self.switch_to_scene(simulation_scene.SimulationScene(self.rect, self.model))
 
             elif self.simu_model.state == SimulationModel.State.EXIT:

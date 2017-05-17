@@ -1,5 +1,6 @@
 import pygame
 import pymunk
+import pymunk.pygame_util
 import math
 import numpy as np
 
@@ -57,6 +58,7 @@ class Creature:
     ENGINE_ANGLE = math.radians(45)
     SPEED_STEP = 0.2
     K_SPEED = 100
+    K1_SPEED = 50
 
     def __init__(self, space):
         self.rect = pygame.rect.Rect((0,0), (Creature.SIZE, Creature.SIZE))
@@ -135,9 +137,14 @@ class Creature:
             inputs = np.matrix([min(left_distances), min(right_distances)])
             powers = self.nn.compute(inputs)
 
-            delta_speed = delta_time * Creature.K_SPEED / 1000.0
-            self.move(powers[0] * delta_speed, powers[1] * delta_speed)
+            # delta_speed = delta_time * Creature.K_SPEED / 1000.0
+            # self.move(powers[0] * delta_speed, powers[1] * delta_speed)
 
+            self.body.apply_force_at_local_point((powers[0] * Creature.K1_SPEED, 0), (0, -self.radius))
+            self.body.apply_force_at_local_point((powers[1] * Creature.K1_SPEED, 0), (0, +self.radius))
+
+        #     self.rect =
+        #
         # Detect food collision
         for food in foods:
             if self.rect.colliderect(food.rect):
@@ -164,6 +171,10 @@ class Creature:
         self.food += food.eat(0.25)
 
     def render(self, surface):
+
+        self.rect.center = pymunk.pygame_util.to_pygame(self.body.position, surface)
+        self.theta = self.body.angle
+
         # Body
         pygame.draw.circle(surface, self.color, self.rect.center, Creature.body_radius)
 

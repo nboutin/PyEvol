@@ -58,11 +58,6 @@ class GeneticAlgorithm:
         sum2 = sum(x * x for x in fits)
         self.std = abs(sum2 / length - self.mean ** 2) ** 0.5
 
-        # print("  Min %s" % min(fits))
-        # print("  Max %s" % max(fits))
-        # print("  Avg %s" % mean)
-        # print("  Std %s" % std)
-
         # Select the next generation individuals
         offspring = self.toolbox.select(self.pop, len(self.pop))
         # Clone the selected individuals

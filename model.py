@@ -25,13 +25,13 @@ class SimulationModel:
         EXIT = 3
 
     def __init__(self, model):
-        # self.__model = model
+        self.__model = model
 
         self.delta_time = 0
         self.simulation_time_ms = 0
         self.state = SimulationModel.State.START
 
-        self.rect = pygame.rect.Rect(0, 0, 1050, 1050)
+        self.rect = pygame.rect.Rect(0, 0, 1050, 1000)
 
         # pymunk
         self.space = pymunk.Space()
@@ -43,18 +43,18 @@ class SimulationModel:
 
         self.ga = GeneticAlgorithm(self.creatures)
 
-    # @property
-    # def state(self):
-    #     print("getter {}".format(self.__state))
-    #     return self.__state
-    #
-    # @state.setter
-    # def state(self, s):
-    #     self.__state = s
-    #     print ("setter {}".format(s))
+    @property
+    def clock(self):
+        return self.__model.clock
 
     def construct(self):
         for c in self.creatures:
             c.set_pos((np.random.randint(0, self.rect.width), np.random.randint(0, self.rect.height)))
 
         self.ga.update_creatures()
+
+    def apply_ga(self):
+        self.ga.compute()
+
+        for c in self.creatures:
+            c.set_pos((np.random.randint(0, self.rect.width), np.random.randint(0, self.rect.height)))
