@@ -104,8 +104,8 @@ class WorldScene(SceneBase): # needed ?
         self.foods = [f for f in self.foods if f.calories > 0]
         self.add_foods(WorldScene.FOOD_COUNT - len(self.foods))
 
-        # self.simu_model.space.step(1/30.0)
-        self.simu_model.space.step(1 / self.simu_model.clock.get_fps())
+        self.simu_model.space.step(1/30.0)
+        # self.simu_model.space.step(1 / self.simu_model.clock.get_fps())
 
     def render(self, surface):
 

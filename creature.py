@@ -58,7 +58,9 @@ class Creature:
     ENGINE_ANGLE = math.radians(45)
     SPEED_STEP = 0.2
     K_SPEED = 100
-    K1_SPEED = 50
+
+    FORCE = 75
+    MASS = 5
 
     def __init__(self, space):
         self.rect = pygame.rect.Rect((0,0), (Creature.SIZE, Creature.SIZE))
@@ -69,10 +71,9 @@ class Creature:
         (self.left_power, self.right_power) = (0,0)
 
         # pymunk
-        mass = 1
         self.radius = Creature.SIZE / 2
-        moment = pymunk.moment_for_circle(mass, 0, self.radius)
-        self.body = pymunk.Body(mass, moment)
+        moment = pymunk.moment_for_circle(Creature.MASS, 0, self.radius)
+        self.body = pymunk.Body(Creature.MASS, moment)
         self.shape = pymunk.Circle(self.body, self.radius)
         self.line = pymunk.Segment(self.body, (0,0), (self.radius,0), 5)
         space.add(self.body, self.shape)
@@ -125,26 +126,29 @@ class Creature:
 
     def compute(self, delta_time, foods):
 
-        eye_left_pos = rotate(self.rect.move(0, -Creature.body_radius).center, self.rect.center, self.theta)
+        # Eye position
+        self.eye_left_pos = rotate(self.rect.move(0, -Creature.body_radius).center, self.rect.center, self.theta)
         eye_right_pos = rotate(self.rect.move(0, Creature.body_radius).center, self.rect.center, self.theta)
 
-        left_distances = [distance(eye_left_pos, d.rect.center) for d in foods]
-        right_distances = [distance(eye_right_pos, d.rect.center) for d in foods]
+        # Nearest food
+        left = [(distance(self.eye_left_pos, f.rect.center), f) for f in foods]
+        (ld, self.lf) = min(left, key=lambda t: t[0])
 
+        right = [(distance(eye_right_pos, f.rect.center), f) for f in foods]
+        (rd, rf) = min(right, key=lambda t: t[0])
+
+        # Control
         if self.is_human_controlled:
             self.move(self.left_power, self.right_power)
         else:
-            inputs = np.matrix([min(left_distances), min(right_distances)])
+            inputs = np.matrix([ld, rd])
             powers = self.nn.compute(inputs)
 
-            # delta_speed = delta_time * Creature.K_SPEED / 1000.0
-            # self.move(powers[0] * delta_speed, powers[1] * delta_speed)
+            p1 = powers[0] * Creature.FORCE
+            p2 = powers[1] * Creature.FORCE
+            self.body.apply_force_at_local_point((p1, 0), (0, -self.radius))
+            self.body.apply_force_at_local_point((p2, 0), (0, +self.radius))
 
-            self.body.apply_force_at_local_point((powers[0] * Creature.K1_SPEED, 0), (0, -self.radius))
-            self.body.apply_force_at_local_point((powers[1] * Creature.K1_SPEED, 0), (0, +self.radius))
-
-        #     self.rect =
-        #
         # Detect food collision
         for food in foods:
             if self.rect.colliderect(food.rect):
@@ -174,6 +178,9 @@ class Creature:
 
         self.rect.center = pymunk.pygame_util.to_pygame(self.body.position, surface)
         self.theta = self.body.angle
+
+        # Eye sight
+        pygame.draw.line(surface, color.RED, self.eye_left_pos, self.lf.rect.center)
 
         # Body
         pygame.draw.circle(surface, self.color, self.rect.center, Creature.body_radius)

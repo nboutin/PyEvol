@@ -32,10 +32,6 @@ def main():
 
     while not done:
 
-        # Limit frames per second
-        model.simulation.delta_time = clock.tick(parameters.FPS)
-        model.total_time_ms += model.simulation.delta_time
-
         pygame.event.pump()
         key_pressed = pygame.key.get_pressed()
         events = pygame.event.get()
@@ -49,6 +45,10 @@ def main():
         active_scene = active_scene.next
 
         pygame.display.flip()
+
+        # Limit frames per second
+        model.simulation.delta_time = clock.tick(parameters.FPS)
+        model.total_time_ms += model.simulation.delta_time
 
     pygame.quit()
 

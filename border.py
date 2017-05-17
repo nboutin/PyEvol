@@ -7,7 +7,7 @@ import color
 class Border:
 
     WIDTH = 5
-    COLOR = color.BLACK
+    COLOR = color.BLUE
 
     def __init__(self, rect, space):
         self.rect = rect
@@ -23,4 +23,4 @@ class Border:
         space.add(lines)
 
     def render(self, surface):
-        pygame.draw.rect(surface, pygame.color.THECOLORS["black"], self.rect, Border.WIDTH)
+        pygame.draw.rect(surface, Border.COLOR, self.rect, Border.WIDTH)
