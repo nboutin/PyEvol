@@ -37,7 +37,7 @@ class Creature:
     SPEED_STEP = 0.2
     K_SPEED = 100
 
-    FORCE = 75
+    FORCE = 150
     MASS = 5
 
     def __init__(self, space, pos):
@@ -65,7 +65,7 @@ class Creature:
         space.add(self.body, self.shape)
 
         # Neural Net
-        self.nn = NeuralNetwork(3, 2)
+        self.nn = NeuralNetwork(2, 2)
 
         # Other
         self.is_human_controlled = False
@@ -131,7 +131,7 @@ class Creature:
         else:
             dr = 1000
 
-        inputs = np.matrix([dl, dr, self.body.velocity.x])#, self.body.velocity.y, self.body.angular_velocity])
+        inputs = np.matrix([dl, dr])#, self.body.velocity.x])#, self.body.velocity.y, self.body.angular_velocity])
         powers = self.nn.compute(inputs)
 
         # 1
@@ -149,7 +149,7 @@ class Creature:
         # self.body.apply_force_at_local_point((p2x, p2y), self.eye_right.pos)
 
     def eat(self, food):
-        self.food += food.eat(0.25)
+        self.food += food.eat(0.50)
 
     def render(self, surface):
 
