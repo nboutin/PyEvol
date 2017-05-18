@@ -19,7 +19,7 @@ class Food:
         self.space = space
         self.body = pymunk.Body(body_type=pymunk.Body.STATIC)
         self.body.position = pos
-        radius = size / 2
+        radius = int(size / 2)
         self.shape = pymunk.Circle(self.body, radius)
         self.shape.sensor = True
         self.shape.collision_type = world_scene.collision_types['food']
@@ -32,7 +32,7 @@ class Food:
     def eat(self, q):
         if self.calories - q > 0:
             self.calories -= q
-            self.shape.unsafe_set_radius(self.shape.radius - 2 * q)
+            self.shape.unsafe_set_radius(self.shape.radius - q)
             return q
         else:
             tmp = self.calories
@@ -41,4 +41,4 @@ class Food:
 
     def render(self, surface):
         self.rect.center = pymunk.pygame_util.to_pygame(self.body.position, surface)
-        pygame.draw.circle(surface, Food.COLOR, self.rect.center, int(self.calories))
+        pygame.draw.circle(surface, Food.COLOR, self.rect.center, int(self.shape.radius))
