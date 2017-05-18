@@ -36,6 +36,7 @@ class SimulationModel:
         # pymunk
         self.space = pymunk.Space()
         self.space.gravity = (0.0, 0.0)
+        self.space.damping = 0.8 # lose 1-.8% of its velocity per second
 
         self.creatures = list()
         self.ga = None

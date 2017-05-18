@@ -9,42 +9,12 @@ import world_scene
 from neural_network import NeuralNetwork
 
 
-def polar_to_cartesian(r, theta):
-    '''r: vector magnitude
-    theta: vector direction (radians)
-    return: (x,y) cartesian coordinates'''
-
-    return r * math.cos(theta), r * math.sin(theta)
-
-
-def rotate(point, pivot, angle):
-    '''px, py: pivot point
-    angle : radians'''
-
-    c = math.cos(angle)
-    s = math.sin(angle)
-
-    (px, py) = pivot
-    (x, y) = point
-
-    x -= px
-    y -= py
-
-    x_new = x * c - y * s
-    y_new = x * s + y * c
-
-    return int(x_new + px), int(y_new + py)
-
-
-def distance(pos, target):
-    return math.sqrt(math.pow(target[0] - pos[0], 2) + math.pow(target[1] - pos[1], 2))
-
 class Eye:
-
     def __init__(self):
-        self.pos = (0, 0)
+        self.pos = pymunk.Vec2d(0, 0)
         self.d = 0
         self.f = None
+        self.hit = None
 
 
 class Creature:
@@ -71,8 +41,7 @@ class Creature:
     MASS = 5
 
     def __init__(self, space, pos):
-        self.rect = pygame.rect.Rect((0,0), (Creature.SIZE, Creature.SIZE))
-        # self.theta = math.radians(0) # radians
+        self.rect = pygame.rect.Rect((0, 0), (Creature.SIZE, Creature.SIZE))
         self.color = Creature.COLOR_DEFAULT
         self.eye_left = Eye()
         self.eye_right = Eye()
@@ -80,6 +49,7 @@ class Creature:
         self.font = pygame.font.SysFont("monospace", 10)
 
         # pymunk
+        self.space = space
         self.radius = Creature.SIZE / 2
         moment = pymunk.moment_for_circle(Creature.MASS, 0, self.radius)
 
@@ -88,13 +58,14 @@ class Creature:
 
         self.shape = pymunk.Circle(self.body, self.radius)
         self.shape.collision_type = world_scene.collision_types['creature']
+        self.shape.filter = pymunk.ShapeFilter(categories=world_scene.categories['creature'])
         self.line_dir = pymunk.Segment(self.body, (0, 0), (self.radius, 0), 1)
         self.line_eye = pymunk.Segment(self.body, (0, -self.radius), (0, +self.radius), 1)
 
         space.add(self.body, self.shape)
 
         # Neural Net
-        self.nn = NeuralNetwork(2,2)
+        self.nn = NeuralNetwork(3, 2)
 
         # Other
         self.is_human_controlled = False
@@ -107,9 +78,9 @@ class Creature:
         return self._is_selected
 
     @is_selected.setter
-    def is_selected(self, bool):
-        self._is_selected = bool
-        if not bool:
+    def is_selected(self, s):
+        self._is_selected = s
+        if not s:
             self.is_human_controlled = False
 
     @property
@@ -117,9 +88,9 @@ class Creature:
         return self._is_best
 
     @is_best.setter
-    def is_best(self, bool):
-        self._is_best = bool
-        if bool:
+    def is_best(self, b):
+        self._is_best = b
+        if b:
             self.color = Creature.COLOR_BEST
         else:
             self.color = Creature.COLOR_DEFAULT
@@ -133,21 +104,49 @@ class Creature:
         self.eye_left.pos = self.line_eye.a.rotated(self.body.angle) + self.body.position
         self.eye_right.pos = self.line_eye.b.rotated(self.body.angle) + self.body.position
 
-        # Nearest food
-        left = [(distance(self.eye_left.pos, f.body.position), f) for f in foods]
-        (self.eye_left.d, self.eye_left.f) = min(left, key=lambda t: t[0])
+        filter_ = pymunk.ShapeFilter(mask=world_scene.categories['food'])
+        self.eye_left.hit = self.space.point_query_nearest(self.eye_left.pos, 200, filter_)
+        self.eye_right.hit = self.space.point_query_nearest(self.eye_right.pos, 200, filter_)
 
-        right = [(distance(self.eye_right.pos, f.body.position), f) for f in foods]
-        (self.eye_right.d, self.eye_right.f) = min(right, key=lambda t: t[0])
+        # Nearest food
+        # left = [(self.eye_left.pos.get_distance(f.body.position), f) for f in foods]
+        # (self.eye_left.d, self.eye_left.f) = min(left, key=lambda t: t[0])
+        #
+        # if self.eye_left.hit:
+        #     print(self.eye_left.hit.distance, self.eye_left.d)
+        # else:
+        #     print("not hit")
+        #
+        # right = [(self.eye_right.pos.get_dist_sqrd(f.body.position), f) for f in foods]
+        # (self.eye_right.d, self.eye_right.f) = min(right, key=lambda t: t[0])
 
         # Control
-        inputs = np.matrix([self.eye_left.d, self.eye_right.d])
+        if self.eye_left.hit:
+            dl = self.eye_left.hit.distance
+        else:
+            dl = 1000
+
+        if self.eye_right.hit:
+            dr = self.eye_right.hit.distance
+        else:
+            dr = 1000
+
+        inputs = np.matrix([dl, dr, self.body.velocity.x])#, self.body.velocity.y, self.body.angular_velocity])
         powers = self.nn.compute(inputs)
 
+        # 1
         p1 = powers[0] * Creature.FORCE
         p2 = powers[1] * Creature.FORCE
         self.body.apply_force_at_local_point((p1, 0), (0, -self.radius))
         self.body.apply_force_at_local_point((p2, 0), (0, +self.radius))
+
+        # 2
+        # p1x = powers[0] * Creature.FORCE
+        # p1y = powers[1] * Creature.FORCE
+        # p2x = powers[2] * Creature.FORCE
+        # p2y = powers[3] * Creature.FORCE
+        # self.body.apply_force_at_local_point((p1x, p1y), self.eye_left.pos)
+        # self.body.apply_force_at_local_point((p2x, p2y), self.eye_right.pos)
 
     def eat(self, food):
         self.food += food.eat(0.25)
@@ -169,16 +168,25 @@ class Creature:
         # eye_pos = rotate(eye_pos, self.rect.center, self.theta)
         # pygame.draw.circle(surface, color.BLACK, eye_pos, Creature.eye_radius)
 
-        # Food
+        # Food label
         label = self.font.render("{:2.1f}".format(self.food), 1, color.BLACK)
         surface.blit(label, self.rect.midbottom)
 
         # Eye sight
-        p = pymunk.pygame_util.to_pygame(self.eye_left.pos, surface)
-        pygame.draw.line(surface, color.RED, p, self.eye_left.f.rect.center)
+        # p = pymunk.pygame_util.to_pygame(self.eye_left.pos, surface)
+        # pygame.draw.line(surface, color.RED, p, self.eye_left.f.rect.center)
+        # p = pymunk.pygame_util.to_pygame(self.eye_right.pos, surface)
+        # pygame.draw.line(surface, color.RED, p, self.eye_right.f.rect.center)
 
-        p = pymunk.pygame_util.to_pygame(self.eye_right.pos, surface)
-        pygame.draw.line(surface, color.RED, p, self.eye_right.f.rect.center)
+        if self.eye_left.hit:
+            p = pymunk.pygame_util.to_pygame(self.eye_left.pos, surface)
+            p2 = pymunk.pygame_util.to_pygame(self.eye_left.hit.point, surface)
+            pygame.draw.line(surface, color.PURPLE, p, p2)
+
+        if self.eye_right.hit:
+            p = pymunk.pygame_util.to_pygame(self.eye_right.pos, surface)
+            p2 = pymunk.pygame_util.to_pygame(self.eye_right.hit.point, surface)
+            pygame.draw.line(surface, color.PURPLE, p, p2)
 
         # Line direction and eye
         self.draw_line(self.line_dir, surface, color.BLACK)
@@ -194,6 +202,3 @@ class Creature:
         a = pymunk.pygame_util.to_pygame(a, surface)
         b = pymunk.pygame_util.to_pygame(b, surface)
         pygame.draw.line(surface, color_, a, b, 1)
-
-
-

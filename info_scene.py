@@ -51,17 +51,15 @@ class InfoScene(SceneBase):
         label = self.font.render("min:{} max:{} avg:{:2.1f} std:{:2.1f}".format(ga.min, ga.max, ga.mean, ga.std), 1, InfoScene.COLOR_FONT)
         surface.blit(label, (10, line))
 
-
         # Creature
         creature = self.world.creature_selected
         if creature:
-            line += InfoScene.LINE_STEP
-            label = self.font.render("Power: {:2.2f}/{:2.2f}".format(creature.left_power, creature.right_power), 1, InfoScene.COLOR_FONT)
-            surface.blit(label, (10, line))
 
-            line += InfoScene.LINE_STEP
-            label = self.font.render("Inputs: {}".format(creature.nn.inputs), 1, InfoScene.COLOR_FONT)
-            surface.blit(label, (10, line))
+            text = [u"{0:0.2f}".format(i) for i in creature.nn.inputs.tolist()[0]]
+            for t in text:
+                label = self.font.render(t, 1, InfoScene.COLOR_FONT)
+                line += InfoScene.LINE_STEP
+                surface.blit(label, (10, line))
 
             line += InfoScene.LINE_STEP
             label = self.font.render("Outputs: {}".format(creature.nn.outputs), 1, InfoScene.COLOR_FONT)

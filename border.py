@@ -2,6 +2,7 @@ import pygame
 import pymunk
 
 import color
+import world_scene
 
 
 class Border:
@@ -20,6 +21,10 @@ class Border:
         lines.append(pymunk.Segment(body, rect.bottomleft, rect.bottomright, Border.WIDTH))
         lines.append(pymunk.Segment(body, rect.topleft, rect.bottomleft, Border.WIDTH))
         lines.append(pymunk.Segment(body, rect.topright, rect.bottomright, Border.WIDTH))
+
+        for l in lines:
+            l.filter = pymunk.ShapeFilter(categories=world_scene.categories['border'])
+
         space.add(lines)
 
     def render(self, surface):

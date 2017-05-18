@@ -2,6 +2,7 @@ import pygame
 import pymunk
 import numpy as np
 
+import parameters
 from scene_base import SceneBase
 from camera import Camera
 import color
@@ -10,6 +11,8 @@ from food import Food
 
 
 collision_types = {"creature": 1, "food": 2, }
+categories = {"border": 0x01, "creature": 0x02, "food": 0x04, }
+
 
 class WorldScene(SceneBase): # needed ?
 
@@ -48,6 +51,9 @@ class WorldScene(SceneBase): # needed ?
         handler_creature_food.data['foods'] = self.foods
 
     def __del__(self):
+        for f in self.foods:
+            self.space.remove(f.shape, f.body)
+
         if self.best:
             self.best.is_best = False
 
@@ -64,9 +70,14 @@ class WorldScene(SceneBase): # needed ?
 
         if c and f:
             c.eat(f)
+
+            if not f.calories > 0:
+                space.remove(food_shape, food_shape.body)
+                data['foods'].remove(f)
         else:
+            # pass
             print("creature_eat_food error {} {}".format(c, f))
-        return True
+        return False #Workaround to emulate food.shape.sensor=True
 
     def add_foods(self, n):
         for i in range(0, n):
@@ -126,11 +137,13 @@ class WorldScene(SceneBase): # needed ?
                 self.best.is_best = True
 
         # Delete depleted foods
-        self.foods = [f for f in self.foods if f.calories > 0]
+        # self.foods = [f for f in self.foods if f.calories > 0]
+
+        # A add missing foods
         self.add_foods(WorldScene.FOOD_COUNT - len(self.foods))
 
-        # self.simu_model.space.step(1/30.0)
-        self.simu_model.space.step(1 / self.simu_model.clock.get_fps())
+        self.simu_model.space.step(1.0 / parameters.FPS)
+        # self.simu_model.space.step(1 / self.simu_model.clock.get_fps())
 
     def render(self, surface):
 
