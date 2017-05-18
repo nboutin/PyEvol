@@ -77,7 +77,7 @@ class WorldScene(SceneBase): # needed ?
         else:
             # pass
             print("creature_eat_food error {} {}".format(c, f))
-        return False #Workaround to emulate food.shape.sensor=True
+        return False  # Workaround to emulate food.shape.sensor=True
 
     def add_foods(self, n):
         for i in range(0, n):
@@ -125,7 +125,7 @@ class WorldScene(SceneBase): # needed ?
 
         # Creatures
         for creature in self.creatures:
-            creature.compute(self.foods)
+            creature.compute()
 
         _max = 0
         for creature in self.creatures:
@@ -149,7 +149,6 @@ class WorldScene(SceneBase): # needed ?
 
         # Background
         self.surface.fill(WorldScene.COLOR_BACKGROUND)
-        # self.surface.blit(self.grass, (0, 0))
 
         # Food
         for food in self.foods:
