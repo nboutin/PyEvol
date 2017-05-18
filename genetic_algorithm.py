@@ -13,14 +13,12 @@ creator.create("Individual", list, fitness=creator.FitnessMax)
 
 class GeneticAlgorithm:
 
-    def __init__(self, creatures):
-        self.creatures = creatures
+    def __init__(self, gene_size):
         self.toolbox = base.Toolbox()
 
         self.toolbox.register("attr_float", random.uniform, -1.0, 1.0)
 
-        self.toolbox.register("individual", tools.initRepeat, creator.Individual,
-                              self.toolbox.attr_float, self.creatures[0].nn.size)
+        self.toolbox.register("individual", tools.initRepeat, creator.Individual, self.toolbox.attr_float, gene_size)
         self.toolbox.register("population", tools.initRepeat, list, self.toolbox.individual)
 
         # Operator registration
@@ -37,15 +35,15 @@ class GeneticAlgorithm:
         self.mean = 0
         self.std = 0
 
-    def update_creatures(self):
-        for c, g in zip(self.creatures, self.pop):
+    def update_creatures(self, creatures):
+        for c, g in zip(creatures, self.pop):
             c.nn.set_parameters(g)
 
-    def compute(self):
+    def compute(self, creatures):
 
         self.generation += 1
 
-        for ind, c in zip(self.pop, self.creatures):
+        for ind, c in zip(self.pop, creatures):
             ind.fitness.values = c.food,
 
         # Gather all the fitnesses in one list and print the stats
@@ -82,10 +80,10 @@ class GeneticAlgorithm:
                 del mutant.fitness.values
 
         # Reset fitness (food)
-        for c in self.creatures:
+        for c in creatures:
             c.food = 0
 
         # The population is entirely replaced by the offspring
         self.pop[:] = offspring
 
-        self.update_creatures()
+        self.update_creatures(creatures)

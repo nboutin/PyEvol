@@ -50,11 +50,11 @@ class SimulationModel:
             pos = (np.random.randint(0, self.rect.width), np.random.randint(0, self.rect.height))
             self.creatures.append(Creature(self.space, pos))
 
-        self.ga = GeneticAlgorithm(self.creatures)
-        self.ga.update_creatures()
+        self.ga = GeneticAlgorithm(self.creatures[0].nn.size)
+        self.ga.update_creatures(self.creatures)
 
     def apply_ga(self):
-        self.ga.compute()
+        self.ga.compute(self.creatures)
 
         for c in self.creatures:
             pos = (np.random.randint(0, self.rect.width), np.random.randint(0, self.rect.height))
