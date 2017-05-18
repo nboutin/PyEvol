@@ -23,8 +23,8 @@ class Creature:
     COLOR_BEST = color.RED
 
     # pymunk
-    FORCE = 200
-    MASS = 2
+    FORCE = 150
+    MASS = 4
 
     def __init__(self, space, pos):
         self.rect = pygame.rect.Rect((0, 0), (Creature.SIZE, Creature.SIZE))
