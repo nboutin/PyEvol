@@ -42,18 +42,28 @@ class InfoScene(SceneBase):
 
         # 3
         line += InfoScene.LINE_STEP
-        label = self.font.render("Generation: {}".format(self.simu_model.ga.generation), 1, InfoScene.COLOR_FONT)
+        label = self.font.render("Generation: {}".format(self.simu_model.gen_algo.generation), 1, InfoScene.COLOR_FONT)
         surface.blit(label, (10, line))
 
         # 4
         line += InfoScene.LINE_STEP
-        ga = self.simu_model.ga
+        ga = self.simu_model.gen_algo
         label = self.font.render("min:{} max:{} avg:{:2.1f} std:{:2.1f}".format(ga.min, ga.max, ga.mean, ga.std), 1, InfoScene.COLOR_FONT)
         surface.blit(label, (10, line))
 
         # Creature
-        creature = self.world.creature_selected
+        creature = self.world.creature_selected if self.world.creature_selected else self.world.best
+
         if creature:
+            line += InfoScene.LINE_STEP
+            label = self.font.render("Radius:{} Force:{} Mass:{}".format(creature.radius, creature.force, creature.mass)
+                                     , 1, InfoScene.COLOR_FONT)
+            surface.blit(label, (10, line))
+
+            # Inputs
+            line += InfoScene.LINE_STEP
+            label = self.font.render("Inputs:", 1, InfoScene.COLOR_FONT)
+            surface.blit(label, (10, line))
 
             text = [u"{0:0.2f}".format(i) for i in creature.nn.inputs.tolist()[0]]
             for t in text:
@@ -61,9 +71,16 @@ class InfoScene(SceneBase):
                 line += InfoScene.LINE_STEP
                 surface.blit(label, (10, line))
 
+            # Outputs
             line += InfoScene.LINE_STEP
-            label = self.font.render("Outputs: {}".format(creature.nn.outputs), 1, InfoScene.COLOR_FONT)
+            label = self.font.render("Outputs:", 1, InfoScene.COLOR_FONT)
             surface.blit(label, (10, line))
+
+            text = [u"{0:0.2f}".format(i) for i in creature.nn.outputs.tolist()[0]]
+            for t in text:
+                label = self.font.render(t, 1, InfoScene.COLOR_FONT)
+                line += InfoScene.LINE_STEP
+                surface.blit(label, (10, line))
 
             line += InfoScene.LINE_STEP
             label = self.font.render("Calories: {}".format(creature.food), 1, InfoScene.COLOR_FONT)

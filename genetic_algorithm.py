@@ -35,9 +35,13 @@ class GeneticAlgorithm:
         self.mean = 0
         self.std = 0
 
-    def update_creatures(self, creatures):
-        for c, g in zip(creatures, self.pop):
-            c.nn.set_parameters(g)
+    @property
+    def genes(self):
+        return self.pop
+
+    # def update_creatures(self, creatures):
+    #     for c, g in zip(creatures, self.pop):
+    #         c.nn.set_parameters(g)
 
     def compute(self, creatures):
 
@@ -86,4 +90,4 @@ class GeneticAlgorithm:
         # The population is entirely replaced by the offspring
         self.pop[:] = offspring
 
-        self.update_creatures(creatures)
+        # self.update_creatures(creatures)

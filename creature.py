@@ -16,18 +16,34 @@ class Eye:
 
 class Creature:
     # pygame
-    SIZE = 20
-    BODY_RADIUS = int(SIZE / 2)
+    # SIZE = 20
+    # BODY_RADIUS = int(SIZE / 2)
     EYE_RADIUS = 3
     COLOR_DEFAULT = color.TEAL
     COLOR_BEST = color.RED
 
     # pymunk
-    FORCE = 150
-    MASS = 4
+    # F=150 M=4 radius=10 good result
+    # FORCE = 150
+    # MASS = 4
 
-    def __init__(self, space, pos):
-        self.rect = pygame.rect.Rect((0, 0), (Creature.SIZE, Creature.SIZE))
+    # Neural Network
+    N_INPUT = 2
+    N_OUTPUT = 2
+
+    N_BODY_GENES = 3
+
+    def __init__(self, space, pos, angle, genes):
+
+        (self.radius, self.force, self.mass) = genes[0:Creature.N_BODY_GENES]
+        nn_param = genes[Creature.N_BODY_GENES:]
+
+        # Control radius, force, mass
+        self.radius = int(max(5, self.radius * 50))
+        self.force = int(max(1, self.force * 3000))
+        self.mass = int(max(1, self.mass * 500))
+
+        self.rect = pygame.rect.Rect((0, 0), (self.radius*2, self.radius*2))
         self.color = Creature.COLOR_DEFAULT
         self.eye_left = Eye()
         self.eye_right = Eye()
@@ -36,15 +52,17 @@ class Creature:
 
         # pymunk
         self.space = space
-        self.radius = Creature.SIZE / 2
-        moment = pymunk.moment_for_circle(Creature.MASS, 0, self.radius)
+        # self.radius = Creature.SIZE / 2
+        moment = pymunk.moment_for_circle(self.mass, 0, self.radius)
 
-        self.body = pymunk.Body(Creature.MASS, moment)
+        self.body = pymunk.Body(self.mass, moment)
         self.body.position = pos
+        self.body.angle = angle
 
         self.shape = pymunk.Circle(self.body, self.radius)
         self.shape.collision_type = world_scene.collision_types['creature']
         self.shape.filter = pymunk.ShapeFilter(categories=world_scene.categories['creature'])
+
         self.line_dir = pymunk.Segment(self.body, (0, 0), (self.radius, 0), 1)
         self.line_view = pymunk.Segment(self.body, (0, -self.radius), (0, +self.radius), 1)
         q_radius = self.radius / 2
@@ -53,13 +71,20 @@ class Creature:
         space.add(self.body, self.shape)
 
         # Neural Net
-        self.nn = NeuralNetwork(2, 2)
+        self.nn = NeuralNetwork(Creature.N_INPUT, Creature.N_OUTPUT, nn_param)
 
         # Other
         self.is_human_controlled = False
         self._is_selected = False
         self._is_best = False
         self.food = 0
+
+    def __del__(self):
+        self.space.remove(self.body, self.shape)
+
+    @staticmethod
+    def gene_size():
+        return Creature.N_INPUT * Creature.N_OUTPUT + Creature.N_OUTPUT + Creature.N_BODY_GENES
 
     @property
     def is_selected(self):
@@ -106,8 +131,8 @@ class Creature:
 
         # Apply force
         # 1
-        p1 = powers[0] * Creature.FORCE
-        p2 = powers[1] * Creature.FORCE
+        p1 = powers[0] * self.force
+        p2 = powers[1] * self.force
         self.body.apply_force_at_local_point((p1, 0), (0, -self.radius))
         self.body.apply_force_at_local_point((p2, 0), (0, +self.radius))
 
@@ -127,7 +152,7 @@ class Creature:
         self.rect.center = pymunk.pygame_util.to_pygame(self.body.position, surface)
 
         # Body
-        pygame.draw.circle(surface, self.color, self.rect.center, Creature.BODY_RADIUS)
+        pygame.draw.circle(surface, self.color, self.rect.center, self.radius)
 
         # Eyes
         a = self.body.position + self.line_eyes.a.rotated(self.body.angle)
@@ -159,7 +184,7 @@ class Creature:
 
         # Selected by mouse click
         if self.is_selected:
-            pygame.draw.circle(surface, color.RED, self.rect.center, Creature.BODY_RADIUS * 2, 1)
+            pygame.draw.circle(surface, color.RED, self.rect.center, self.radius * 2, 1)
 
     def draw_line(self, line, surface, color_):
         a = self.body.position + line.a.rotated(self.body.angle)

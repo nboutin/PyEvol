@@ -2,6 +2,7 @@ import pygame
 import pymunk
 import numpy as np
 import enum
+import math
 
 import parameters
 from creature import Creature
@@ -39,23 +40,29 @@ class SimulationModel:
         self.space.damping = 0.2 # lose 1-x% of its velocity per second
 
         self.creatures = list()
-        self.ga = None
+        self.gen_algo = None
 
     @property
     def clock(self):
         return self.__model.clock
 
     def construct(self):
-        for i in range(0, parameters.N_POPULATION):
-            pos = (np.random.randint(0, self.rect.width), np.random.randint(0, self.rect.height))
-            self.creatures.append(Creature(self.space, pos))
-
-        self.ga = GeneticAlgorithm(self.creatures[0].nn.size)
-        self.ga.update_creatures(self.creatures)
+        self.gen_algo = GeneticAlgorithm(Creature.gene_size())
+        self.__generate_creatures()
 
     def apply_ga(self):
-        self.ga.compute(self.creatures)
+        self.gen_algo.compute(self.creatures)
+        self.__generate_creatures()
 
-        for c in self.creatures:
+    def __generate_creatures(self):
+        del self.creatures[:]
+
+        # for gene in self.gen_algo.genes:
+        #     gene[0] = 10
+        #     gene[1] = 150
+        #     gene[2] = 4
+
+        for i in range(0, parameters.N_POPULATION):
             pos = (np.random.randint(0, self.rect.width), np.random.randint(0, self.rect.height))
-            c.body.position = pos
+            angle = math.radians(np.random.randint(-180, 180))
+            self.creatures.append(Creature(self.space, pos, angle, self.gen_algo.genes[i]))
