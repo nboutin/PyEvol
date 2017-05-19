@@ -24,7 +24,7 @@ def main():
     display_info = pygame.display.Info()
     # print (display_info)
 
-    flags = pygame.FULLSCREEN | pygame.DOUBLEBUF
+    flags = pygame.FULLSCREEN | pygame.DOUBLEBUF | pygame.HWSURFACE
     screen = pygame.display.set_mode((display_info.current_w, display_info.current_h), flags)
     screen.set_alpha(None)
     pygame.display.set_caption("PyEvol")

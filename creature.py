@@ -17,19 +17,15 @@ class Eye:
 
 class Creature:
     # pygame
-    # SIZE = 20
-    # BODY_RADIUS = int(SIZE / 2)
     EYE_RADIUS = 3
     COLOR_DEFAULT = color.TEAL
     COLOR_BEST = color.RED
 
     # pymunk
-    # F=150 M=4 radius=10 good result
-    # FORCE = 150
-    # MASS = 4
+    # Size=20 Force=150 Mass=4 radius=10 good result
 
     # Neural Network
-    N_INPUT = 2
+    N_INPUT = 5
     N_LAYERS = [2]
 
     N_BODY_GENES = 3
@@ -40,9 +36,9 @@ class Creature:
         nn_param = genes[Creature.N_BODY_GENES:]
 
         # Control radius, force, mass
-        self.radius = int(max(5, math.fabs(self.radius) * 40))
-        self.force = int(max(1, math.fabs(self.force) * 3000))
-        self.mass = int(max(1, math.fabs(self.mass) * 500))
+        # self.radius = int(max(5, math.fabs(self.radius) * 40))
+        # self.force = int(max(1, math.fabs(self.force) * 3000))
+        # self.mass = int(max(1, math.fabs(self.mass) * 500))
 
         self.rect = pygame.rect.Rect((0, 0), (self.radius*2, self.radius*2))
         self.color = Creature.COLOR_DEFAULT
@@ -53,7 +49,6 @@ class Creature:
 
         # pymunk
         self.space = space
-        # self.radius = Creature.SIZE / 2
         moment = pymunk.moment_for_circle(self.mass, 0, self.radius)
 
         self.body = pymunk.Body(self.mass, moment)
@@ -85,18 +80,7 @@ class Creature:
 
     @staticmethod
     def gene_size():
-        # 3
         return Creature.N_BODY_GENES + NeuralNetwork.size(Creature.N_INPUT, Creature.N_LAYERS)
-
-        # 1
-        # return Creature.N_INPUT * Creature.N_OUTPUT + Creature.N_OUTPUT + Creature.N_BODY_GENES
-
-        # 2
-        # n_in = Creature.N_INPUT
-        # l1 = NeuralNetwork.L1
-        # n_out = Creature.N_OUTPUT
-        #
-        # return (n_in * l1 + l1) + (l1 * n_out + n_out) + Creature.N_BODY_GENES
 
     @property
     def is_selected(self):
@@ -138,11 +122,10 @@ class Creature:
         dl = self.eye_left.hit.distance if self.eye_left.hit else 1000
         dr = self.eye_right.hit.distance if self.eye_right.hit else 1000
 
-        inputs = np.matrix([dl, dr])  # , self.body.velocity.x])#, self.body.velocity.y, self.body.angular_velocity])
+        inputs = np.matrix([dl, dr, self.radius, self.force, self.mass])
         powers = self.nn.compute(inputs)
 
         # Apply force
-        # 1
         p1 = powers[0] * self.force
         p2 = powers[1] * self.force
         self.body.apply_force_at_local_point((p1, 0), (0, -self.radius))

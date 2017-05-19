@@ -3,7 +3,7 @@ import pygame
 
 class Camera:
 
-    (ZOOM_MIN, ZOOM_MAX, ZOOM_STEP) = (.2, 4, .2)
+    (ZOOM_MIN, ZOOM_MAX, ZOOM_STEP) = (.1, 4, .2)
     MOVE_STEP = 100
 
     def __init__(self, rect):

@@ -82,7 +82,13 @@ class WorldScene(SceneBase): # needed ?
     def add_foods(self, n):
         for i in range(0, n):
             pos = (np.random.randint(0, self.rect.width), np.random.randint(0, self.rect.height))
-            self.foods.append(Food(pos, self.space))
+
+            # Do create food on creature
+            filter_ = pymunk.ShapeFilter(mask=categories['creature'])
+            if not self.space.point_query_nearest(pos, 20, filter_):
+                self.foods.append(Food(pos, self.space))
+            else:
+                i -= 1
 
     def process_input(self, events, key_pressed):
 
@@ -135,9 +141,6 @@ class WorldScene(SceneBase): # needed ?
                     self.best.is_best = False
                 self.best = creature
                 self.best.is_best = True
-
-        # Delete depleted foods
-        # self.foods = [f for f in self.foods if f.calories > 0]
 
         # A add missing foods
         self.add_foods(WorldScene.FOOD_COUNT - len(self.foods))

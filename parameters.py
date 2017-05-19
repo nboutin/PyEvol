@@ -1,6 +1,6 @@
 
 # Rendering
-FPS = 30
+FPS = 60
 
 # Simulation
 N_POPULATION = 25

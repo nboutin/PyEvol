@@ -20,7 +20,6 @@ class Food:
         radius = int(size / 2)
 
         self.space = space
-        # self.body = pymunk.Body(body_type=pymunk.Body.STATIC)
         moment = pymunk.moment_for_circle(Food.MASS, 0, radius)
         self.body = pymunk.Body(Food.MASS, moment)
         self.body.position = pos
@@ -32,8 +31,7 @@ class Food:
         self.space.add(self.body, self.shape)
 
     # def __del__(self):
-        # self.space.remove(self.body, self.shape)
-        # print("remove food from space {}".format(self))
+    #     self.space.remove(self.body, self.shape)
 
     def eat(self, q):
         if self.calories - q > 0:

@@ -13,7 +13,6 @@ class Model:
     def __init__(self, clock):
         self.clock = clock
         self.total_time_ms = 0
-
         self.simulation = SimulationModel(self)
 
 
@@ -59,10 +58,10 @@ class SimulationModel:
 
         del self.creatures[:]
 
-        # for gene in self.gen_algo.genes:
-        #     gene[0] = 10
-        #     gene[1] = 150
-        #     gene[2] = 4
+        for gene in self.gen_algo.genes:
+            gene[0] = 10
+            gene[1] = 150
+            gene[2] = 4
 
         for i in range(0, parameters.N_POPULATION):
             pos = (np.random.randint(0, self.rect.width), np.random.randint(0, self.rect.height))
