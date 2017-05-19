@@ -30,7 +30,7 @@ class Creature:
 
     # Neural Network
     N_INPUT = 2
-    N_OUTPUT = 2
+    N_LAYERS = [2]
 
     N_BODY_GENES = 3
 
@@ -72,7 +72,7 @@ class Creature:
         space.add(self.body, self.shape)
 
         # Neural Net
-        self.nn = NeuralNetwork(Creature.N_INPUT, Creature.N_OUTPUT, nn_param)
+        self.nn = NeuralNetwork(Creature.N_INPUT, Creature.N_LAYERS, nn_param)
 
         # Other
         self.is_human_controlled = False
@@ -85,15 +85,18 @@ class Creature:
 
     @staticmethod
     def gene_size():
+        # 3
+        return Creature.N_BODY_GENES + NeuralNetwork.size(Creature.N_INPUT, Creature.N_LAYERS)
+
         # 1
         # return Creature.N_INPUT * Creature.N_OUTPUT + Creature.N_OUTPUT + Creature.N_BODY_GENES
 
         # 2
-        n_in = Creature.N_INPUT
-        l1 = NeuralNetwork.L1
-        n_out = Creature.N_OUTPUT
-
-        return (n_in * l1 + l1) + (l1 * n_out + n_out) + Creature.N_BODY_GENES
+        # n_in = Creature.N_INPUT
+        # l1 = NeuralNetwork.L1
+        # n_out = Creature.N_OUTPUT
+        #
+        # return (n_in * l1 + l1) + (l1 * n_out + n_out) + Creature.N_BODY_GENES
 
     @property
     def is_selected(self):
