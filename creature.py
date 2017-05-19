@@ -2,6 +2,7 @@ import pygame
 import pymunk
 import pymunk.pygame_util
 import numpy as np
+import math
 
 import color
 import world_scene
@@ -39,9 +40,9 @@ class Creature:
         nn_param = genes[Creature.N_BODY_GENES:]
 
         # Control radius, force, mass
-        self.radius = int(max(5, self.radius * 50))
-        self.force = int(max(1, self.force * 3000))
-        self.mass = int(max(1, self.mass * 500))
+        self.radius = int(max(5, math.fabs(self.radius) * 40))
+        self.force = int(max(1, math.fabs(self.force) * 3000))
+        self.mass = int(max(1, math.fabs(self.mass) * 500))
 
         self.rect = pygame.rect.Rect((0, 0), (self.radius*2, self.radius*2))
         self.color = Creature.COLOR_DEFAULT
@@ -84,7 +85,15 @@ class Creature:
 
     @staticmethod
     def gene_size():
-        return Creature.N_INPUT * Creature.N_OUTPUT + Creature.N_OUTPUT + Creature.N_BODY_GENES
+        # 1
+        # return Creature.N_INPUT * Creature.N_OUTPUT + Creature.N_OUTPUT + Creature.N_BODY_GENES
+
+        # 2
+        n_in = Creature.N_INPUT
+        l1 = NeuralNetwork.L1
+        n_out = Creature.N_OUTPUT
+
+        return (n_in * l1 + l1) + (l1 * n_out + n_out) + Creature.N_BODY_GENES
 
     @property
     def is_selected(self):
@@ -167,15 +176,15 @@ class Creature:
         surface.blit(label, self.rect.midbottom)
 
         # Eye sight
-        if self.eye_left.hit:
-            p = pymunk.pygame_util.to_pygame(self.eye_left.pos, surface)
-            p2 = pymunk.pygame_util.to_pygame(self.eye_left.hit.point, surface)
-            pygame.draw.line(surface, color.PURPLE, p, p2)
-
-        if self.eye_right.hit:
-            p = pymunk.pygame_util.to_pygame(self.eye_right.pos, surface)
-            p2 = pymunk.pygame_util.to_pygame(self.eye_right.hit.point, surface)
-            pygame.draw.line(surface, color.PURPLE, p, p2)
+        # if self.eye_left.hit:
+        #     p = pymunk.pygame_util.to_pygame(self.eye_left.pos, surface)
+        #     p2 = pymunk.pygame_util.to_pygame(self.eye_left.hit.point, surface)
+        #     pygame.draw.line(surface, color.PURPLE, p, p2)
+        #
+        # if self.eye_right.hit:
+        #     p = pymunk.pygame_util.to_pygame(self.eye_right.pos, surface)
+        #     p2 = pymunk.pygame_util.to_pygame(self.eye_right.hit.point, surface)
+        #     pygame.draw.line(surface, color.PURPLE, p, p2)
 
         # Line direction and eye
         # self.draw_line(self.line_dir, surface, color.BLACK)

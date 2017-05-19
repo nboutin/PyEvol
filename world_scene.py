@@ -75,8 +75,8 @@ class WorldScene(SceneBase): # needed ?
                 space.remove(food_shape, food_shape.body)
                 data['foods'].remove(f)
         else:
-            # pass
-            print("creature_eat_food error {} {}".format(c, f))
+            pass
+            # print("creature_eat_food error {} {}".format(c, f))
         return False  # Workaround to emulate food.shape.sensor=True
 
     def add_foods(self, n):

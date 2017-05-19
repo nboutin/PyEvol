@@ -1,8 +1,10 @@
 import pygame
+import sys
 
 import parameters
 from model import Model
 from main_scene import MainScene
+
 
 HD = (1280, 720)
 HD_1440_900_16_10 = (1440, 900)
@@ -22,7 +24,7 @@ def main():
     display_info = pygame.display.Info()
     # print (display_info)
 
-    flags = 0 #pygame.FULLSCREEN | pygame.DOUBLEBUF
+    flags = pygame.FULLSCREEN | pygame.DOUBLEBUF
     screen = pygame.display.set_mode((display_info.current_w, display_info.current_h), flags)
     screen.set_alpha(None)
     pygame.display.set_caption("PyEvol")
@@ -55,3 +57,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+    sys.exit()

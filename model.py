@@ -32,7 +32,7 @@ class SimulationModel:
         self.simulation_time_ms = 0
         self.state = SimulationModel.State.START
 
-        self.rect = pygame.rect.Rect(0, 0, 1050, 1000)
+        self.rect = pygame.rect.Rect(0, 0, 1050, 1050)
 
         # pymunk
         self.space = pymunk.Space()
@@ -52,9 +52,11 @@ class SimulationModel:
 
     def apply_ga(self):
         self.gen_algo.compute(self.creatures)
+
         self.__generate_creatures()
 
     def __generate_creatures(self):
+
         del self.creatures[:]
 
         # for gene in self.gen_algo.genes:
