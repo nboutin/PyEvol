@@ -55,7 +55,6 @@ class NeuralNetwork:
                 m = self.activation(np.matmul(m, w) + b)
             except TypeError:
                 m = np.matmul(m, w) + b
-            print(m)
 
         self.outputs = m
         return self.outputs.tolist()[0]
