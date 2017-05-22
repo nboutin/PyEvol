@@ -9,10 +9,10 @@ from color import *
 
 class ResultScene(SceneBase):
 
-    def __init__(self, screen_rect, model):
+    def __init__(self, rect, model):
         SceneBase.__init__(self)
-        self.rect = screen_rect
-        self.surface = pygame.Surface(self.rect.size)
+
+        self.surface = pygame.Surface(rect.size)
         self.font = pygame.font.SysFont("monospace", 15)
 
         self.model = model
@@ -25,7 +25,7 @@ class ResultScene(SceneBase):
                 if event.key == pygame.K_ESCAPE:
                     self.simu_model.state = SimulationModel.State.EXIT
                     self.on_update = True
-                elif event.key == pygame.K_RETURN: # Enter
+                elif event.key == pygame.K_RETURN:  # Enter
                     self.simu_model.state = SimulationModel.State.CONTINUE
                     self.on_update = True
 
@@ -37,14 +37,14 @@ class ResultScene(SceneBase):
             if self.simu_model.state == SimulationModel.State.START:
                 self.simu_model.state = SimulationModel.State.CONTINUE
                 self.simu_model.construct()
-                self.switch_to_scene(simulation_scene.SimulationScene(self.rect, self.model))
+                self.switch_to_scene(simulation_scene.SimulationScene(self.surface.get_rect(), self.model))
 
             elif self.simu_model.state == SimulationModel.State.CONTINUE:
                 self.simu_model.apply_ga()
-                self.switch_to_scene(simulation_scene.SimulationScene(self.rect, self.model))
+                self.switch_to_scene(simulation_scene.SimulationScene(self.surface.get_rect(), self.model))
 
             elif self.simu_model.state == SimulationModel.State.EXIT:
-                self.switch_to_scene(main_scene.MainScene(self.rect, self.model))
+                self.switch_to_scene(main_scene.MainScene(self.surface.get_rect(), self.model))
 
     def render(self, surface):
         self.surface.fill(LIGHT_SEA_GREEN)

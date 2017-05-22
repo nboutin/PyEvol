@@ -22,9 +22,9 @@ def main():
     clock = pygame.time.Clock()
 
     display_info = pygame.display.Info()
-    # print (display_info)
+    print (display_info)
 
-    flags = pygame.FULLSCREEN | pygame.DOUBLEBUF | pygame.HWSURFACE
+    flags = pygame.DOUBLEBUF | pygame.HWSURFACE
     screen = pygame.display.set_mode((display_info.current_w, display_info.current_h), flags)
     screen.set_alpha(None)
     pygame.display.set_caption("PyEvol")
@@ -40,6 +40,8 @@ def main():
         for event in events:
             if event.type == pygame.QUIT:
                 done = True
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_f:
+                pygame.display.toggle_fullscreen()
 
         active_scene.process_input(events, key_pressed)
         active_scene.compute()

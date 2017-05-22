@@ -16,7 +16,7 @@ categories = {"border": 0x01, "creature": 0x02, "food": 0x04, }
 
 class WorldScene(SceneBase): # needed ?
 
-    FOOD_COUNT = 20
+    FOOD_COUNT = 40
     COLOR_BACKGROUND = color.LIGHT_GREEN
 
     def __init__(self, simu_model):

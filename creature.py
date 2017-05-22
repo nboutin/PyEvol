@@ -12,7 +12,8 @@ from neural_network import NeuralNetwork
 class Eye:
     def __init__(self):
         self.pos = pymunk.Vec2d(0, 0)
-        self.hit = None
+        self.f_hit = None
+        self.b_hit = None
 
 
 class Creature:
@@ -25,8 +26,8 @@ class Creature:
     # Size=20 Force=150 Mass=4 radius=10 good result
 
     # Neural Network
-    N_INPUT = 5
-    N_LAYERS = [2]
+    N_INPUT = 2
+    N_LAYERS = [6, 2]
 
     N_BODY_GENES = 3
 
@@ -115,14 +116,23 @@ class Creature:
 
         # Find nearest food
         filter_ = pymunk.ShapeFilter(mask=world_scene.categories['food'])
-        self.eye_left.hit = self.space.point_query_nearest(self.eye_left.pos, 200, filter_)
-        self.eye_right.hit = self.space.point_query_nearest(self.eye_right.pos, 200, filter_)
+        self.eye_left.f_hit = self.space.point_query_nearest(self.eye_left.pos, 200, filter_)
+        self.eye_right.f_hit = self.space.point_query_nearest(self.eye_right.pos, 200, filter_)
+
+        # Find nearest border
+        filter_ = pymunk.ShapeFilter(mask=world_scene.categories['border'])
+        self.eye_left.b_hit = self.space.point_query_nearest(self.eye_left.pos, 1000, filter_)
+        self.eye_right.b_hit = self.space.point_query_nearest(self.eye_right.pos, 1000, filter_)
+
 
         # Control
-        dl = self.eye_left.hit.distance if self.eye_left.hit else 1000
-        dr = self.eye_right.hit.distance if self.eye_right.hit else 1000
+        dl = self.eye_left.f_hit.distance if self.eye_left.f_hit else 1000
+        dr = self.eye_right.f_hit.distance if self.eye_right.f_hit else 1000
 
-        inputs = np.matrix([dl, dr, self.radius, self.force, self.mass])
+        dbl = self.eye_left.b_hit.distance
+        dbr = self.eye_right.b_hit.distance
+
+        inputs = np.matrix([dl, dr])  #, dbl, dbr, self.radius, self.force, self.mass])
         powers = self.nn.compute(inputs)
 
         # Apply force

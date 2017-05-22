@@ -34,9 +34,7 @@ class SimulationModel:
         self.rect = pygame.rect.Rect(0, 0, 1050, 1050)
 
         # pymunk
-        self.space = pymunk.Space()
-        self.space.gravity = (0.0, 0.0)
-        self.space.damping = 0.2 # lose 1-x% of its velocity per second
+        self.space = None
 
         self.creatures = list()
         self.gen_algo = None
@@ -47,12 +45,20 @@ class SimulationModel:
 
     def construct(self):
         self.gen_algo = GeneticAlgorithm(Creature.gene_size())
+        self.__create_space()
         self.__generate_creatures()
 
     def apply_ga(self):
         self.gen_algo.compute(self.creatures)
-
+        self.__create_space()
         self.__generate_creatures()
+
+    def __create_space(self):
+        del self.space
+        self.space = pymunk.Space()
+        self.space.gravity = (0.0, 0.0)
+        self.space.damping = 0.2  # lose 1-x% of its velocity per second
+
 
     def __generate_creatures(self):
 
@@ -60,10 +66,10 @@ class SimulationModel:
 
         for gene in self.gen_algo.genes:
             gene[0] = 10
-            gene[1] = 150
+            gene[1] = 180
             gene[2] = 4
 
-        for i in range(0, parameters.N_POPULATION):
+        for i in range(parameters.N_POPULATION):
             pos = (np.random.randint(0, self.rect.width), np.random.randint(0, self.rect.height))
             angle = math.radians(np.random.randint(-180, 180))
             self.creatures.append(Creature(self.space, pos, angle, self.gen_algo.genes[i]))

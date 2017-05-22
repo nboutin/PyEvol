@@ -8,10 +8,10 @@ import color
 
 class MainScene(SceneBase):
 
-    def __init__(self, screen_rect, model):
+    def __init__(self, rect, model):
         SceneBase.__init__(self)
-        self.rect = screen_rect
-        self.surface = pygame.Surface(self.rect.size)
+
+        self.surface = pygame.Surface(rect.size)
         self.font = pygame.font.SysFont("monospace", 15)
 
         self.model = model
@@ -20,7 +20,7 @@ class MainScene(SceneBase):
         for event in events:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
-                    self.switch_to_scene(ResultScene(self.rect, self.model))
+                    self.switch_to_scene(ResultScene(self.surface.get_rect(), self.model))
                 elif event.key == pygame.K_ESCAPE:
                     pygame.event.post(pygame.event.Event(pygame.QUIT))
 
@@ -33,6 +33,7 @@ class MainScene(SceneBase):
         text = "Press Enter to start simulation"
         w,h = self.font.size(text)
         label = self.font.render(text, 1, color.BLACK)
-        self.surface.blit(label, (self.rect.centerx - w, self.rect.centery))
+        rect = self.surface.get_rect()
+        self.surface.blit(label, (rect.centerx - w, rect.centery))
 
         surface.blit(self.surface, (0, 0))

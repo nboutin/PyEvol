@@ -3,7 +3,7 @@
 FPS = 60
 
 # Simulation
-N_POPULATION = 25
+N_POPULATION = 40
 SIMULATION_TIME = 30 # seconds
 
 # Genetic Algorithm
