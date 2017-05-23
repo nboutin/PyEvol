@@ -37,9 +37,9 @@ class Creature:
         nn_param = genes[Creature.N_BODY_GENES:]
 
         # Control radius, force, mass
-        # self.radius = int(max(5, math.fabs(self.radius) * 40))
-        # self.force = int(max(1, math.fabs(self.force) * 3000))
-        # self.mass = int(max(1, math.fabs(self.mass) * 500))
+        self.radius = int(max(5, math.fabs(self.radius) * 40))
+        self.force = int(max(1, math.fabs(self.force) * 3000))
+        self.mass = int(max(1, math.fabs(self.mass) * 500))
 
         self.rect = pygame.rect.Rect((0, 0), (self.radius*2, self.radius*2))
         self.color = Creature.COLOR_DEFAULT
@@ -120,17 +120,17 @@ class Creature:
         self.eye_right.f_hit = self.space.point_query_nearest(self.eye_right.pos, 200, filter_)
 
         # Find nearest border
-        filter_ = pymunk.ShapeFilter(mask=world_scene.categories['border'])
-        self.eye_left.b_hit = self.space.point_query_nearest(self.eye_left.pos, 1000, filter_)
-        self.eye_right.b_hit = self.space.point_query_nearest(self.eye_right.pos, 1000, filter_)
+        # filter_ = pymunk.ShapeFilter(mask=world_scene.categories['border'])
+        # self.eye_left.b_hit = self.space.point_query_nearest(self.eye_left.pos, 1000, filter_)
+        # self.eye_right.b_hit = self.space.point_query_nearest(self.eye_right.pos, 1000, filter_)
 
 
         # Control
         dl = self.eye_left.f_hit.distance if self.eye_left.f_hit else 1000
         dr = self.eye_right.f_hit.distance if self.eye_right.f_hit else 1000
 
-        dbl = self.eye_left.b_hit.distance
-        dbr = self.eye_right.b_hit.distance
+        # dbl = self.eye_left.b_hit.distance
+        # dbr = self.eye_right.b_hit.distance
 
         inputs = np.matrix([dl, dr])  #, dbl, dbr, self.radius, self.force, self.mass])
         powers = self.nn.compute(inputs)

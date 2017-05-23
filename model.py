@@ -31,7 +31,8 @@ class SimulationModel:
         self.simulation_time_ms = 0
         self.state = SimulationModel.State.START
 
-        self.rect = pygame.rect.Rect(0, 0, 1050, 1050)
+        self.r_world = pygame.rect.Rect(0, 0, 2000, 2000)
+        self.r_camera = pygame.rect.Rect(0, 0, 1000, 1000)
 
         # pymunk
         self.space = None
@@ -59,17 +60,16 @@ class SimulationModel:
         self.space.gravity = (0.0, 0.0)
         self.space.damping = 0.2  # lose 1-x% of its velocity per second
 
-
     def __generate_creatures(self):
 
         del self.creatures[:]
 
-        for gene in self.gen_algo.genes:
-            gene[0] = 10
-            gene[1] = 180
-            gene[2] = 4
+        # for gene in self.gen_algo.genes:
+        #     gene[0] = 10
+        #     gene[1] = 180
+        #     gene[2] = 4
 
         for i in range(parameters.N_POPULATION):
-            pos = (np.random.randint(0, self.rect.width), np.random.randint(0, self.rect.height))
+            pos = (np.random.randint(0, self.r_world.width), np.random.randint(0, self.r_world.height))
             angle = math.radians(np.random.randint(-180, 180))
             self.creatures.append(Creature(self.space, pos, angle, self.gen_algo.genes[i]))

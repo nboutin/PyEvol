@@ -26,8 +26,6 @@ class InfoScene(SceneBase):
         surface.fill(color.PLUM)
 
         line = 10
-        label = self.font.render("Zoom: {:2.2f}".format(self.world.camera.zoom), 1, InfoScene.COLOR_FONT)
-        surface.blit(label, (10, line))
 
         label = self.font.render("FPS: {:2.1f}".format(self.model.clock.get_fps()), 1, InfoScene.COLOR_FONT)
         surface.blit(label, (130, line))
@@ -85,3 +83,7 @@ class InfoScene(SceneBase):
             line += InfoScene.LINE_STEP
             label = self.font.render("Calories: {}".format(creature.food), 1, InfoScene.COLOR_FONT)
             surface.blit(label, (10, line))
+
+        line += InfoScene.LINE_STEP
+        label = self.font.render("Camera area: {}".format(self.world.camera.area), 1, InfoScene.COLOR_FONT)
+        surface.blit(label, (10, line))

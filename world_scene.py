@@ -16,22 +16,21 @@ categories = {"border": 0x01, "creature": 0x02, "food": 0x04, }
 
 class WorldScene(SceneBase): # needed ?
 
-    FOOD_COUNT = 40
     COLOR_BACKGROUND = color.LIGHT_GREEN
 
     def __init__(self, simu_model):
         # Model
         self.simu_model = simu_model
-        self.rect = simu_model.rect
+        self.r_world = simu_model.r_world
         self.space = simu_model.space
 
         # Drawing
-        self.surface = pygame.surface.Surface(self.rect.size)
-        self.surface = self.surface.convert()
-        self.camera = Camera(self.rect)
+        self.s_world = pygame.surface.Surface(self.r_world.size)
+        self.s_world = self.s_world.convert()
+        self.camera = Camera(self.r_world, simu_model.r_camera)
         self.mouse_click_pos = None
 
-        self.border = Border(self.rect, self.space)
+        self.border = Border(self.r_world, self.space)
 
         # World Objects
         self.creatures = simu_model.creatures
@@ -40,7 +39,7 @@ class WorldScene(SceneBase): # needed ?
         self.best = None
 
         self.foods = list()
-        self.add_foods(WorldScene.FOOD_COUNT)
+        self.add_foods(parameters.N_FOOD)
 
         handler_creature_food = self.space.add_collision_handler(
             collision_types["creature"],
@@ -81,7 +80,7 @@ class WorldScene(SceneBase): # needed ?
 
     def add_foods(self, n):
         for i in range(0, n):
-            pos = (np.random.randint(0, self.rect.width), np.random.randint(0, self.rect.height))
+            pos = (np.random.randint(0, self.r_world.width), np.random.randint(0, self.r_world.height))
 
             # Do create food on creature
             filter_ = pymunk.ShapeFilter(mask=categories['creature'])
@@ -143,7 +142,7 @@ class WorldScene(SceneBase): # needed ?
                 self.best.is_best = True
 
         # A add missing foods
-        self.add_foods(WorldScene.FOOD_COUNT - len(self.foods))
+        self.add_foods(parameters.N_FOOD - len(self.foods))
 
         # self.simu_model.space.step(1.0 / parameters.FPS)
         self.simu_model.space.step(1.0 / self.simu_model.clock.get_fps())
@@ -151,22 +150,22 @@ class WorldScene(SceneBase): # needed ?
     def render(self, surface):
 
         # Background
-        self.surface.fill(WorldScene.COLOR_BACKGROUND)
+        self.s_world.fill(WorldScene.COLOR_BACKGROUND)
 
         # Food
         for food in self.foods:
-            food.render(self.surface)
+            food.render(self.s_world)
 
         # Wall
-        self.border.render(self.surface)
+        self.border.render(self.s_world)
 
         # Creatures
         if self.creature_selected:
-            self.creature_selected.render(self.surface)
+            self.creature_selected.render(self.s_world)
 
         for creature in self.creatures:
-            creature.render(self.surface)
+            creature.render(self.s_world)
 
         # Blit to surface
         surface.fill(color.WHITE)
-        surface.blit(pygame.transform.scale(self.surface, self.camera.area.size), self.camera.area.topleft)
+        surface.blit(self.camera.get_surface(self.s_world), surface.get_rect().topleft, self.camera.area)
