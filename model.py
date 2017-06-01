@@ -31,8 +31,7 @@ class SimulationModel:
         self.simulation_time_ms = 0
         self.state = SimulationModel.State.START
 
-        self.r_world = pygame.rect.Rect(0, 0, 2000, 2000)
-        self.r_camera = pygame.rect.Rect(0, 0, 1000, 1000)
+        self.r_world = pygame.rect.Rect(0, 0, 1000, 1000)
 
         # pymunk
         self.space = None

@@ -2,10 +2,11 @@ import pygame
 import datetime
 
 import color
-from scene_base import SceneBase
 
 
-class InfoScene(SceneBase):
+class InfoScene:
+
+    ANTIALIAS = 1
 
     LINE_STEP = 20
     COLOR_FONT = color.BLACK
@@ -22,68 +23,79 @@ class InfoScene(SceneBase):
     def compute(self):
         pass
 
-    def render(self, surface):
-        surface.fill(color.PLUM)
+    def __blit(self, text):
+        return self.font.render(text, InfoScene.ANTIALIAS, InfoScene.COLOR_FONT)
 
-        line = 10
+    def header(self, surface, pos):
+        text = "FPS:{:2.1f} Total Time:{!s:0>8}".format(self.model.clock.get_fps(),
+                                                        datetime.timedelta(milliseconds=self.model.total_time_ms))
+        surface.blit(self.__blit(text), pos)
+        pos.y += 20
 
-        label = self.font.render("FPS: {:2.1f}".format(self.model.clock.get_fps()), 1, InfoScene.COLOR_FONT)
-        surface.blit(label, (130, line))
-
-        label = self.font.render("Total Time: {!s:0>8}".format(datetime.timedelta(milliseconds=self.model.total_time_ms)), 1, InfoScene.COLOR_FONT)
-        surface.blit(label, (230, line))
-
-        # 2
-        line += InfoScene.LINE_STEP
-        label = self.font.render("Simulation Time: {:2.1f}s".format(self.simu_model.simulation_time_ms / 1000), 1, InfoScene.COLOR_FONT)
-        surface.blit(label, (10, line))
-
-        # 3
-        line += InfoScene.LINE_STEP
-        label = self.font.render("Generation: {}".format(self.simu_model.gen_algo.generation), 1, InfoScene.COLOR_FONT)
-        surface.blit(label, (10, line))
-
-        # 4
-        line += InfoScene.LINE_STEP
+    def simulation(self, surface, pos):
         ga = self.simu_model.gen_algo
-        label = self.font.render("min:{} max:{} avg:{:2.1f} std:{:2.1f}".format(ga.min, ga.max, ga.mean, ga.std), 1, InfoScene.COLOR_FONT)
-        surface.blit(label, (10, line))
 
-        # Creature
-        creature = self.world.creature_selected if self.world.creature_selected else self.world.best
+        text = "Generation:{} Simulation Time:{:2.1f}s".format(ga.generation,
+                                                                self.simu_model.simulation_time_ms / 1000)
+        surface.blit(self.__blit(text), pos)
+        pos.y += 20
 
-        if creature:
-            line += InfoScene.LINE_STEP
-            label = self.font.render("Radius:{} Force:{} Mass:{}".format(creature.radius, creature.force, creature.mass)
-                                     , 1, InfoScene.COLOR_FONT)
-            surface.blit(label, (10, line))
+        text = "Min:{} Max:{} Avg:{:2.1f} Std:{:2.1f}".format(ga.min, ga.max, ga.mean, ga.std)
+        surface.blit(self.__blit(text), pos)
+        pos.y += 20
+
+    def creature(self, surface, pos, c):
+        """c: creature"""
+
+        try:
+            p = [u"{0:0.0f}".format(i) for i in c.body.position]
+            text = "({}, {}) Radius:{} Force:{} Mass:{}".format(p[0], p[1], c.radius, c.force, c.mass)
+
+            surface.blit(self.__blit(text), pos)
+            pos.y += 20
 
             # Inputs
-            line += InfoScene.LINE_STEP
-            label = self.font.render("Inputs:", 1, InfoScene.COLOR_FONT)
-            surface.blit(label, (10, line))
-
-            text = [u"{0:0.2f}".format(i) for i in creature.nn.inputs.tolist()[0]]
-            for t in text:
-                label = self.font.render(t, 1, InfoScene.COLOR_FONT)
-                line += InfoScene.LINE_STEP
-                surface.blit(label, (10, line))
+            line = pos.y
+            surface.blit(self.__blit("Inputs"), pos)
+            pos.y += 20
+            self.__blit_list(surface, pos, c.nn.inputs.tolist()[0])
+            pos.y += 20
 
             # Outputs
-            line += InfoScene.LINE_STEP
-            label = self.font.render("Outputs:", 1, InfoScene.COLOR_FONT)
-            surface.blit(label, (10, line))
+            pos.y = line
+            pos.x += 70
+            surface.blit(self.__blit("Outputs"), pos)
+            pos.y += 20
+            self.__blit_list(surface, pos, c.nn.outputs.tolist()[0])
+            pos.y += 20
 
-            text = [u"{0:0.2f}".format(i) for i in creature.nn.outputs.tolist()[0]]
-            for t in text:
-                label = self.font.render(t, 1, InfoScene.COLOR_FONT)
-                line += InfoScene.LINE_STEP
-                surface.blit(label, (10, line))
+            # Calories
+            pos.y = line
+            pos.x += 80
+            text = "Calories:{}".format(c.food)
+            surface.blit(self.__blit(text), pos)
 
-            line += InfoScene.LINE_STEP
-            label = self.font.render("Calories: {}".format(creature.food), 1, InfoScene.COLOR_FONT)
-            surface.blit(label, (10, line))
+        except AttributeError:
+            pass
 
-        line += InfoScene.LINE_STEP
-        label = self.font.render("Camera area: {}".format(self.world.camera.area), 1, InfoScene.COLOR_FONT)
-        surface.blit(label, (10, line))
+    def __blit_list(self, surface, pos, l):
+        text = [u"{0:0.2f}".format(i) for i in l]
+        print(text)
+        for t in text:
+            surface.blit(self.__blit(t), pos)
+            pos.y += 20
+
+    def render(self, surface):
+
+        surface.fill(color.PLUM)
+
+        pos = pygame.rect.Rect((10, 10), (1,1))
+
+        self.header(surface, pos)
+
+        pos.y += 20
+        self.simulation(surface, pos)
+
+        pos.y += 20
+        creature = self.world.creature_selected if self.world.creature_selected else self.world.best
+        self.creature(surface, pos, creature)

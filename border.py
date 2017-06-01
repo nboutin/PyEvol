@@ -7,7 +7,7 @@ import world_scene
 
 class Border:
 
-    WIDTH = 5
+    WIDTH = 10
     COLOR = color.BLUE
 
     def __init__(self, rect, space):

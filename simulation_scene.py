@@ -20,13 +20,14 @@ class SimulationScene(SceneBase):
         self.surface = pygame.Surface(rect.size)
         self.surface = self.surface.convert()
 
-        world_rect = pygame.rect.Rect((0, 0), (rect.h, rect.h))
-        self.world_surface = self.surface.subsurface(world_rect)
-        self.world_scene = WorldScene(self.model.simulation)
+        r_world = pygame.rect.Rect((0, 0), (rect.h, rect.h))
+        self.world_surface = self.surface.subsurface(r_world)
+        self.world_scene = WorldScene(r_world, self.model.simulation)
 
-        info_rect = ((world_rect.w, 0), (rect.w - world_rect.w, rect.h))
+        info_rect = pygame.rect.Rect((r_world.w, 0), (rect.w - r_world.w, rect.h))
         self.info_surface = self.surface.subsurface(info_rect)
         self.info_scene = InfoScene(self.world_scene, self.model)
+
 
     def process_input(self, events, key_pressed):
 

@@ -14,24 +14,15 @@ class Camera:
     MOVE_STEP = 100
 
     def __init__(self, world, area):
-        # self.screen = screen
-        # self.pos = pygame.rect.Rect(area)  # Position on screen
-        # self.pos.center = screen.center
 
         self.world = world
         self.area = area  # Area of world
         self.area.center = self.world.center
         self.r_zoom = pygame.rect.Rect(world)
+        self.current_zoom = 0
 
-        self.surf_trans = None
-        # self.is_transform_updated = True
-
-    def get_surface(self, world):
-        # if self.is_transform_updated:
-        #     self.is_transform_updated = False
-        #     self.surf_trans = pygame.transform.scale(world, self.r_zoom.size)
-        # return self.surf_trans
-        return pygame.transform.scale(world, self.r_zoom.size)
+        self.__zoom(0)
+        self.__move_area(Point(0, 0))
 
     def process_input(self, events):
 
@@ -56,7 +47,7 @@ class Camera:
                 elif event.key == pygame.K_s:
                     move.y += Camera.MOVE_STEP
                 elif event.key == pygame.K_c:
-                    self.area.center = self.r_zoom.center
+                    self.center_at(self.r_zoom.center)
 
             # Button CLick
             elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -73,12 +64,20 @@ class Camera:
             self.__zoom(zoom)
             self.__move_area(move)
 
+    def get_surface(self, world):
+        return pygame.transform.scale(world, self.r_zoom.size)
+
+    def center_at(self, pos):
+        self.area.centerx = pos[0] + self.current_zoom/2
+        self.area.centery = pos[1] + self.current_zoom/2
+        self.__move_area(Point(0, 0))
+
     def __zoom(self, zoom):
-        # self.is_transform_updated = True
+        self.current_zoom += zoom
         self.r_zoom.inflate_ip(zoom, zoom)
-        move = Point(zoom/2, zoom/2)
-        self.__move_area(move)
         self.r_zoom.topleft = (0, 0)
+
+        self.__move_area(Point(zoom/2, zoom/2))
 
         if self.r_zoom.w < self.area.w:
             self.r_zoom.w = self.area.w

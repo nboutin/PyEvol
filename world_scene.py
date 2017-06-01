@@ -18,7 +18,7 @@ class WorldScene(SceneBase): # needed ?
 
     COLOR_BACKGROUND = color.LIGHT_GREEN
 
-    def __init__(self, simu_model):
+    def __init__(self, rect, simu_model):
         # Model
         self.simu_model = simu_model
         self.r_world = simu_model.r_world
@@ -27,7 +27,7 @@ class WorldScene(SceneBase): # needed ?
         # Drawing
         self.s_world = pygame.surface.Surface(self.r_world.size)
         self.s_world = self.s_world.convert()
-        self.camera = Camera(self.r_world, simu_model.r_camera)
+        self.camera = Camera(self.r_world, rect)
         self.mouse_click_pos = None
 
         self.border = Border(self.r_world, self.space)
@@ -37,6 +37,7 @@ class WorldScene(SceneBase): # needed ?
 
         self.creature_selected = None
         self.best = None
+        self.is_follow_best = False
 
         self.foods = list()
         self.add_foods(parameters.N_FOOD)
@@ -104,6 +105,11 @@ class WorldScene(SceneBase): # needed ?
                             self.creature_selected.is_human_controlled = True
                         else:
                             self.creature_selected.is_human_controlled = False
+                if event.key == pygame.K_b:
+                    if not self.is_follow_best:
+                        self.is_follow_best = True
+                    else:
+                        self.is_follow_best = False
 
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
@@ -165,6 +171,11 @@ class WorldScene(SceneBase): # needed ?
 
         for creature in self.creatures:
             creature.render(self.s_world)
+
+        # Camera
+        if self.best and self.is_follow_best:
+            center = pymunk.pygame_util.to_pygame(self.best.body.position, surface)
+            self.camera.center_at(center)
 
         # Blit to surface
         surface.fill(color.WHITE)
