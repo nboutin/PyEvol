@@ -1,17 +1,10 @@
 import pygame
 import sys
+import os
 
 import parameters
 from model import Model
 from main_scene import MainScene
-
-
-HD = (1280, 720)
-HD_1440_900_16_10 = (1440, 900)
-HD_1440_1050_4_3 = (1440, 1050)
-HD_1600_1200_4_3 = (1600, 1200)
-HD_1680_1050_16_10 = (1680, 1050)
-FULL_HD = (1920, 1080)
 
 
 def main():
@@ -23,6 +16,9 @@ def main():
 
     display_info = pygame.display.Info()
     print (display_info)
+
+    icon = pygame.image.load(os.path.join("res", "icon.png"))
+    pygame.display.set_icon(icon)
 
     flags = pygame.DOUBLEBUF | pygame.HWSURFACE
     screen = pygame.display.set_mode((display_info.current_w, display_info.current_h), flags)

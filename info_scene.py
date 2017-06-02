@@ -80,7 +80,6 @@ class InfoScene:
 
     def __blit_list(self, surface, pos, l):
         text = [u"{0:0.2f}".format(i) for i in l]
-        print(text)
         for t in text:
             surface.blit(self.__blit(t), pos)
             pos.y += 20

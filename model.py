@@ -19,17 +19,15 @@ class Model:
 class SimulationModel:
 
     class State(enum.Enum):
-        START = 0
-        CONTINUE = 1
-        STOP = 2
-        EXIT = 3
+        STARTED = 0
+        RUNNING = 1
 
     def __init__(self, model):
         self.__model = model
 
         self.delta_time = 0
         self.simulation_time_ms = 0
-        self.state = SimulationModel.State.START
+        self.state = SimulationModel.State.STARTED
 
         self.r_world = pygame.rect.Rect(0, 0, 1000, 1000)
 
@@ -57,16 +55,16 @@ class SimulationModel:
         del self.space
         self.space = pymunk.Space()
         self.space.gravity = (0.0, 0.0)
-        self.space.damping = 0.2  # lose 1-x% of its velocity per second
+        self.space.damping = 0.1  # lose 1-x% of its velocity per second
 
     def __generate_creatures(self):
 
         del self.creatures[:]
 
-        # for gene in self.gen_algo.genes:
-        #     gene[0] = 10
-        #     gene[1] = 180
-        #     gene[2] = 4
+        for gene in self.gen_algo.genes:
+            gene[0] = 10
+            gene[1] = 180
+            gene[2] = 4
 
         for i in range(parameters.N_POPULATION):
             pos = (np.random.randint(0, self.r_world.width), np.random.randint(0, self.r_world.height))

@@ -27,7 +27,7 @@ class Creature:
 
     # Neural Network
     N_INPUT = 2
-    N_LAYERS = [6, 2]
+    N_LAYERS = [2]
 
     N_BODY_GENES = 3
 
@@ -37,9 +37,9 @@ class Creature:
         nn_param = genes[Creature.N_BODY_GENES:]
 
         # Control radius, force, mass
-        self.radius = int(max(5, math.fabs(self.radius) * 40))
-        self.force = int(max(1, math.fabs(self.force) * 3000))
-        self.mass = int(max(1, math.fabs(self.mass) * 500))
+        # self.radius = int(max(5, math.fabs(self.radius) * 40))
+        # self.force = int(max(1, math.fabs(self.force) * 3000))
+        # self.mass = int(max(1, math.fabs(self.mass) * 500))
 
         self.rect = pygame.rect.Rect((0, 0), (self.radius*2, self.radius*2))
         self.color = Creature.COLOR_DEFAULT
