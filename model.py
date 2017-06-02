@@ -19,15 +19,18 @@ class Model:
 class SimulationModel:
 
     class State(enum.Enum):
-        STARTED = 0
+        POPULATED = 0
         RUNNING = 1
+        EVOLVED = 2
+        WAITING = 3
+        QUITTING = 4
 
     def __init__(self, model):
         self.__model = model
 
         self.delta_time = 0
         self.simulation_time_ms = 0
-        self.state = SimulationModel.State.STARTED
+        self.state = SimulationModel.State.POPULATED
 
         self.r_world = pygame.rect.Rect(0, 0, 1000, 1000)
 

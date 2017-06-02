@@ -27,20 +27,18 @@ class ResultScene(SceneBase):
         self.simu_model = model.simulation
         # self.on_update = True
 
-        if self.simu_model.state == SimulationModel.State.STARTED:
-            state = Started()
-        elif self.simu_model.state == SimulationModel.State.RUNNING:
+        if self.simu_model.state == SimulationModel.State.RUNNING:
             state = Running()
+        else:
+            state = Populated()
 
         self.state_machine = StateMachineResult(state, self)
 
     def switch_to_simulation(self):
-        self.simu_model = SimulationModel.State.RUNNING
         self.switch_to_scene(simulation_scene.SimulationScene(self.surface.get_rect(), self.model))
 
     def switch_to_main(self):
         self.switch_to_scene(main_scene.MainScene(self.surface.get_rect(), self.model))
-        self.simu_model = SimulationModel.State.STARTED
 
     def process_input(self, events, key_pressed):
         for event in events:
@@ -50,7 +48,13 @@ class ResultScene(SceneBase):
                     self.state_machine.quit()
                 # Enter
                 elif event.key == pygame.K_RETURN:
-                    pass
+                    self.state_machine.run()
+                # e
+                elif event.key == pygame.K_e:
+                    self.state_machine.evolve()
+                # r
+                elif event.key == pygame.K_r:
+                    self.state_machine.reset()
 
     def compute(self):
         pass
@@ -69,29 +73,54 @@ class ResultScene(SceneBase):
 
 class StateResult(State):
 
-    def next_iteration(self, sm_result):
+    def evolve(self, sm_result):
+        pass
+
+    def run(self, sm_result):
         pass
 
     def ticks(self, sm_result):
+        pass
+
+    def reset(self, sm_result):
         pass
 
     def quit(self, sm_result):
         pass
 
 
-class Started(StateResult):
+class Populated(StateResult):
 
     def on_enter(self, sm_result):
+        sm_result.scene.simu_model.state = SimulationModel.State.POPULATED
         sm_result.scene.simu_model.construct()
         sm_result.set_state(Running())
-        sm_result.scene.switch_to_simulation()
+
+
+class Evolved(StateResult):
+
+    def on_enter(self, sm_result):
+        sm_result.scene.simu_model.state = SimulationModel.State.EVOLVED
+        sm_result.scene.simu_model.apply_ga()
+        sm_result.set_state(Running())
 
 
 class Running(StateResult):
 
     def on_enter(self, sm_result):
-        sm_result.scene.simu_model.apply_ga()
+        sm_result.scene.simu_model.state = SimulationModel.State.RUNNING
+
+    def run(self, sm_result):
         sm_result.scene.switch_to_simulation()
+
+    def evolve(self, sm_result):
+        sm_result.set_state(Evolved())
+
+    def reset(self, sm_result):
+        sm_result.set_state(Populated())
+
+    def quit(self, sm_result):
+        sm_result.set_state(Quitting())
 
 
 class Waiting(StateResult):
@@ -107,9 +136,10 @@ class Waiting(StateResult):
             sm_result.set_state(self.next)
 
 
-class Quiting(StateResult):
+class Quitting(StateResult):
 
     def on_enter(self, sm_result):
+        sm_result.scene.simu_model.state = SimulationModel.State.QUITTING
         sm_result.scene.switch_to_main()
 
 
@@ -120,11 +150,17 @@ class StateMachineResult(StateMachine):
         StateMachine.__init__(self, start_state)
 
     # Transition
-    def next_iteration(self):
-        self.current_state.launch(self)
+    def evolve(self):
+        self.current_state.evolve(self)
+
+    def run(self):
+        self.current_state.run(self)
 
     def ticks(self):
         self.current_state.wait(self)
+
+    def reset(self):
+        self.current_state.reset(self)
 
     def quit(self):
         self.current_state.quit(self)
