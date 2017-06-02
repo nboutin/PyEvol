@@ -1,8 +1,8 @@
 import pygame
 import matplotlib
 matplotlib.use("Agg")
-# import matplotlib.backends.backend_agg as agg
-# import pylab
+import matplotlib.backends.backend_agg as agg
+import pylab
 
 from state_machine import StateMachine
 from state_machine import State
@@ -16,6 +16,7 @@ from color import *
 class ResultScene(SceneBase):
 
     WAITING_TIME = 5000  # ms
+    AUTO_RUN_EVENT = pygame.USEREVENT + 1
 
     def __init__(self, rect, model):
         SceneBase.__init__(self)
@@ -33,6 +34,8 @@ class ResultScene(SceneBase):
             state = Populated()
 
         self.state_machine = StateMachineResult(state, self)
+
+        pygame.time.set_timer(ResultScene.AUTO_RUN_EVENT, 1000)
 
     def switch_to_simulation(self):
         self.switch_to_scene(simulation_scene.SimulationScene(self.surface.get_rect(), self.model))
@@ -55,6 +58,10 @@ class ResultScene(SceneBase):
                 # r
                 elif event.key == pygame.K_r:
                     self.state_machine.reset()
+            elif event.type == ResultScene.AUTO_RUN_EVENT:
+                self.state_machine.evolve()
+                self.state_machine.run()
+                pygame.time.set_timer(ResultScene.AUTO_RUN_EVENT, 0)  # stop timer
 
     def compute(self):
         pass
@@ -68,7 +75,23 @@ class ResultScene(SceneBase):
         label = self.font.render("Escape: Go to main menu", 1, BLACK)
         self.surface.blit(label, (10, 30))
 
+        self.surface.blit(self.graph(), (100,100))
+
         surface.blit(self.surface, (0, 0))
+
+    def graph(self):
+        fig = pylab.figure(figsize=[4, 4], dpi=100,)
+        ax = fig.gca()
+        ax.plot([1, 2, 4])
+
+        canvas = agg.FigureCanvasAgg(fig)
+        canvas.draw()
+        renderer = canvas.get_renderer()
+        raw_data = renderer.tostring_rgb()
+        pylab.close()
+
+        size = canvas.get_width_height()
+        return pygame.image.fromstring(raw_data, size, "RGB")
 
 
 class StateResult(State):
