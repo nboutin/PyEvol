@@ -1,26 +1,28 @@
 import pygame
 
 from scene_base import SceneBase
-# from simulation_scene import SimulationScene
-from result_scene import ResultScene
+import result_scene
 import color
 
 
 class MainScene(SceneBase):
 
-    def __init__(self, rect, model):
+    def __init__(self, rect):
         SceneBase.__init__(self)
 
         self.surface = pygame.Surface(rect.size)
         self.font = pygame.font.SysFont("monospace", 15)
 
-        self.model = model
+    def __del__(self):
+        print("__del__ MainScene")
 
     def process_input(self, events, key_pressed):
         for event in events:
             if event.type == pygame.KEYDOWN:
+
                 if event.key == pygame.K_RETURN:
-                    self.switch_to_scene(ResultScene(self.surface.get_rect(), self.model))
+                    self.switch_to_scene(result_scene.ResultScene(self.surface.get_rect()))
+
                 elif event.key == pygame.K_ESCAPE:
                     pygame.event.post(pygame.event.Event(pygame.QUIT))
 

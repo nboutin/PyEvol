@@ -3,7 +3,7 @@ import sys
 import os
 
 import parameters
-from model import Model
+from model import model
 from main_scene import MainScene
 
 
@@ -11,7 +11,6 @@ def main():
     pygame.init()
     pygame.font.init()
 
-    done = False
     clock = pygame.time.Clock()
 
     display_info = pygame.display.Info()
@@ -25,17 +24,20 @@ def main():
     screen.set_alpha(None)
     pygame.display.set_caption("PyEvol")
 
-    model = Model(clock)
-    active_scene = MainScene(screen.get_rect(), model)
+    model.set_clock(clock)
+    active_scene = MainScene(screen.get_rect())
 
-    while not done:
+    while True:
 
         pygame.event.pump()
         key_pressed = pygame.key.get_pressed()
         events = pygame.event.get()
         for event in events:
+
             if event.type == pygame.QUIT:
-                done = True
+                pygame.quit()
+                sys.exit()
+
             if event.type == pygame.KEYDOWN and event.key == pygame.K_f:
                 pygame.display.toggle_fullscreen()
 
@@ -47,12 +49,8 @@ def main():
         pygame.display.flip()
 
         # Limit frames per second
-        model.simulation.delta_time = clock.tick(parameters.FPS)
-        model.total_time_ms += model.simulation.delta_time
-
-    pygame.quit()
+        model.total_time_ms += clock.tick(parameters.FPS)
 
 
 if __name__ == '__main__':
     main()
-    sys.exit()

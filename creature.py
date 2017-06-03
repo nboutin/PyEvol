@@ -5,8 +5,8 @@ import numpy as np
 import math
 
 import color
-import world_scene
 from neural_network import NeuralNetwork
+import constants
 
 
 class Eye:
@@ -57,8 +57,8 @@ class Creature:
         self.body.angle = angle
 
         self.shape = pymunk.Circle(self.body, self.radius)
-        self.shape.collision_type = world_scene.collision_types['creature']
-        self.shape.filter = pymunk.ShapeFilter(categories=world_scene.categories['creature'])
+        self.shape.collision_type = constants.collision_types['creature']
+        self.shape.filter = pymunk.ShapeFilter(categories=constants.categories['creature'])
 
         self.line_dir = pymunk.Segment(self.body, (0, 0), (self.radius, 0), 1)
         self.line_view = pymunk.Segment(self.body, (0, -self.radius), (0, +self.radius), 1)
@@ -115,7 +115,7 @@ class Creature:
         self.eye_right.pos = self.line_view.b.rotated(self.body.angle) + self.body.position
 
         # Find nearest food
-        filter_ = pymunk.ShapeFilter(mask=world_scene.categories['food'])
+        filter_ = pymunk.ShapeFilter(mask=constants.categories['food'])
         self.eye_left.f_hit = self.space.point_query_nearest(self.eye_left.pos, 200, filter_)
         self.eye_right.f_hit = self.space.point_query_nearest(self.eye_right.pos, 200, filter_)
 

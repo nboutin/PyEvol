@@ -2,20 +2,19 @@ import pygame
 import datetime
 
 import color
+from model import model
+from model import simulation_model
 
 
 class InfoScene:
-
     ANTIALIAS = 1
 
     LINE_STEP = 20
     COLOR_FONT = color.BLACK
 
-    def __init__(self, world, model):
+    def __init__(self, world):
         self.font = pygame.font.SysFont("monospace", 15)
         self.world = world
-        self.model = model
-        self.simu_model = model.simulation
 
     def process_input(self, events, key_pressed):
         pass
@@ -27,16 +26,15 @@ class InfoScene:
         return self.font.render(text, InfoScene.ANTIALIAS, InfoScene.COLOR_FONT)
 
     def header(self, surface, pos):
-        text = "FPS:{:2.1f} Total Time:{!s:0>8}".format(self.model.clock.get_fps(),
-                                                        datetime.timedelta(milliseconds=self.model.total_time_ms))
+        text = "FPS:{:2.1f} Total Time:{!s:0>8}".format(model.clock.get_fps(),
+                                                        datetime.timedelta(milliseconds=model.total_time_ms))
         surface.blit(self.__blit(text), pos)
         pos.y += 20
 
     def simulation(self, surface, pos):
-        ga = self.simu_model.gen_algo
+        ga = simulation_model.gen_algo
 
-        text = "Generation:{} Simulation Time:{:2.1f}s".format(ga.generation,
-                                                                self.simu_model.simulation_time_ms / 1000)
+        text = "Generation:{} Simulation Time:{:2.1f}s".format(ga.generation, simulation_model.time_ms / 1000)
         surface.blit(self.__blit(text), pos)
         pos.y += 20
 
@@ -88,7 +86,7 @@ class InfoScene:
 
         surface.fill(color.PLUM)
 
-        pos = pygame.rect.Rect((10, 10), (1,1))
+        pos = pygame.rect.Rect((10, 10), (1, 1))
 
         self.header(surface, pos)
 

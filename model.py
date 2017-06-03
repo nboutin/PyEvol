@@ -7,17 +7,19 @@ import math
 import parameters
 from creature import Creature
 from genetic_algorithm import GeneticAlgorithm
+from statistics import Statistics
 
 
 class Model:
-    def __init__(self, clock):
-        self.clock = clock
+    def __init__(self):
+        self.clock = None
         self.total_time_ms = 0
-        self.simulation = SimulationModel(self)
+
+    def set_clock(self, clock):
+        self.clock = clock
 
 
 class SimulationModel:
-
     class State(enum.Enum):
         POPULATED = 0
         RUNNING = 1
@@ -25,11 +27,8 @@ class SimulationModel:
         WAITING = 3
         QUITTING = 4
 
-    def __init__(self, model):
-        self.__model = model
-
-        self.delta_time = 0
-        self.simulation_time_ms = 0
+    def __init__(self):
+        self.time_ms = 0
         self.state = SimulationModel.State.POPULATED
 
         self.r_world = pygame.rect.Rect(0, 0, 1000, 1000)
@@ -39,17 +38,18 @@ class SimulationModel:
 
         self.creatures = list()
         self.gen_algo = None
-
-    @property
-    def clock(self):
-        return self.__model.clock
+        self.stat = None
 
     def construct(self):
+        self.time_ms = 0
         self.gen_algo = GeneticAlgorithm(Creature.gene_size())
         self.__create_space()
         self.__generate_creatures()
+        self.stat = Statistics()
 
-    def apply_ga(self):
+    def prepare_next_iteration(self):
+        self.time_ms = 0
+        self.stat.update(self.creatures)
         self.gen_algo.compute(self.creatures)
         self.__create_space()
         self.__generate_creatures()
@@ -73,3 +73,8 @@ class SimulationModel:
             pos = (np.random.randint(0, self.r_world.width), np.random.randint(0, self.r_world.height))
             angle = math.radians(np.random.randint(-180, 180))
             self.creatures.append(Creature(self.space, pos, angle, self.gen_algo.genes[i]))
+
+
+# Singleton
+model = Model()
+simulation_model = SimulationModel()

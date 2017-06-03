@@ -3,11 +3,10 @@ import pymunk
 import pymunk.pygame_util
 
 import color
-import world_scene
+import constants
 
 
 class Food:
-
     COLOR = color.YELLOW
     RADIUS_MIN = 5
     MASS = 200
@@ -26,8 +25,8 @@ class Food:
 
         self.shape = pymunk.Circle(self.body, radius)
         # self.shape.sensor = True
-        self.shape.collision_type = world_scene.collision_types['food']
-        self.shape.filter = pymunk.ShapeFilter(categories=world_scene.categories['food'])
+        self.shape.collision_type = constants.collision_types['food']
+        self.shape.filter = pymunk.ShapeFilter(categories=constants.categories['food'])
         self.space.add(self.body, self.shape)
 
     # def __del__(self):

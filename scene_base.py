@@ -4,7 +4,11 @@ class SceneBase:
         self.next = self
 
     def switch_to_scene(self, next_scene):
+        self.next.on_exit()
         self.next = next_scene
+
+    def on_exit(self):
+        pass
 
     def process_input(self, events, key_pressed):
         print("uh-oh, you didn't override this in the child class")

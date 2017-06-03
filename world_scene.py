@@ -3,26 +3,22 @@ import pymunk
 import numpy as np
 
 import parameters
-from scene_base import SceneBase
 from camera import Camera
 import color
 from border import Border
 from food import Food
+from model import model
+from model import simulation_model
+import constants
 
 
-collision_types = {"creature": 1, "food": 2, }
-categories = {"border": 0x01, "creature": 0x02, "food": 0x04, }
-
-
-class WorldScene(SceneBase): # needed ?
-
+class WorldScene:
     COLOR_BACKGROUND = color.LIGHT_GREEN
 
-    def __init__(self, rect, simu_model):
+    def __init__(self, rect):
         # Model
-        self.simu_model = simu_model
-        self.r_world = simu_model.r_world
-        self.space = simu_model.space
+        self.r_world = simulation_model.r_world
+        self.space = simulation_model.space
 
         # Drawing
         self.s_world = pygame.surface.Surface(self.r_world.size)
@@ -33,7 +29,7 @@ class WorldScene(SceneBase): # needed ?
         self.border = Border(self.r_world, self.space)
 
         # World Objects
-        self.creatures = simu_model.creatures
+        self.creatures = simulation_model.creatures
 
         self.creature_selected = None
         self.best = None
@@ -43,8 +39,8 @@ class WorldScene(SceneBase): # needed ?
         self.add_foods(parameters.N_FOOD)
 
         handler_creature_food = self.space.add_collision_handler(
-            collision_types["creature"],
-            collision_types["food"])
+            constants.collision_types["creature"],
+            constants.collision_types["food"])
 
         handler_creature_food.pre_solve = self.creature_eat_food
         handler_creature_food.data['creatures'] = self.creatures
@@ -84,7 +80,7 @@ class WorldScene(SceneBase): # needed ?
             pos = (np.random.randint(0, self.r_world.width), np.random.randint(0, self.r_world.height))
 
             # Do create food on creature
-            filter_ = pymunk.ShapeFilter(mask=categories['creature'])
+            filter_ = pymunk.ShapeFilter(mask=constants.categories['creature'])
             if not self.space.point_query_nearest(pos, 20, filter_):
                 self.foods.append(Food(pos, self.space))
             else:
@@ -151,7 +147,7 @@ class WorldScene(SceneBase): # needed ?
         self.add_foods(parameters.N_FOOD - len(self.foods))
 
         # self.simu_model.space.step(1.0 / parameters.FPS)
-        self.simu_model.space.step(1.0 / self.simu_model.clock.get_fps())
+        simulation_model.space.step(1.0 / model.clock.get_fps())
 
     def render(self, surface):
 
