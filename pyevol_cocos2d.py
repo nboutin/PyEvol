@@ -2,9 +2,9 @@ import cocos
 from cocos.director import director
 from cocos.scenes import FadeTRTransition
 
-from main_menu import MainMenu
+from pyglet import clock
 
-# import pyglet
+from main_menu import MainMenu
 
 PARAM = {
     'window':{
@@ -17,6 +17,7 @@ PARAM = {
     }
 
 class Intro(cocos.layer.Layer):
+    
     def __init__(self):
         super(Intro, self).__init__()
         
@@ -27,17 +28,16 @@ class Intro(cocos.layer.Layer):
                                      anchor_y = 'center',
                                      position = (w/2, h/2))
         self.add(self.text)
-
-    def on_enter(self):
-        super(Intro, self).on_enter()
-        director.replace(FadeTRTransition(cocos.scene.Scene(MainMenu), duration=2))
+        
+        clock.schedule_once(self.clock_cb, 2)
+        
+    def clock_cb(self, dt):
+        director.replace(cocos.scene.Scene(MainMenu()))
 
 
 if __name__ == '__main__':
     
     director.init(**PARAM['window'])
     director.show_FPS = True;
-    
-    director.run(cocos.scene.Scene(MainMenu()))
-    
-    
+    director.run(cocos.scene.Scene(Intro()))
+
