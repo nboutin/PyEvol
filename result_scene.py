@@ -17,7 +17,7 @@ from model import simulation_model
 from model import SimulationModel
 SimState = SimulationModel.State
 from color import *
-
+import graph
 
 class ResultScene(SceneBase):
     WAITING_TIME = 5000  # ms
@@ -38,17 +38,18 @@ class ResultScene(SceneBase):
 
         # Graph
         self.graph_surface = None
-        self.fig = plt.figure(figsize=[6, 6], dpi=100)
-        self.ax = self.fig.add_subplot(111)
-        self.canvas = agg.FigureCanvasAgg(self.fig)
+        self.graph = graph.Graph((400,400))
+        # self.fig = plt.figure(figsize=[6, 6], dpi=100)
+        # self.ax = self.fig.add_subplot(111)
+        # self.canvas = agg.FigureCanvasAgg(self.fig)
 
         pygame.time.set_timer(ResultScene.AUTO_RUN_EVENT, 3000)
 
     # def __del__(self):
-    def on_exit(self):
-        print("on_exit ResultScene")
-        plt.close(self.fig)
-        print(plt.get_fignums())
+    # def on_exit(self):
+    #     print("on_exit ResultScene")
+        # plt.close(self.fig)
+        # print(plt.get_fignums())
 
     def switch_to_simulation(self):
         self.switch_to_scene(simulation_scene.SimulationScene(self.surface.get_rect()))
@@ -78,9 +79,10 @@ class ResultScene(SceneBase):
                 pygame.time.set_timer(ResultScene.AUTO_RUN_EVENT, 0)  # stop timer
 
     def compute(self):
-
+        # pass
         if not self.graph_surface:
-            self.graph_surface = self.plot(simulation_model.stat.maximums)
+            # self.graph_surface = self.plot(simulation_model.stat.maximums)
+            self.graph_surface = self.graph.plot(simulation_model.stat.maximums)
 
     def render(self, surface):
         self.surface.fill(LIGHT_SEA_GREEN)
