@@ -1,6 +1,6 @@
 import cocos
 from cocos.director import director
-from cocos.scenes import FadeTRTransition
+from cocos.scenes import *
 
 from pyglet import clock
 
@@ -32,7 +32,7 @@ class Intro(cocos.layer.Layer):
         clock.schedule_once(self.clock_cb, 2)
         
     def clock_cb(self, dt):
-        director.replace(cocos.scene.Scene(MainMenu()))
+        director.replace(FlipX3DTransition(cocos.scene.Scene(MainMenu()), duration=2))
 
 
 if __name__ == '__main__':
