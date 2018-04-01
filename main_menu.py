@@ -11,7 +11,7 @@ class MainMenu(cocos.menu.Menu):
         self.menu_anchor_y = CENTER
         
         items = []
-        items.append(MenuItem('Start', self.on_start))
+        items.append(MenuItem('Start simulation', self.on_start))
         items.append(MenuItem('Options', self.on_options))
         items.append(MenuItem('Quit', self.on_quit))
         

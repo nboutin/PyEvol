@@ -33,7 +33,10 @@ class Creature:
 
     def __init__(self, space, pos, angle, genes):
 
+        # Physical genes
         (self.radius, self.force, self.mass) = genes[0:Creature.N_BODY_GENES]
+        
+        # NN genes
         nn_param = genes[Creature.N_BODY_GENES:]
 
         # Control radius, force, mass
@@ -126,6 +129,7 @@ class Creature:
 
 
         # Control
+        # TODO 1000 a good value ? Why ?
         dl = self.eye_left.f_hit.distance if self.eye_left.f_hit else 1000
         dr = self.eye_right.f_hit.distance if self.eye_right.f_hit else 1000
 
