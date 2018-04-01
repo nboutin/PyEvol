@@ -14,9 +14,10 @@ PARAM = {
     }
 
 class Intro(cocos.layer.Layer):
-    def __init__(self, h, w):
+    def __init__(self):
         super(Intro, self).__init__()
         
+        h, w = director.get_window_size()
         self.text = cocos.text.Label("PyEvol",
                                      font_size = 48,
                                      anchor_x = 'center',
@@ -27,5 +28,4 @@ class Intro(cocos.layer.Layer):
 if __name__ == '__main__':
     director.init(**PARAM['window'])
     
-    h,w = director.get_window_size()
-    director.run(cocos.scene.Scene(Intro(h, w)))
+    director.run(cocos.scene.Scene(Intro()))
