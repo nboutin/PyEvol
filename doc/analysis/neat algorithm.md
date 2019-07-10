@@ -3,6 +3,11 @@
 ## Literature
 
 * https://en.wikipedia.org/wiki/Neuroevolution_of_augmenting_topologies
+* http://nn.cs.utexas.edu/?stanley:ec02
+
+## crisbodnar/TensorFlow-NEAT
+
+* https://github.com/crisbodnar/TensorFlow-NEAT
 
 ## neat-python
 
@@ -25,3 +30,7 @@ To compare with :
 
 * https://github.com/noio/peas
 * last commit 13 Novembre 2015
+
+# HyperNEAT Algorithm
+
+* http://eplex.cs.ucf.edu/hyperNEATpage/
