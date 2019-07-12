@@ -18,3 +18,15 @@ Conclusion:
 
 * Not maintened, at least for python
 * Based on old version of pyglet
+
+## Panda 3D
+
+* https://www.panda3d.org/
+
+## kivy
+
+* https://kivy.org/#home
+
+## Not maintened
+
+* https://github.com/aholkner/bacon
