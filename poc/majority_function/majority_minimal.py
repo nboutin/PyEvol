@@ -16,12 +16,6 @@ def majorityFunction(a,b,c):
     return a and b or a and c or b and c
 
 def eval_genomes(genomes, config):
-#     for genome_id, genome in genomes:
-#             genome.fitness = 4.0
-#             net = neat.nn.FeedForwardNetwork.create(genome, config)
-#             for xi, xo in zip(xor_inputs, xor_outputs):
-#                 output = net.activate(xi)
-#                 genome.fitness -= (output[0] - xo[0]) ** 2
     for genome_id, genome in genomes:
         genome.fitness = float(len(inputs))
         net = neat.nn.FeedForwardNetwork.create(genome, config)
@@ -29,16 +23,33 @@ def eval_genomes(genomes, config):
         for i in inputs:
             i_float = [float(x) for x in i] # from bool to float
             r = net.activate(i_float)
-            
-            a,b,c = i
-            genome.fitness -= pow(r[0] - majorityFunction(a, b, c), 2)
+            genome.fitness -= pow(r[0] - majorityFunction(*i), 2) #*i, expand tuple
             
 def run(config_file):
 
     # Load configuration.
     config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction,
-                         neat.DefaultSpeciesSet, neat.DefaultStagnation,
-                         config_file)
+                     neat.DefaultSpeciesSet, neat.DefaultStagnation,
+                     config_file)
+    
+    # Create the population, which is the top-level object for a NEAT run.
+    p = neat.Population(config)
+    
+    # Add a stdout reporter to show progress in the terminal.
+    p.add_reporter(neat.StdOutReporter(True))
+    
+    # Run until a solution is found.
+    winner = p.run(eval_genomes)
+
+    # Display the winning genome.
+    print('\nBest genome:\n{!s}'.format(winner))
+    
+    # Show output of the most fit genome against training data.
+    print('\nOutput:')
+    winner_net = neat.nn.FeedForwardNetwork.create(winner, config)
+    for i in inputs:
+        output = winner_net.activate([float(x) for x in i])
+        print("  input {!r}, expected output {!r}, got {!r}".format(i, majorityFunction(*i), output))
 
 if __name__ == '__main__':
     # Determine path to configuration file. This path manipulation is
