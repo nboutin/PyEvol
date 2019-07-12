@@ -8,7 +8,6 @@ from majority_minimal import majorityFunction
 
 class Test(unittest.TestCase):
 
-
     def testMajorityFunction(self):
         '''M(A,B,C)=AB+AC+BC'''
         
@@ -21,6 +20,7 @@ class Test(unittest.TestCase):
             a,b,c = i
             r = majorityFunction(a,b,c)
             self.assertEqual(r,o)
+            
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
