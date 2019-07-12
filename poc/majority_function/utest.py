@@ -4,7 +4,7 @@ Created on 12 juil. 2019
 @author: nboutin
 '''
 import unittest
-from majority_minimal import majorityFunction
+from evolve import majorityFunction
 
 class Test(unittest.TestCase):
 
