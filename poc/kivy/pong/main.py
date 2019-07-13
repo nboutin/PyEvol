@@ -1,8 +1,6 @@
 from kivy.app import App
 from kivy.uix.widget import Widget
-from kivy.properties import (
-    NumericProperty, ReferenceListProperty, ObjectProperty
-)
+from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty)
 from kivy.vector import Vector
 from kivy.clock import Clock
 
@@ -62,7 +60,6 @@ class PongGame(Widget):
         if touch.x > self.width - self.width / 3:
             self.player2.center_y = touch.y
 
-
 class PongApp(App):
     def build(self):
         game = PongGame()
@@ -73,3 +70,4 @@ class PongApp(App):
 
 if __name__ == '__main__':
     PongApp().run()
+    
