@@ -11,6 +11,7 @@ from kivy.uix.label import Label
 from kivy.graphics import (Color, Ellipse, Rectangle)
 from kivy.vector import Vector
 from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty)
+from random import uniform
 
 class Ball(Widget):
     velocity_x = NumericProperty(0)
@@ -19,12 +20,13 @@ class Ball(Widget):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.velocity = Vector(4,0)
-        d = 50.
+        self.velocity = Vector(uniform(-5,5), uniform(-5,5))
+        d = uniform(10,50)
+        self.size = (d,d)
         x,y = kwargs['pos']
         with self.canvas:
             Color(0,0,0,1)
-            self.circle = Ellipse(pos=(x-d/2, y-d/2), size=(d,d))
+            self.circle = Ellipse(pos=(x-d/2, y-d/2), size=self.size)
         
         self.bind(pos=self._update_circle, size=self._update_circle)
         
@@ -60,14 +62,14 @@ class BouncingBallsWidget(Widget):
     def update(self, dt):
         for b in self.balls:
             b.move()
-#             
-#             # bounce off top and bottom
-#             if (b.y < 0) or (b.top > self.height):
-#                 b.velocity_y *= -1
-# 
-#             # bounce off left and right
-#             if (b.x < 0) or (b.right > self.width):
-#                 b.velocity_x *= -1
+             
+            # bounce off top and bottom
+            if (b.y < 0) or (b.top > self.height):
+                b.velocity_y *= -1
+ 
+            # bounce off left and right
+            if (b.x < 0) or (b.right > self.width):
+                b.velocity_x *= -1
 
 class BouncingBallsApp(App):
     def build(self):
