@@ -19,17 +19,19 @@ class Ball(Widget):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        print(kwargs)
-        with self.canvas.before:
-            Color(0,0,0,0)
-            self.circle = Ellipse(pos=kwargs['pos'], size=(50,50))
+        print("Ball:",kwargs)
+        d = 50.
+        x,y = kwargs['pos']
+        with self.canvas:
+            Color(0,0,0,1)
+            self.circle = Ellipse(pos=(x-d/2, y-d/2), size=(d,d))
         
         self.bind(pos=self._update_circle, size=self._update_circle)
         
-    def _update_circle(self, instance, value):
+    def _update_circle(self, *args):
         print("update_circle")
-        self.circle.pos = instance.pos
-        self.circle.size = instance.size
+        self.circle.pos = self.pos
+        self.circle.size = self.size
         
     def move(self):
         self.pos = Vector(*self.velocity) + self.pos
@@ -52,10 +54,6 @@ class BouncingBallsWidget(Widget):
 
     
     def on_touch_down(self, touch):
-#         pass
-#         label = Label(text='0', pos=touch.pos)
-#         self.add_widget(label)
-    
         b = Ball(pos=touch.pos)
         self.add_widget(b)
 
