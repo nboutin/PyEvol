@@ -7,6 +7,7 @@ Created on Jul 14, 2019
 from kivy.uix.widget import Widget
 from kivy.graphics import (Color, Rectangle)
 
+from random import random
 from ball import Ball
 
 class World(Widget):
@@ -26,9 +27,7 @@ class World(Widget):
         self.background.size = instance.size
 
     def on_touch_down(self, touch):
-        b = Ball(pos=touch.pos)
-        self.balls.append(b)
-        self.add_widget(b)
+        self._add_ball(touch.pos)
 
     def update(self, dt):
         for b in self.balls:
@@ -41,3 +40,15 @@ class World(Widget):
             # bounce off left and right
             if (b.x < 0) or (b.right > self.width):
                 b.velocity_x *= -1
+
+    def _add_ball(self, pos):
+        b = Ball(pos=pos)
+        self.balls.append(b)
+        self.add_widget(b)
+            
+    def add_balls(self, n, *largs):
+        for x in range(n):
+            pos = (random() * self.width + self.x,
+                   random() * self.height + self.y)
+            self._add_ball(pos)
+        
