@@ -13,3 +13,7 @@ Buttons are available:
 * Add one ball
 * Remove one ball
 * Reset all
+
+# Todo
+- [ ] World is a donut (no border)
+- [ ] Ball collision into each other
