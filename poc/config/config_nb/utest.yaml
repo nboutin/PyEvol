@@ -1,0 +1,11 @@
+---
+str: str
+decimal: 123
+float: 12.34
+path:
+  to:
+    value:
+     - v1
+     - v2
+     - v3
+...

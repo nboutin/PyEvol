@@ -1,0 +1,10 @@
+---
+# scalar
+value: 123
+
+# mapping scalar to sequence
+sequence:
+ - s1
+ - s2
+ - s3
+...
