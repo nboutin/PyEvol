@@ -6,14 +6,8 @@ Ball can be added to the widget. A ball is:
 
 * created with random size
 * random velocity.
-* bouncing into each other and walls.
+* bouncing into walls.
 
 Buttons are available:
 
-* Add one ball
-* Remove one ball
-* Reset all
-
-# Todo
-- [ ] World is a donut (no border)
-- [ ] Ball collision into each other
+* Add 10 ball
