@@ -30,16 +30,19 @@ class World(Widget):
         self._add_ball(touch.pos)
 
     def update(self, dt):
-        for b in self.balls:
-            b.move()
+        for ball in self.balls:
+            ball.move()
+             
+            _, bottom = self.to_parent(0, 0, True)
+            _, top = self.to_parent(0, self.height, True)
              
             # bounce off top and bottom
-            if (b.y < 0) or (b.top > self.height):
-                b.velocity_y *= -1
+            if (ball.y < bottom) or (ball.top > top):
+                ball.velocity_y *= -1
  
             # bounce off left and right
-            if (b.x < 0) or (b.right > self.width):
-                b.velocity_x *= -1
+            if (ball.x < 0) or (ball.right > self.width):
+                ball.velocity_x *= -1
 
     def _add_ball(self, pos):
         b = Ball(pos=pos)
