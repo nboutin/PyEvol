@@ -16,3 +16,4 @@ Buttons are available:
 - [ ] World is a donut (no border)
 - [ ] Ball collision into each other
 - [ ] Add physic engine
+- [ ] Split class Ball in Graphic and Physic

@@ -9,6 +9,7 @@ from kivy.graphics import (Color, Rectangle)
 
 from random import random
 from ball import Ball
+import pymunk
 
 class World(Widget):
     
@@ -21,6 +22,11 @@ class World(Widget):
             
         # listen to size and position changes
         self.bind(pos=self._update_background, size=self._update_background)
+        
+        # Pymunk
+        self.space = pymunk.Space()
+        self.space.gravity = (0.0, -900.0)
+        self.space.damping = 0.1  # lose 1-x% of its velocity per second
     
     def _update_background(self, instance, value):
         self.background.pos = instance.pos
@@ -32,20 +38,22 @@ class World(Widget):
     def update(self, dt):
         for ball in self.balls:
             ball.move()
-             
-            _, bottom = self.to_parent(0, 0, True)
-            _, top = self.to_parent(0, self.height, True)
-             
-            # bounce off top and bottom
-            if (ball.y < bottom) or (ball.top > top):
-                ball.velocity_y *= -1
- 
-            # bounce off left and right
-            if (ball.x < 0) or (ball.right > self.width):
-                ball.velocity_x *= -1
+#              
+#             _, bottom = self.to_parent(0, 0, True)
+#             _, top = self.to_parent(0, self.height, True)
+#              
+#             # bounce off top and bottom
+#             if (ball.y < bottom) or (ball.top > top):
+#                 ball.velocity_y *= -1
+#  
+#             # bounce off left and right
+#             if (ball.x < 0) or (ball.right > self.width):
+#                 ball.velocity_x *= -1
+        # Pymunk
+        self.space.step(dt)
 
     def _add_ball(self, pos):
-        b = Ball(pos=pos)
+        b = Ball(pos, self.space)
         self.balls.append(b)
         self.add_widget(b)
             
