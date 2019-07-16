@@ -51,7 +51,8 @@ class Ball(Widget):
         self.shape.elasticity = 0.95
         self.shape.friction = 0.9
         self.shape.collision_type = collision_types['creature']
-        self.shape.filter = pymunk.ShapeFilter(categories=categories['creature'])
+        self.shape.filter = pymunk.ShapeFilter(
+            categories=categories['creature'])
 
         self.space.add(self.body, self.shape)
 

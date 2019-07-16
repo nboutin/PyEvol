@@ -21,7 +21,8 @@ class BouncingBallsApp(App):
 
         population = Label(text='0')
 
-        btn_add10 = Button(text='+ 10 rects', on_press=partial(world.add_balls, 10))
+        btn_add10 = Button(text='+ 10 rects',
+                           on_press=partial(world.add_balls, 10))
 
         layout = BoxLayout(size_hint=(1, None), height=50)
         layout.add_widget(btn_add10)

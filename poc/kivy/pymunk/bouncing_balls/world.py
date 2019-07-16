@@ -39,17 +39,17 @@ class World(Widget):
     def update(self, dt):
         for ball in self.balls:
             ball.move()
-#
-#             _, bottom = self.to_parent(0, 0, True)
-#             _, top = self.to_parent(0, self.height, True)
-#
-#             # bounce off top and bottom
-#             if (ball.y < bottom) or (ball.top > top):
-#                 ball.velocity_y *= -1
-#
-#             # bounce off left and right
-#             if (ball.x < 0) or (ball.right > self.width):
-#                 ball.velocity_x *= -1
+        #
+        #             _, bottom = self.to_parent(0, 0, True)
+        #             _, top = self.to_parent(0, self.height, True)
+        #
+        #             # bounce off top and bottom
+        #             if (ball.y < bottom) or (ball.top > top):
+        #                 ball.velocity_y *= -1
+        #
+        #             # bounce off left and right
+        #             if (ball.x < 0) or (ball.right > self.width):
+        #                 ball.velocity_x *= -1
         # Pymunk
         self.space.step(dt)
 
@@ -63,4 +63,3 @@ class World(Widget):
             pos = (random() * self.width + self.x,
                    random() * self.height + self.y)
             self._add_ball(pos)
-
