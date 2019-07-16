@@ -60,9 +60,10 @@ while true:
 * allow flexibility when rendering
 
 ```
-ms_per_update = 1/60 // must > compute() time to execute
+ms_per_update = 1/60 		// must > compute() time to execute
 previous = currentTime()
-lag = 0.0 //real-time passed
+lag = 0.0 					//real-time passed
+
 while true:
   current = currentTime()
   elapsed = current - previous
@@ -76,4 +77,3 @@ while true:
     
   render(lag/ms_per_update)
 ```
-
