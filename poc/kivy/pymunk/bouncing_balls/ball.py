@@ -55,4 +55,8 @@ class Ball(Widget):
         # Update Widget position
         #         self.pos = self.__body.position.int_tuple
         #         self.pos = self.__physics.pos
-        self.pos = self.__physics.move()
+        self.__physics.move()
+        self.pos = self.__physics.pos
+
+    def render(self):
+        self.pos = self.__physics.pos

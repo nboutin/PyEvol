@@ -60,4 +60,3 @@ class BallPhysics():
         p2 = powers[1] * self.__force
         self.__body.apply_force_at_local_point((p1, 0), (0, -self.__radius))
         self.__body.apply_force_at_local_point((p2, 0), (0, +self.__radius))
-        return self.pos
