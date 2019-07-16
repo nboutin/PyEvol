@@ -7,9 +7,11 @@ Created on Jul 14, 2019
 from kivy.uix.widget import Widget
 from kivy.graphics import (Color, Rectangle)
 
-from random import random
-from ball import Ball
 import pymunk
+import math
+import random
+
+from ball import Ball
 
 
 class World(Widget):
@@ -54,7 +56,11 @@ class World(Widget):
         self.space.step(dt)
 
     def _add_ball(self, pos):
-        b = Ball(pos, self.space)
+        radius = random.uniform(10, 50)
+        angle = math.radians(random.randint(-180, 180))
+        # color
+
+        b = Ball(pos=pos, radius=radius, angle=angle, space=self.space)
         self.balls.append(b)
         self.add_widget(b)
 

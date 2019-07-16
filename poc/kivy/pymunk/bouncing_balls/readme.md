@@ -13,7 +13,8 @@ Buttons are available:
 * Add 10 ball
 
 # Todo
-- [ ] World is a donut (no border)
-- [ ] Ball collision into each other
-- [ ] Add physic engine
 - [ ] Split class Ball in Graphic and Physic
+- [ ] World is a donut (no border)
+- [ ] Get Ball default parameters from configuration
+- [x] Add physic engine
+- [x] Ball collision into each other
