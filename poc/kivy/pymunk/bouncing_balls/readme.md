@@ -13,10 +13,7 @@ Buttons are available:
 * Add 10 ball
 
 # Todo
-- [ ] World is a donut (no border)
-- [ ] Get Ball default parameters from configuration
-- [ ] Do profiling and optimization
-- [ ] Split computePhysics/AI from render (game loop)
+- [x] Do profiling and optimization
 - [x] Split class Ball in Graphic and Physic
 - [x] Add physic engine
 - [x] Ball collision into each other
