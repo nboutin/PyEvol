@@ -25,7 +25,7 @@ class World(Widget):
         
         # Pymunk
         self.space = pymunk.Space()
-        self.space.gravity = (0.0, -900.0)
+        self.space.gravity = (0.0, 0.0)
         self.space.damping = 0.1  # lose 1-x% of its velocity per second
     
     def _update_background(self, instance, value):

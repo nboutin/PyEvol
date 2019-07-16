@@ -59,7 +59,7 @@ class Ball(Widget):
     def move(self):
 #         pass
 #         self.pos = Vector(*self.velocity) + self.pos
-        powers = [5,5]
+        powers = [10,10]
         p1 = powers[0] * self.force
         p2 = powers[1] * self.force
         self.body.apply_force_at_local_point((p1, 0), (0, -self.radius))
