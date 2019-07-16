@@ -13,6 +13,9 @@ import pymunk
 import math
 import random
 
+collision_types = {"creature": 1, "food": 2, }
+categories = {"border": 0x01, "creature": 0x02, "food": 0x04, }
+
 class Ball(Widget):
     velocity_x = NumericProperty(0)
     velocity_y = NumericProperty(0)
@@ -46,8 +49,8 @@ class Ball(Widget):
         self.shape = pymunk.Circle(self.body, self.radius)
         self.shape.elasticity = 0.95
         self.shape.friction = 0.9
-#         self.shape.collision_type = constants.collision_types['creature']
-#         self.shape.filter = pymunk.ShapeFilter(categories=constants.categories['creature'])
+        self.shape.collision_type = collision_types['creature']
+        self.shape.filter = pymunk.ShapeFilter(categories=categories['creature'])
 
         self.space.add(self.body, self.shape)
 
