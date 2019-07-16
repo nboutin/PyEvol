@@ -42,15 +42,6 @@ class Ball(Widget):
         self.__circle.size = self.size
 
     def move(self):
-        # powers = [10, 10]
-        # p1 = powers[0] * self.force
-        # p2 = powers[1] * self.force
-        # self.__body.apply_force_at_local_point((p1, 0), (0, -self.radius))
-        # self.__body.apply_force_at_local_point((p2, 0), (0, +self.radius))
-
-        # Update Widget position
-        #         self.pos = self.__body.position.int_tuple
-        #         self.pos = self.__physics.pos
         self.__physics.move()
         self.pos = self.__physics.pos
 
