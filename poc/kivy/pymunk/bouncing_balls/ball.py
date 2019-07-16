@@ -6,29 +6,25 @@ Created on Jul 13, 2019
 
 from kivy.uix.widget import Widget
 from kivy.graphics import (Color, Ellipse)
-from kivy.properties import (NumericProperty, ReferenceListProperty)
-from kivy.vector import Vector
 
 from ball_physics import BallPhysics
 
 
 class Ball(Widget):
-
     def __init__(self, **kwargs):
         """
         :param pos, (x,y) (mandatory)
         :param radius (radians)
         :param color (rgba)
         """
-
         # Parameters
         pos = kwargs['pos']
         radius = kwargs.get('radius', 10)
         color = kwargs.get('color', (0, 0, 0, 1))
 
         # Widget
-        super().__init__(**kwargs)
-        self.size = (radius, radius)
+        super().__init__()
+        self.size = (radius*2, radius*2)
 
         with self.canvas:
             Color(color)

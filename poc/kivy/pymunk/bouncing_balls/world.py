@@ -9,7 +9,7 @@ from kivy.graphics import (Color, Rectangle)
 
 import pymunk
 import math
-import random
+from random import (random, uniform, randint)
 
 from ball import Ball
 
@@ -56,8 +56,8 @@ class World(Widget):
         self.space.step(dt)
 
     def _add_ball(self, pos):
-        radius = random.uniform(10, 50)
-        angle = math.radians(random.randint(-180, 180))
+        radius = uniform(10, 50)
+        angle = math.radians(randint(-180, 180))
         # color
 
         b = Ball(pos=pos, radius=radius, angle=angle, space=self.space)
