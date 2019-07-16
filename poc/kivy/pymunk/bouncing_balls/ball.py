@@ -16,6 +16,7 @@ import random
 collision_types = {"creature": 1, "food": 2, }
 categories = {"border": 0x01, "creature": 0x02, "food": 0x04, }
 
+
 class Ball(Widget):
     velocity_x = NumericProperty(0)
     velocity_y = NumericProperty(0)
@@ -23,23 +24,23 @@ class Ball(Widget):
 
     def __init__(self, pos, space, **kwargs):
         super().__init__(**kwargs)
-        self.velocity = Vector(uniform(-5,5), uniform(-5,5))
-        d = uniform(10,50)
-        self.size = (d,d)
-        x,y = pos
+        self.velocity = Vector(uniform(-5, 5), uniform(-5, 5))
+        d = uniform(10, 50)
+        self.size = (d, d)
+        x, y = pos
         with self.canvas:
-            Color(0,0,0,1)
-            self.circle = Ellipse(pos=(x-d/2, y-d/2), size=self.size)
-        
+            Color(0, 0, 0, 1)
+            self.circle = Ellipse(pos=(x - d / 2, y - d / 2), size=self.size)
+
         self.bind(pos=self._update_circle, size=self._update_circle)
-        
+
         # Pymunk
         self.space = space
         self.mass = 4
-        self.radius = d/2
+        self.radius = d / 2
         self.force = 180
         angle = math.radians(random.randint(-180, 180))
-        
+
         moment = pymunk.moment_for_circle(self.mass, 0, self.radius)
 
         self.body = pymunk.Body(self.mass, moment)
@@ -54,19 +55,18 @@ class Ball(Widget):
 
         self.space.add(self.body, self.shape)
 
-        
     def _update_circle(self, *args):
         self.circle.pos = self.pos
         self.circle.size = self.size
-        
+
     def move(self):
-#         pass
-#         self.pos = Vector(*self.velocity) + self.pos
-        powers = [10,10]
+        #         pass
+        #         self.pos = Vector(*self.velocity) + self.pos
+        powers = [10, 10]
         p1 = powers[0] * self.force
         p2 = powers[1] * self.force
         self.body.apply_force_at_local_point((p1, 0), (0, -self.radius))
         self.body.apply_force_at_local_point((p2, 0), (0, +self.radius))
 
-#         print (self.body.position)
+        #         print (self.body.position)
         self.pos = self.body.position.int_tuple

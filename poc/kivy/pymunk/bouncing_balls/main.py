@@ -13,14 +13,15 @@ from functools import partial
 
 from world import World
 
+
 class BouncingBallsApp(App):
+
     def build(self):
         world = World()
 
         population = Label(text='0')
 
-        btn_add10 = Button(text='+ 10 rects',
-                            on_press=partial(world.add_balls, 10))
+        btn_add10 = Button(text='+ 10 rects', on_press=partial(world.add_balls, 10))
 
         layout = BoxLayout(size_hint=(1, None), height=50)
         layout.add_widget(btn_add10)
@@ -32,6 +33,7 @@ class BouncingBallsApp(App):
 
         Clock.schedule_interval(world.update, 1.0 / 60.0)
         return root
+
     pass
 
 
