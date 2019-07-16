@@ -21,13 +21,13 @@ class Ball(Widget):
         pos = kwargs['pos']
         radius = kwargs.get('radius', 10)
         color = kwargs.get('color', (0, 0, 0, 1))
-
+        
         # Widget
         super().__init__()
         self.size = (radius*2, radius*2)
 
         with self.canvas:
-            Color(color)
+            Color(*color)
             x, y = pos
             self.__circle = Ellipse(
                 pos=(x - radius, y - radius), size=self.size)

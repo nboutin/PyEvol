@@ -58,9 +58,9 @@ class World(Widget):
     def _add_ball(self, pos):
         radius = uniform(10, 50)
         angle = math.radians(randint(-180, 180))
-        # color
+        color = [random() for _ in range(3)]
 
-        b = Ball(pos=pos, radius=radius, angle=angle, space=self.space)
+        b = Ball(pos=pos, radius=radius, color=color, angle=angle, space=self.space)
         self.balls.append(b)
         self.add_widget(b)
 
