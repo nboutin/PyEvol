@@ -8,15 +8,15 @@ import weakref
 
 
 class GameEntity():
-    def __init__(self, controller, physics, render):
-        self._controller = weakref.ref(controller)
-        self._physics = weakref.ref(physics)
-        self._render = weakref.ref(render)
 
-#     def update(self, world, graphics):
-#         self._input.update(self)
-#         self._physics.update(self, world)
-#         self._graphics.update(self, graphics)
+    def __init__(self, controller, physics, render):
+        if controller:
+            self._controller = weakref.ref(controller)
+        
+        if physics:
+            self._physics = weakref.ref(physics)
+        
+        self._render = weakref.ref(render)
 
     @property
     def controller(self):
@@ -28,4 +28,4 @@ class GameEntity():
 
     @property
     def render(self):
-        return self._render
+        return self._render()

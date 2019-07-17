@@ -32,8 +32,6 @@ class BouncingBallsApp(App):
 
         Clock.schedule_interval(world.update, 1.0 / 60.0)
         return root
-    pass
-
 
 if __name__ == '__main__':
     BouncingBallsApp().run()

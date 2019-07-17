@@ -4,9 +4,11 @@ Created on 17 juil. 2019
 @author: f24178c
 '''
 
-from component.game_entity import GameEntity
+from kivy.clock import Clock
 
+from component.game_entity import GameEntity
 from entity.world_render import WorldRender
+from entity.world_physics import WorldPhysics
 from entity.keyboard_controller import KeyboardController
 from entity.ball_physics import BallPhysics
 from entity.ball_render import BallRender
@@ -17,8 +19,16 @@ class GameSystem():
     def __init__(self):
         self._exit = False
 
+        self._world = self._create_world()
+
         # TODO for better data locality use a list for each component type
         self._entities = list()
+
+        #         Clock.schedule_interval(self.run, 1.0 / 60.0)
+
+    @property
+    def widget(self):
+        return self._world.render
 
     def run(self):
 
@@ -37,8 +47,7 @@ class GameSystem():
             # TODO add some game_loop timing
 
     def _create_world(self):
-        # TODO add to entities list
-        return GameEntity(None, None, WorldRender())
+        return GameEntity(None, WorldPhysics(), WorldRender())
 
     def create_ball(self):
         # TODO add to entities list
