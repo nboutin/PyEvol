@@ -7,7 +7,7 @@ Created on 17 juil. 2019
 from component.game_entity import GameEntity
 
 from entity.world_render import WorldRender
-from entity.general_input import GeneralInput
+from entity.keyboard_controller import KeyboardController
 from entity.ball_physics import BallPhysics
 from entity.ball_render import BallRender
 
@@ -42,4 +42,4 @@ class GameSystem():
 
     def create_ball(self):
         # TODO add to entities list
-        return GameEntity(GeneralInput(), BallPhysics(), BallRender())
+        return GameEntity(KeyboardController(), BallPhysics(), BallRender())

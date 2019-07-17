@@ -4,7 +4,7 @@ Created on 17 juil. 2019
 @author: nboutin
 '''
 
-from physics_comp import PhysicsComp
+from component.physics_comp import PhysicsComp
 
 
 class BallPhysics(PhysicsComp):
