@@ -5,7 +5,7 @@ Created on 17 juil. 2019
 '''
 
 
-class GraphicsComp():
+class ControllerComp():
 
-    def update(self, game_object, graphics):
+    def update(self, game_entity):
         raise NotImplementedError()

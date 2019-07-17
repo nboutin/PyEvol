@@ -7,5 +7,5 @@ Created on 17 juil. 2019
 
 class PhysicsComp():
 
-    def update(self, game_object, world):
+    def update(self, game_entity, world):
         raise NotImplementedError()

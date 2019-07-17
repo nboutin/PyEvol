@@ -5,7 +5,7 @@ Created on 17 juil. 2019
 '''
 
 
-class InputComp():
+class RenderComp():
 
-    def update(self, game_object):
+    def render(self, game_entity, render):
         raise NotImplementedError()
