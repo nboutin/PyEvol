@@ -15,6 +15,7 @@ from entity.ball_render import BallRender
 
 from random import (random, uniform, randint)
 
+
 class GameSystem():
 
     def __init__(self):
@@ -55,10 +56,11 @@ class GameSystem():
         return GameEntity(None, WorldPhysics(), WorldRender())
 
     def _create_ball(self):
-        #         entity = GameEntity(KeyboardController(), BallPhysics(), BallRender())
+        # entity = GameEntity(KeyboardController(), BallPhysics(), BallRender())
         pos = (random() * self.widget.width + self.widget.x,
                random() * self.widget.height + self.widget.y)
 
-        entity = GameEntity(None, None, BallRender(pos=pos, widget=self.widget))
+        entity = GameEntity(None, None, BallRender(
+            pos=pos, widget=self.widget))
         self._entities.append(entity)
         return entity
