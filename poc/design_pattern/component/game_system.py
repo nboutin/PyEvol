@@ -13,16 +13,21 @@ from entity.keyboard_controller import KeyboardController
 from entity.ball_physics import BallPhysics
 from entity.ball_render import BallRender
 
+from random import (random, uniform, randint)
 
 class GameSystem():
 
     def __init__(self):
         self._exit = False
 
-        self._world = self._create_world()
-
         # TODO for better data locality use a list for each component type
         self._entities = list()
+
+        self._world = self._create_world()
+        self._create_ball()
+        self._create_ball()
+        self._create_ball()
+        self._create_ball()
 
         #         Clock.schedule_interval(self.run, 1.0 / 60.0)
 
@@ -49,6 +54,11 @@ class GameSystem():
     def _create_world(self):
         return GameEntity(None, WorldPhysics(), WorldRender())
 
-    def create_ball(self):
-        # TODO add to entities list
-        return GameEntity(KeyboardController(), BallPhysics(), BallRender())
+    def _create_ball(self):
+        #         entity = GameEntity(KeyboardController(), BallPhysics(), BallRender())
+        pos = (random() * self.widget.width + self.widget.x,
+               random() * self.widget.height + self.widget.y)
+
+        entity = GameEntity(None, None, BallRender(pos=pos, widget=self.widget))
+        self._entities.append(entity)
+        return entity
