@@ -26,6 +26,11 @@ class WorldRender(RenderComp, Widget):
         self.background.pos = instance.pos
         self.background.size = instance.size
 
+
     def render(self, game_entity, render):
         """graphics code ..."""
         pass
+
+    def on_touch_down(self, touch):
+        #self._add_ball(touch.pos)
+        print ("touch:", touch)

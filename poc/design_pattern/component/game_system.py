@@ -32,7 +32,7 @@ class GameSystem():
 
     def run(self, dt):
 
-        self._create_ball()
+        # self._create_ball()
 
         for entity in self._entities:
             if entity.controller:

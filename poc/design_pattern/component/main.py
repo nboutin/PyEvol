@@ -5,7 +5,6 @@ Created on 17 juil. 2019
 '''
 
 from kivy.app import App
-# from kivy.clock import Clock
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
@@ -31,7 +30,6 @@ class DemoCompApp(App):
         root.add_widget(self.game_system.widget)
         root.add_widget(layout)
 
-#         Clock.schedule_interval(world.update, 1.0 / 60.0)
         return root
 
 
