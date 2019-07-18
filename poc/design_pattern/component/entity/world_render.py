@@ -12,8 +12,9 @@ from kivy.graphics import (Color, Rectangle)
 
 class WorldRender(RenderComp, Widget):
 
-    def __init__(self, **kwargs):
+    def __init__(self, game_system, **kwargs):
         super().__init__(**kwargs)
+        self._game_system = game_system
         with self.canvas:
             Color(0, 0, 0, 1)
             self.background = Rectangle(size=self.size, pos=self.pos)
@@ -22,15 +23,12 @@ class WorldRender(RenderComp, Widget):
         self.bind(pos=self._update_background, size=self._update_background)
 
     def _update_background(self, instance, _):
-        print("update_background")
         self.background.pos = instance.pos
         self.background.size = instance.size
-
 
     def render(self, game_entity, render):
         """graphics code ..."""
         pass
 
     def on_touch_down(self, touch):
-        #self._add_ball(touch.pos)
-        print ("touch:", touch)
+        self._game_system._create_ball(touch.pos)
