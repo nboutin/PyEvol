@@ -7,19 +7,21 @@ Created on 18 juil. 2019
 import curses
 
 
-def main():
-    stdscr = curses.initscr()
-    curses.noecho()
-    curses.cbreak()
-    stdscr.keypad(True)
+def main(stdscr):
+ 
+    stdscr.clear()
+    
+    stdscr.addstr("Hello World")
+    stdscr.refresh()
+    
+    begin_x = 20; begin_y = 7
+    height = 5; width = 40
+    win = curses.newwin(height, width, begin_y, begin_x)
+    
+    win.addstr("Windows")
+    win.refresh()
 
-
-
-    curses.nocbreak()
-    stdscr.keypad(False)
-    curses.echo()
-    curses.endwin()
-
+    stdscr.getkey()
 
 if __name__ == '__main__':
     curses.wrapper(main)

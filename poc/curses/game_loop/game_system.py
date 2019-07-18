@@ -25,10 +25,10 @@ class GameSystem():
         self._entities = list()
 
         self._world = self._create_world()
-        self._create_ball()
-        self._create_ball()
-        self._create_ball()
-        self._create_ball()
+#         self._create_ball()
+#         self._create_ball()
+#         self._create_ball()
+#         self._create_ball()
 
         #         Clock.schedule_interval(self.run, 1.0 / 60.0)
 
@@ -53,7 +53,8 @@ class GameSystem():
             # TODO add some game_loop timing
 
     def _create_world(self):
-        return GameEntity(None, WorldPhysics(), WorldRender())
+#         return GameEntity(None, WorldPhysics(), WorldRender())
+        return GameEntity(None, None, WorldRender())
 
     def _create_ball(self):
         # entity = GameEntity(KeyboardController(), BallPhysics(), BallRender())
