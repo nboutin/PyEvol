@@ -20,7 +20,7 @@ class World(Widget):
         super().__init__(**kwargs)
         self.balls = list()
         with self.canvas.before:
-            Color(0, 1, 0, 1)
+            Color(0, 0, 0, 1)
             self.background = Rectangle(size=self.size, pos=self.pos)
 
         # listen to size and position changes

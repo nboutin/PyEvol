@@ -11,13 +11,16 @@ from component.render_comp import RenderComp
 
 
 class BallRender(RenderComp, Widget):
+    """
+    TODO can it be only a Canvas ?
+    """
 
     def __init__(self, **kwargs):
         # Parameters
         widget = kwargs['widget']
         pos = kwargs['pos']
         radius = kwargs.get('radius', 10)
-        color = kwargs.get('color', (0, 0, 0, 1))
+        color = kwargs.get('color', (1, 1, 1, 1))
 
         super().__init__()
         self.size = (radius * 2, radius * 2)
@@ -35,7 +38,7 @@ class BallRender(RenderComp, Widget):
 
 
     def _update_circle(self, *args):
-        """move this to render"""
+        # TODO move this to render ?
         self.__circle.pos = self.pos
         self.__circle.size = self.size    
 

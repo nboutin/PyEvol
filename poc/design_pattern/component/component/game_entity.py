@@ -10,13 +10,10 @@ import weakref
 class GameEntity():
 
     def __init__(self, controller, physics, render):
-        if controller:
-            self._controller = weakref.ref(controller)
         
-        if physics:
-            self._physics = weakref.ref(physics)
-        
-        self._render = weakref.ref(render)
+        self._controller = weakref.ref(controller) if controller else None
+        self._physics = weakref.ref(physics) if physics else None
+        self._render = weakref.ref(render) if render else None
 
     @property
     def controller(self):

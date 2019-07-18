@@ -20,7 +20,7 @@ class Ball(Widget):
         # Parameters
         pos = kwargs['pos']
         radius = kwargs.get('radius', 10)
-        color = kwargs.get('color', (0, 0, 0, 1))
+        color = kwargs.get('color', (1, 1, 1, 1))
         
         # Widget
         super().__init__()

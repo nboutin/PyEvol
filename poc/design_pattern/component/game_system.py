@@ -19,38 +19,36 @@ from random import (random, uniform, randint)
 class GameSystem():
 
     def __init__(self):
-        self._exit = False
-
         # TODO for better data locality use a list for each component type
         self._entities = list()
 
         self._world = self._create_world()
-        self._create_ball()
-        self._create_ball()
-        self._create_ball()
-        self._create_ball()
 
-        #         Clock.schedule_interval(self.run, 1.0 / 60.0)
+        Clock.schedule_interval(self.run, 0)
 
     @property
     def widget(self):
         return self._world.render
 
-    def run(self):
+    def run(self, dt):
 
-        while not self._exit:
-            for entity in self._entities:
+        self._create_ball()
+
+        for entity in self._entities:
+            if entity.controller:
                 entity.controller.update(entity)
 
-            for entity in self._entities:
-                # second arg is world(physics)
+        for entity in self._entities:
+            # second arg is world(physics)
+            if entity.physics:
                 entity.physics.update(entity, None)
 
-            for entity in self._entities:
-                # second arg is render(graphics)
+        for entity in self._entities:
+            # second arg is render(graphics)
+            if entity.render:
                 entity.render.render(entity, None)
 
-            # TODO add some game_loop timing
+        # TODO add some game_loop timing
 
     def _create_world(self):
         return GameEntity(None, WorldPhysics(), WorldRender())
