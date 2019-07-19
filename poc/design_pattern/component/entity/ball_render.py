@@ -14,19 +14,27 @@ class BallRender(RenderComp, Widget):
     """
     Todo: can it be only a Canvas ?
     """
+    def __init__(self):
+        super().__init__()
 
-    def __init__(self, **kwargs):
+    def build(self, game_entity, **kwargs):
         """
-        Todo: update widget size at init ?
+        :param game_entity
+            :param pos
+            :param size
+        :param widget (mandatory)
+        
+        Todo: update widget pos at init ?
         """
         # Parameters
+        pos = game_entity.pos
         widget = kwargs['widget']
-        pos = kwargs['pos']
-        radius = kwargs.get('radius', 10)
-        color = kwargs.get('color', (1, 1, 1, 1))
+        radius = game_entity.size / 2
+        color = kwargs.get('color', (.2, .2, .2, 1))
 
-        super().__init__()
-        self.size = (radius * 2, radius * 2)
+        # Widget
+        # self.size = (radius * 2, radius * 2)
+        self.size = (game_entity.size, game_entity.size)
 
         with self.canvas:
             Color(*color)

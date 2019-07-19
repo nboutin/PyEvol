@@ -39,9 +39,9 @@ class GameSystem():
         for entity in self._entities:
             # second arg is world(physics)
             if entity.physics:
-                entity.physics.update(entity, None)
-        
-        self._world.space.step(dt)
+                entity.physics.update(entity, None, dt)
+
+        self._world.physics.update(None, None, dt)
 
         for entity in self._entities:
             # second arg is render(graphics)
@@ -51,14 +51,20 @@ class GameSystem():
         # TODO add some game_loop timing
 
     def _create_world(self):
-        return GameEntity(None, WorldPhysics(), WorldRender(self))
+        return GameEntity(None, None, None, WorldPhysics(), WorldRender(), game_system=self)
 
     def _create_ball(self, pos):
         # entity = GameEntity(KeyboardController(), BallPhysics(), BallRender())
-#         pos = (random() * self.widget.width + self.widget.x,
-#                random() * self.widget.height + self.widget.y)
+        #         pos = (random() * self.widget.width + self.widget.x,
+        #                random() * self.widget.height + self.widget.y)
 
-        entity = GameEntity(None, None, BallRender(
-            pos=pos, widget=self.widget))
+        size = 10   # ball diameter
+
+        entity = GameEntity(pos, size,
+                            None,
+                            BallPhysics(),
+                            BallRender(),
+                            space=self._world.physics.space,
+                            widget=self.widget)
         self._entities.append(entity)
         return entity

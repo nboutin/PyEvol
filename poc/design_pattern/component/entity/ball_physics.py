@@ -14,19 +14,22 @@ categories = {"border": 0x01, "creature": 0x02, "food": 0x04, }
 
 class BallPhysics(PhysicsComp):
 
-    def __init__(self, **kwargs):
+    def build(self, game_entity, **kwargs):
         """
-        :param pos (x,y) (mandatory)
-        :param radius
+        :param game_entity
+            :param pos (x,y) (mandatory)
+            :param radius (mandatory)
         :param angle, angle in radians
         :param space, Pymunk space (mandatory)
+        :param force
+        :param mass
 
         Good value are radius:[10,50], mass:4, force:180
         """
 
         # Get parameters
-        pos = kwargs['pos']
-        radius = kwargs.get('radius')
+        pos = game_entity.pos
+        radius = game_entity.size / 2
         angle = kwargs.get('angle', 0)
         space = kwargs['space']
         force = kwargs.get('force', 180)
@@ -52,7 +55,7 @@ class BallPhysics(PhysicsComp):
 
         space.add(self.__body, self.__shape)
 
-    def update(self, game_entity, world):
+    def update(self, game_entity, world, dt):
         """physics code..."""
         powers = [10, 10]
         p1 = powers[0] * self.__force

@@ -12,9 +12,16 @@ from kivy.graphics import (Color, Rectangle)
 
 class WorldRender(RenderComp, Widget):
 
-    def __init__(self, game_system, **kwargs):
+    def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self._game_system = game_system
+        
+    def build(self, game_entity, **kwargs):
+        """
+        :param game_entity
+        :param game_system
+        """
+        self._game_system = kwargs['game_system']
+        
         with self.canvas:
             Color(0, 0, 0, 1)
             self.background = Rectangle(size=self.size, pos=self.pos)
