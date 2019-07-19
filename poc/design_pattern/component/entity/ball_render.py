@@ -12,10 +12,13 @@ from component.render_comp import RenderComp
 
 class BallRender(RenderComp, Widget):
     """
-    TODO can it be only a Canvas ?
+    Todo: can it be only a Canvas ?
     """
 
     def __init__(self, **kwargs):
+        """
+        Todo: update widget size at init ?
+        """
         # Parameters
         widget = kwargs['widget']
         pos = kwargs['pos']
