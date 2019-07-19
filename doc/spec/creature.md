@@ -40,6 +40,10 @@ Outer sensors:
 * horizontal bargraph for each eyes
 * How many inputs to represents bargraph ?
 
+Parameters:
+* angle
+* distance
+
 ### Model B1
 
 * add RGB colors
