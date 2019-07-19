@@ -32,8 +32,6 @@ class GameSystem():
 
     def run(self, dt):
 
-        # self._create_ball()
-
         for entity in self._entities:
             if entity.controller:
                 entity.controller.update(entity)
@@ -42,6 +40,8 @@ class GameSystem():
             # second arg is world(physics)
             if entity.physics:
                 entity.physics.update(entity, None)
+        
+        self._world.space.step(dt)
 
         for entity in self._entities:
             # second arg is render(graphics)

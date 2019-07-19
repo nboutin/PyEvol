@@ -24,7 +24,6 @@ class BallRender(RenderComp, Widget):
 
         super().__init__()
         self.size = (radius * 2, radius * 2)
-#         size = (radius * 2, radius * 2)
 
         with self.canvas:
             Color(*color)
@@ -45,4 +44,5 @@ class BallRender(RenderComp, Widget):
 
     def render(self, game_entity, render):
         """graphics code ..."""
-        pass
+        self.pos = game_entity.pos
+

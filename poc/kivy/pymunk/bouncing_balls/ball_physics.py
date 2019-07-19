@@ -15,7 +15,7 @@ class BallPhysics():
     def __init__(self, **kwargs):
         """
         :param pos (x,y) (mandatory)
-        :param radius (radians)
+        :param radius
         :param angle, angle in radians
         :param space, Pymunk space (mandatory)
 
