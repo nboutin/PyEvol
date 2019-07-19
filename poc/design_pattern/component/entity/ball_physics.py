@@ -1,9 +1,10 @@
 '''
-Created on 16 juil. 2019
+Created on 17 juil. 2019
 
 @author: nboutin
 '''
 
+from component.physics_comp import PhysicsComp
 import pymunk
 
 
@@ -11,20 +12,24 @@ collision_types = {"creature": 1, "food": 2, }
 categories = {"border": 0x01, "creature": 0x02, "food": 0x04, }
 
 
-class BallPhysics():
-    def __init__(self, **kwargs):
+class BallPhysics(PhysicsComp):
+
+    def build(self, game_entity, **kwargs):
         """
-        :param pos (x,y) (mandatory)
-        :param radius
+        :param game_entity
+            :param pos (x,y) (mandatory)
+            :param radius (mandatory)
         :param angle, angle in radians
         :param space, Pymunk space (mandatory)
+        :param force
+        :param mass
 
         Good value are radius:[10,50], mass:4, force:180
         """
 
         # Get parameters
-        pos = kwargs['pos']
-        radius = kwargs.get('radius')
+        pos = game_entity.pos
+        radius = game_entity.size / 2
         angle = kwargs.get('angle', 0)
         space = kwargs['space']
         force = kwargs.get('force', 180)
@@ -50,13 +55,13 @@ class BallPhysics():
 
         space.add(self.__body, self.__shape)
 
-    @property
-    def pos(self):
-        return self.__body.position.int_tuple
-
-    def move(self):
+    def update(self, game_entity, world, dt):
+        """physics code..."""
         powers = [10, 10]
         p1 = powers[0] * self.__force
         p2 = powers[1] * self.__force
         self.__body.apply_force_at_local_point((p1, 0), (0, -self.__radius))
         self.__body.apply_force_at_local_point((p2, 0), (0, +self.__radius))
+        
+        game_entity.pos = self.__body.position.int_tuple
+
