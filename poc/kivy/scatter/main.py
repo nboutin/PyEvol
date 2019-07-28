@@ -39,9 +39,12 @@ class World(Scatter):
     def _update_rectB(self, instance, _):
         self.rectB.pos = self.pos
         self.rectB.size = self.bbox[1]
-
+        
+    def on_transform_with_touch(self, touch):
+        print("on_transform_with_touch:", touch)
+        
     def on_touch_move(self, touch):
-        print ("on_touch_move:", touch)
+#         print ("on_touch_move:", touch)
         self.center = touch.pos
         
     def on_touch_down(self, touch):
