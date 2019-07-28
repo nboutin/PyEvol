@@ -1,0 +1,14 @@
+Scatter:
+    canvas:
+        Color:
+            hsv: 0, 1, .5
+        Rectangle:
+            size: self.size
+
+    canvas.after:
+        Color:
+            hsv: .1, 1, .5
+            a: .2
+        Rectangle:
+            pos: self.pos
+            size: self.bbox[1]
