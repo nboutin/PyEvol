@@ -1,31 +1,16 @@
 BoxLayout:
-	#Scatter:
-	ScatterPlane:
-		auto_bring_to_front: False
-		do_rotation: False
-		do_translation: False
-		#keep_within_parent: in_parent_box.active
-		#rescale_with_parent: rescale_box.activeX
-                        
+	Widget:
 	    canvas:
 	        Color:
 	            hsv: 0, 1, .5
 	        Rectangle:
 	            size: self.size
-			Color:
-	        	rgb: 0,1,0
-	        Ellipse:
-	        	size: 50, 50
-	        	pos: root.center
-	
-	    canvas.after:
-	        Color:
-	            hsv: .1, 1, .5
-	            a: .2
-	        Rectangle:
-	            pos: self.pos
-	            size: self.bbox[1]
+
     Splitter:
+    	min_size: 0
+    	#max_size: root.width/2
+    	strip_size: '4pt'
     	sizable_form: 'left'
+    	rescale_with_parent: True
     	Button:
 			text: 'Btn7'

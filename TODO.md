@@ -5,3 +5,6 @@
 - [ ] Use kvlang and scatter widget for class World
 - [ ] Write specification from Keep note
 - [x] Rename to EvoFlatWorld
+
+## Nice to have
+- [ ] Fix scatter scale up/down with mousewheel 
