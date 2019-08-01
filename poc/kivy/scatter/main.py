@@ -58,12 +58,12 @@ class World(Scatter):
                     print("scrolldown")
                     mat = Matrix().scale(.9, .9, .9)
                     self.apply_transform(mat, anchor=touch.pos)
-                    return True
+#                     return True
                 elif touch.button == 'scrollup':
                     print("scrollup")
                     mat = Matrix().scale(1.1, 1.1, 1.1)
                     self.apply_transform(mat, anchor=touch.pos)
-                    return True
+#                     return True
         
         return super().on_touch_up(touch)
 
