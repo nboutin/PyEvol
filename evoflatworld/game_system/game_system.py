@@ -10,6 +10,7 @@ from evoflatworld.game_system.world_render_strategy import WorldRenderStrategy
 from evoflatworld.game_system.creature_entity import CreatureEntity
 from evoflatworld.game_system.creature_render_strategy import CreatureRenderStrategy
 from evoflatworld.game_system.world_physics_strategy import WorldPhysicsStrategy
+from evoflatworld.game_system.creature_physics_strategy import CreaturePhysicsStrategy
 
 
 class GameSystem():
@@ -52,7 +53,9 @@ class GameSystem():
         pos = self._world.render.center
         diameter = 10
 
-        creature_entity = CreatureEntity(None, None, CreatureRenderStrategy(
-            pos, diameter, self._world.render), pos, diameter)
+        creature_entity = CreatureEntity(
+            None,
+            CreaturePhysicsStrategy(pos, diameter, self._world.physics.space),
+            CreatureRenderStrategy(pos, diameter, self._world.render), pos, diameter)
 
         self._entities.append(creature_entity)
