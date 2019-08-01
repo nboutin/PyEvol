@@ -9,6 +9,9 @@
 
 ## Improve performance
 - [ ] For better data locality use a list for each component type in game_system. Use profile.
+- [ ] Disable pymunk debug mode. Does it have impact ?
+- [ ] Compile Chipmunk in release mode
+- [ ] Create Pymunk space with option threaded=True and Space.threads=x
 
 ## Nice to have
 - [ ] Use kvlang and scatter widget for class World

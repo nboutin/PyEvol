@@ -4,6 +4,10 @@ Created on Jul 28, 2019
 @author: nboutin
 '''
 
+# Can it be move to i_physics_strategy.py ?
+# import pymunkoptions
+# pymunkoptions.options["debug"] = False
+
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.splitter import Splitter
