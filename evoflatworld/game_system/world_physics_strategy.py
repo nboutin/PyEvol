@@ -20,4 +20,10 @@ class WorldPhysicsStrategy(IPhysicsStrategy):
         return self._space
 
     def update(self, game_entity, world, dt):
+
+        for body in self._space.bodies:
+            if body.position.x > game_entity.size[0]:
+                body.position = (0, body.position.y)
+                self._space.reindex_shapes_for_body(body)
+
         self._space.step(dt)

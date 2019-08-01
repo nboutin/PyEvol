@@ -47,7 +47,7 @@ class CreaturePhysicsStrategy(IPhysicsStrategy):
 
     def update(self, game_entity, world, dt):
         """physics code..."""
-        powers = [10, 10]
+        powers = [2, 2]
         p1 = powers[0] * self.__force
         p2 = powers[1] * self.__force
         self.__body.apply_force_at_local_point((p1, 0), (0, -self.__radius))
