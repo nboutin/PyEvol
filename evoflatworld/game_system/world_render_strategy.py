@@ -12,8 +12,8 @@ from evoflatworld.game_system.i_render_strategy import IRenderStrategy
 
 class WorldRenderStrategy(IRenderStrategy, Widget):
     
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+    def __init__(self):
+        super().__init__()
         
         with self.canvas:
             Color(0, 1, 0, 1)
