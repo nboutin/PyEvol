@@ -5,11 +5,11 @@ Created on Aug 1, 2019
 '''
 
 
-class IRenderStrategy():
+class IPhysicsStrategy():
     '''
     This an interface.
-    Method render must be implemented by subclasses.
+    Method update must be implemented by subclasses.
     '''
 
-    def render(self, i_game_entity, render):
+    def update(self, i_game_entity, world, dt):
         raise NotImplementedError()
