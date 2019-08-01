@@ -4,6 +4,7 @@
 - [ ] Add FPS display (see kivy-examples/kv)
 - [ ] Write specification from Keep note
 - [ ] Write class diagram with plantuml
+- [ ] Use factory pattern to create Creature
 - [x] Rename to EvoFlatWorld
 
 ## Improve performance
