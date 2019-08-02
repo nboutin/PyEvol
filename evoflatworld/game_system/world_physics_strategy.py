@@ -34,6 +34,8 @@ class WorldPhysicsStrategy(IPhysicsStrategy):
             bb = shape.bb
             radius = shape.radius
 
+#             print ("game_entity.size:", game_entity.size)
+
             world_right = game_entity.size[0]
             world_left = 0
             world_down = 0
