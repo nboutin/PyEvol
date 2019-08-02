@@ -4,6 +4,10 @@ Created on Jul 28, 2019
 @author: nboutin
 '''
 
+# disable Kivy multi-touch emulation
+from kivy.config import Config
+Config.set('input', 'mouse', 'mouse,disable_multitouch,disable_on_activity')
+
 # Can it be move to i_physics_strategy.py ?
 # import pymunkoptions
 # pymunkoptions.options["debug"] = False

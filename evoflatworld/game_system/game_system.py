@@ -44,7 +44,7 @@ class GameSystem():
         # Graphics
         for entity in self._entities:
             if entity.render:
-                entity.render.render(entity, None)
+                entity.render.render(entity, self._world.render)
 
     @property
     def widget(self):
@@ -52,7 +52,10 @@ class GameSystem():
 
     def _create_world(self):
         size = (600, 600)
-        return WorldEntity(None, WorldPhysicsStrategy(), WorldRenderStrategy(size=size), size)
+        return WorldEntity(
+            None,
+            WorldPhysicsStrategy(),
+            WorldRenderStrategy(size=size, pos=(100, 100)), size)
 
     def _create_creature(self):
         pos = self._world.render.center

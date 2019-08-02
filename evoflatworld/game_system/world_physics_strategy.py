@@ -11,6 +11,10 @@ from evoflatworld.game_system.i_physics_strategy import IPhysicsStrategy
 class WorldPhysicsStrategy(IPhysicsStrategy):
 
     def __init__(self):
+        '''
+        Todo: construct space outside world_physics_strategy and pass it by update
+              game_system should have the space instance  
+        '''
         self._space = pymunk.Space()
         self._space.gravity = (0.0, 0.0)
         self._space.damping = 0.1  # lose 1-x% of its velocity per second
