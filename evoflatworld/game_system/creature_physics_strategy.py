@@ -14,14 +14,15 @@ categories = {"border": 0x01, "creature": 0x02, "food": 0x04, }
 
 class CreaturePhysicsStrategy(IPhysicsStrategy):
 
-    def __init__(self, pos, diameter, space):
+    def __init__(self, pos, diameter, angle, space):
         '''
         Good value are radius:[10,50], mass:4, force:180
+        :param angle in radians
         '''
 
         # Parameters
         radius = diameter / 2
-        angle = 0
+        angle = angle
         force = 180
         mass = 4
 

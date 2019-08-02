@@ -22,8 +22,28 @@ class WorldPhysicsStrategy(IPhysicsStrategy):
     def update(self, game_entity, world, dt):
 
         for body in self._space.bodies:
-            if body.position.x > game_entity.size[0]:
-                body.position = (0, body.position.y)
+            
+            bx = body.position.x
+            by = body.position.y
+            
+            world_right = 0
+            world_left = game_entity.size[0]
+            world_down = 0
+            world_up = game_entity.size[1]
+            
+            # print shape
+            
+            if bx > world_left:
+                body.position = (world_right, by)
                 self._space.reindex_shapes_for_body(body)
-
+            elif bx < world_right:
+                body.position = (world_left, by)
+                self._space.reindex_shapes_for_body(body)
+            elif by > world_up:
+                body.position = (bx, world_down)
+                self._space.reindex_shapes_for_body(body)
+            elif by < world_down:
+                body.position = (bx, world_up)
+                self._space.reindex_shapes_for_body(body)
+                
         self._space.step(dt)
