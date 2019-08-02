@@ -8,6 +8,10 @@
 - [x] Create EvoFlatWorld skeleton from poc/design_pattern/component
 - [x] Rename to EvoFlatWorld
 
+## GUI Features
+- [ ] Add play, pause, speed up/down button
+- [ ] Add button activate "on click add creature at mouse cursor position"
+
 ## Improve performance
 - [ ] For better data locality use a list for each component type in game_system. Use profile.
 - [ ] Disable pymunk debug mode. Does it have impact ?
