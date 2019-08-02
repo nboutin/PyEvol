@@ -6,7 +6,8 @@ Created on Aug 1, 2019
 
 from kivy.clock import Clock
 from evoflatworld.game_system.world_entity import WorldEntity
-from evoflatworld.game_system.world_render_strategy import WorldRenderScatterStrategy
+from evoflatworld.game_system.world_render_scatter_strategy import WorldRenderScatterStrategy
+from evoflatworld.game_system.world_render_widget_strategy import WorldRenderWidgetStrategy
 from evoflatworld.game_system.creature_entity import CreatureEntity
 from evoflatworld.game_system.creature_render_strategy import CreatureRenderStrategy
 from evoflatworld.game_system.world_physics_strategy import WorldPhysicsStrategy
@@ -45,7 +46,7 @@ class GameSystem():
         for entity in self._entities:
             if entity.render:
                 entity.render.render(entity, self._world.render)
-                
+
         self._world.render.render(self._world, None)
 
     @property
@@ -53,11 +54,13 @@ class GameSystem():
         return self._world.render
 
     def _create_world(self):
-        size = (600, 600)
+        size = (500, 500)
         return WorldEntity(
             None,
             WorldPhysicsStrategy(),
-            WorldRenderScatterStrategy(size=size, pos=(100, 100)), size)
+            #             WorldRenderScatterStrategy(size=size, pos=(100, 100)),
+            WorldRenderWidgetStrategy(size=size, pos=(50, 50)),
+            size)
 
     def _create_creature(self):
         pos = self._world.render.center
