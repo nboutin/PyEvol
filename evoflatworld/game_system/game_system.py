@@ -12,6 +12,9 @@ from evoflatworld.game_system.creature_render_strategy import CreatureRenderStra
 from evoflatworld.game_system.world_physics_strategy import WorldPhysicsStrategy
 from evoflatworld.game_system.creature_physics_strategy import CreaturePhysicsStrategy
 
+import math
+import random
+
 
 class GameSystem():
 
@@ -23,7 +26,8 @@ class GameSystem():
 
         self._world = self._create_world()
 
-        self._create_creature()
+        for _ in range(0, 10):
+            self._create_creature()
 
         # call -1:before, 0:after the next frame
         Clock.schedule_interval(self._run, 0)
@@ -35,7 +39,7 @@ class GameSystem():
             if entity.physics:
                 entity.physics.update(entity, None, dt)
 
-        self._world.physics.update(None, None, dt)
+        self._world.physics.update(self._world, None, dt)
 
         # Graphics
         for entity in self._entities:
@@ -47,15 +51,18 @@ class GameSystem():
         return self._world.render
 
     def _create_world(self):
-        return WorldEntity(None, WorldPhysicsStrategy(), WorldRenderStrategy())
+        size = (600, 600)
+        return WorldEntity(None, WorldPhysicsStrategy(), WorldRenderStrategy(size=size), size)
 
     def _create_creature(self):
         pos = self._world.render.center
-        diameter = 10
+        diameter = 30
+        angle = math.radians(random.randint(-180, 180))
 
         creature_entity = CreatureEntity(
             None,
-            CreaturePhysicsStrategy(pos, diameter, self._world.physics.space),
+            CreaturePhysicsStrategy(
+                pos, diameter, angle, self._world.physics.space),
             CreatureRenderStrategy(pos, diameter, self._world.render), pos, diameter)
 
         self._entities.append(creature_entity)

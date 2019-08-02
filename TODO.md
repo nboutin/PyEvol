@@ -1,10 +1,11 @@
 # TODO
 
-- [ ] Create EvoFlatWorld skeleton from poc/design_pattern/component
 - [ ] Add FPS display (see kivy-examples/kv)
+- [ ] Use factory pattern to create Creature
+- [ ] Use pymunk shape sensor feature to do donut world
 - [ ] Write specification from Keep note
 - [ ] Write class diagram with plantuml
-- [ ] Use factory pattern to create Creature
+- [x] Create EvoFlatWorld skeleton from poc/design_pattern/component
 - [x] Rename to EvoFlatWorld
 
 ## Improve performance

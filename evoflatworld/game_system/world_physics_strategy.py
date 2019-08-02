@@ -20,4 +20,32 @@ class WorldPhysicsStrategy(IPhysicsStrategy):
         return self._space
 
     def update(self, game_entity, world, dt):
+
+        # Handle donut world for each body in space
+        for body in self._space.bodies:
+
+            bx = body.position.x
+            by = body.position.y
+            shape = next(iter(body.shapes))
+            bb = shape.bb
+            radius = shape.radius
+
+            world_right = game_entity.size[0]
+            world_left = 0
+            world_down = 0
+            world_up = game_entity.size[1]
+
+            if bb.right > world_right:
+                body.position = (world_left + radius, by)
+                self._space.reindex_shapes_for_body(body)
+            elif bb.left < world_left:
+                body.position = (world_right - radius, by)
+                self._space.reindex_shapes_for_body(body)
+            elif bb.top > world_up:
+                body.position = (bx, world_down + radius)
+                self._space.reindex_shapes_for_body(body)
+            elif bb.bottom < world_down:
+                body.position = (bx, world_up - radius)
+                self._space.reindex_shapes_for_body(body)
+
         self._space.step(dt)
