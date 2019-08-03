@@ -42,4 +42,7 @@ class CreatureRenderStrategy(IRenderStrategy, Widget):
 
     def render(self, game_entity, render):
         '''graphics code ...'''
-        self.pos = render.to_parent(*game_entity.pos)
+#         self.pos = render.to_parent(*game_entity.pos)
+        self.pos = game_entity.pos
+#         print(render.pos)
+#         self.pos = (game_entity.pos[0] + render.pos[0], game_entity.pos[1] + render.pos[1]) 
