@@ -35,8 +35,8 @@ class MyApp(App):
 
         root.add_widget(Background())
 
-        bl = BoxLayout(pos_hint={'center_x': .5, 'y': .6},
-                       size=(160, 60), size_hint=(None, None))
+        bl = BoxLayout(pos_hint={'center_x': .5, 'top': .99},
+                       size=(160, 30), size_hint=(None, None))
         bl.add_widget(Button(text="Play"))
         bl.add_widget(Button(text="Pause"))
         bl.add_widget(Button(text="Step"))
