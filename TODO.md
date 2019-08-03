@@ -10,7 +10,8 @@
 
 ## Task
 
--[ ] Add buton play/pause, step, speed up/down time
+- [ ] Display creature info (pos, size) when selected
+- [x] Add buton play/pause, step time
 
 ## ToFix
 
