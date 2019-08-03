@@ -8,6 +8,10 @@
 - [x] Create EvoFlatWorld skeleton from poc/design_pattern/component
 - [x] Rename to EvoFlatWorld
 
+## Task
+
+-[ ] Add buton play/pause, step, speed up/down time
+
 ## ToFix
 
 - [ ] Move world scatter widget make Splitter widget jump to the left side. Use another layout than Boxlayout ?
