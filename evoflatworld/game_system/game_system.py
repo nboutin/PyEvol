@@ -54,6 +54,7 @@ class GameSystem():
         dt = 0.016 # 60 FPS
         
         # Physics
+        # Todo: factorize with run method
         for entity in self._entities:
             if entity.physics:
                 entity.physics.update(entity, None, dt)
@@ -61,8 +62,6 @@ class GameSystem():
         self._world.physics.update(self._world, None, dt)
     
     def _run(self, dt):
-
-        print (dt)
 
         if self.is_play:
             # Physics
@@ -81,7 +80,7 @@ class GameSystem():
 
     def _create_world(self):
         pos = (0, 0)
-        size = (500, 500)
+        size = (600, 550)
 
         return WorldEntity(
             None,
