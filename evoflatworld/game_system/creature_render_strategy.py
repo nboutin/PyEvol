@@ -10,7 +10,7 @@ from evoflatworld.game_system.i_render_strategy import IRenderStrategy
 
 
 class CreatureRenderStrategy(IRenderStrategy, Widget):
-    def __init__(self, pos, diameter, widget_parent):
+    def __init__(self, pos, diameter, color, widget_parent):
         '''
         Todo: update widget pos at init ?
         '''
@@ -18,13 +18,12 @@ class CreatureRenderStrategy(IRenderStrategy, Widget):
 
         # Parameters
         radius = diameter / 2
-        red = (1, 0, 0)
 
         # Widget
         self.size = (diameter, diameter)
 
         with self.canvas:
-            Color(*red)
+            Color(*color)
             x, y = pos
             self.__circle = Ellipse(
                 pos=(x - radius, y - radius), size=self.size)

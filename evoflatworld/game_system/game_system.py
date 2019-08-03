@@ -27,7 +27,7 @@ class GameSystem():
 
         self._world = self._create_world()
 
-        for _ in range(0, 1):
+        for _ in range(0, 3):
             self._create_creature()
 
         # call -1:before, 0:after the next frame
@@ -67,13 +67,13 @@ class GameSystem():
     def _create_creature(self):
         #         pos = self._world.render.center
         pos = (100, 100)
-        diameter = 10
+        diameter = 30
         angle = math.radians(random.randint(-180, 180))
+        color = [random.random() for _ in range(3)]
 
         creature_entity = CreatureEntity(
             None,
-            CreaturePhysicsStrategy(
-                pos, diameter, angle, self._world.physics.space),
-            CreatureRenderStrategy(pos, diameter, self._world.render), pos, diameter)
+            CreaturePhysicsStrategy(pos, diameter, angle, self._world.physics.space),
+            CreatureRenderStrategy(pos, diameter, color, self._world.render), pos, diameter)
 
         self._entities.append(creature_entity)
