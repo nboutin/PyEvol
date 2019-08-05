@@ -37,18 +37,6 @@ class EvoFlatWorldApp(App):
 
         return root
 
-    def play_cbk(self, instance):
-        print("play_cbk:", instance)
-        self.game_system.play()
-
-    def pause_cbk(self, instance):
-        print("pause_cbk:", instance)
-        self.game_system.pause()
-
-    def step_cbk(self, instance):
-        print("step_cbk:", instance)
-        self.game_system.step()
-
 
 if __name__ == '__main__':
     EvoFlatWorldApp().run()
