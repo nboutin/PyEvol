@@ -12,6 +12,7 @@ from evoflatworld.game_system.creature_entity import CreatureEntity
 from evoflatworld.game_system.creature_render_strategy import CreatureRenderStrategy
 from evoflatworld.game_system.world_physics_strategy import WorldPhysicsStrategy
 from evoflatworld.game_system.creature_physics_strategy import CreaturePhysicsStrategy
+from kivy.utils import get_random_color
 
 import math
 import random
@@ -90,7 +91,7 @@ class GameSystem():
         pos = (100, 100)
         diameter = 30
         angle = math.radians(random.randint(-180, 180))
-        color = [random.random() for _ in range(3)]
+        color = get_random_color()
 
         creature_entity = CreatureEntity(
             None,
