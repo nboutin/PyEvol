@@ -25,6 +25,5 @@ class PlayerWidget(BoxLayout):
         btn_pause.bind(on_press=lambda x: self.game_system.pause())
         btn_step.bind(on_press=lambda x: self.game_system.step())
 
-        self.add_widget(btn_play)
-        self.add_widget(btn_pause)
-        self.add_widget(btn_step)
+        for b in [btn_play, btn_pause, btn_step]:
+            self.add_widget(b)
