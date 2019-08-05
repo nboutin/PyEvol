@@ -21,19 +21,10 @@ class PlayerWidget(BoxLayout):
         btn_pause = Button(text="Pause")
         btn_step = Button(text="Step")
 
-        btn_play.bind(on_press=self.play_cbk)
-        btn_pause.bind(on_press=self.pause_cbk)
-        btn_step.bind(on_press=self.step_cbk)
+        btn_play.bind(on_press=lambda x: self.game_system.play())
+        btn_pause.bind(on_press=lambda x: self.game_system.pause())
+        btn_step.bind(on_press=lambda x: self.game_system.step())
 
         self.add_widget(btn_play)
         self.add_widget(btn_pause)
         self.add_widget(btn_step)
-
-    def play_cbk(self, instance):
-        self.game_system.play()
-
-    def pause_cbk(self, instance):
-        self.game_system.pause()
-
-    def step_cbk(self, instance):
-        self.game_system.step()
