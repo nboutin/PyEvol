@@ -30,7 +30,8 @@ class GameSystem():
         for _ in range(0, 3):
             self._create_creature()
 
-        self.is_play = True
+        self.__is_play = True
+        self.__step = 0.0
 
         # call -1:before, 0:after the next frame
         Clock.schedule_interval(self._run, 0)
@@ -38,37 +39,32 @@ class GameSystem():
     @property
     def widget(self):
         return self._world.render
-    
+
     def play(self):
-        self.is_play = True
-    
+        self.__is_play = True
+
     def pause(self):
-        self.is_play = False
-        
+        self.__is_play = False
+
     def step(self):
         '''
         Use mutex to synchronize with run method ?
         '''
         self.pause()
-        
-        dt = 0.016 # 60 FPS
-        
-        # Physics
-        # Todo: factorize with run method
-        for entity in self._entities:
-            if entity.physics:
-                entity.physics.update(entity, None, dt)
+        self.__step = 0.016  # 60 FPS
 
-        self._world.physics.update(self._world, None, dt)
-    
     def _run(self, dt):
 
-        if self.is_play:
+        if self.__is_play or self.__step > 0:
+
+            dt = self.__step if (self.__step > 0) else dt
+            self.__step = 0
+
             # Physics
             for entity in self._entities:
                 if entity.physics:
                     entity.physics.update(entity, None, dt)
-    
+
             self._world.physics.update(self._world, None, dt)
 
         # Graphics
@@ -98,7 +94,8 @@ class GameSystem():
 
         creature_entity = CreatureEntity(
             None,
-            CreaturePhysicsStrategy(pos, diameter, angle, self._world.physics.space),
+            CreaturePhysicsStrategy(
+                pos, diameter, angle, self._world.physics.space),
             CreatureRenderStrategy(pos, diameter, color, self._world.render), pos, diameter)
 
         self._entities.append(creature_entity)
