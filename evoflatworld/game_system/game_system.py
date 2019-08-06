@@ -28,12 +28,12 @@ class GameSystem():
 
         self._world = self._create_world()
 
-#         for _ in range(0, 3):
-#             self._create_creature()
+        for _ in range(0, 3):
+            self._create_creature()
 
         self.__is_play = True
         self.__step = 0.0
-        self.__physics_step = 1.0 / 30 # time step
+        self.__physics_step = 1.0 / 30  # time step
         self.__lag = 0.0
         self.__physics_iteration = 2
 
@@ -53,8 +53,8 @@ class GameSystem():
 
     def step(self):
         '''Use mutex to synchronize with run method ?'''
-#         self.pause()
-#         self.__step = self.__physics_step
+        self.pause()
+        self.__step = self.__physics_step
 
     def speed_down(self):
         self.__physics_iteration /= 2
@@ -63,29 +63,23 @@ class GameSystem():
         self.__physics_iteration *= 2
 
     def _run(self, dt):
-        
-        print(self.__physics_iteration)
-        
-#         if self.__is_play or self.__step > 0:
-        if self.__is_play:
 
-            self.__lag += dt
-
-#             dt = self.__step if (self.__step > 0) else dt
-#             self.__step = 0
+        if self.__is_play or self.__step > 0:
+            self.__lag += self.__step if (self.__step > 0) else dt
+            self.__step = 0
 
             # Physics
             while self.__lag >= self.__physics_step:
-                
+
                 self.__lag -= self.__physics_step
-                
+
                 for _ in range(0, int(self.__physics_iteration)):
-                
+
                     for entity in self._entities:
                         if entity.physics:
                             entity.physics.update(
                                 entity, None, self.__physics_step)
-    
+
                     self._world.physics.update(
                         self._world, None, self.__physics_step)
 
@@ -95,7 +89,7 @@ class GameSystem():
                 entity.render.render(entity, self._world.render)
 
         self._world.render.render(self._world, None)
-        
+
         self.__trigger()
 
     def _create_world(self):
