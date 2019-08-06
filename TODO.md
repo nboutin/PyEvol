@@ -1,10 +1,10 @@
 # TODO
 
-- [ ] Add FPS display (see kivy-examples/kv)
 - [ ] Use factory pattern to create Creature
 - [ ] Use pymunk shape sensor feature to do donut world
 - [ ] Write specification from Keep note
 - [ ] Write class diagram with plantuml
+- [x] Add FPS display (see kivy-examples/kv)
 - [x] Create EvoFlatWorld skeleton from poc/design_pattern/component
 - [x] Rename to EvoFlatWorld
 
@@ -19,8 +19,8 @@
 
 ## GUI Features
 
-- [ ] Add play, pause, speed up/down button
 - [ ] Add button activate "on click add creature at mouse cursor position"
+- [x] Add play, pause, speed up/down button
 
 ## Improve performance
 
