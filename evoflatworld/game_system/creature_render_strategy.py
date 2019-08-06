@@ -31,9 +31,6 @@ class CreatureRenderStrategy(IRenderStrategy, Widget):
 
         self.bind(pos=self._update, size=self._update)
 
-        self._info = Label(font_size='10sp')
-        self.add_widget(self._info)
-
         widget_parent.add_widget(self)
 
     def _update(self, *args):
@@ -41,8 +38,20 @@ class CreatureRenderStrategy(IRenderStrategy, Widget):
            use self.pos - radius ?'''
         self.__circle.pos = self.pos
         self.__circle.size = self.size
-        self._info.pos = self.pos
-        self._info.text = 'pos:{}\nsize:{}'.format(self.pos, self.size)
+        if self._info:
+            self._info.pos = self.pos
+            self._info.text = 'pos:{}\nsize:{}'.format(self.pos, self.size)
+
+    def on_touch_down(self, touch):
+        if self.collide_point(*touch.pos):
+            if touch.button == 'right':
+                if self._info:
+                    self.remove_widget(self._info)
+                else:
+                    self._info = Label(font_size='10sp')
+                    self.add_widget(self._info)
+
+        return super().on_touch_down(touch)
 
     def render(self, game_entity, render):
         '''graphics code ...'''

@@ -20,6 +20,7 @@
 ## GUI Features
 
 - [ ] Add button activate "on click add creature at mouse cursor position"
+- [ ] Add help tabulation in splitter panel. Creature: right_click display info
 - [x] Add play, pause, speed up/down button
 
 ## Improve performance
