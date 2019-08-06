@@ -33,9 +33,13 @@ class GameSystem():
 
         self.__is_play = True
         self.__step = 0.0
+        self.__physics_step = 1.0 / 30  # time step
+        self.__lag = 0.0
+        self.__physics_iteration = 2
 
         # call -1:before, 0:after the next frame
-        Clock.schedule_interval(self._run, 0)
+        self.__trigger = Clock.create_trigger(self._run)
+        self.__trigger()
 
     @property
     def widget(self):
@@ -48,25 +52,36 @@ class GameSystem():
         self.__is_play = False
 
     def step(self):
-        '''
-        Use mutex to synchronize with run method ?
-        '''
+        '''Use mutex to synchronize with run method ?'''
         self.pause()
-        self.__step = 0.016  # 60 FPS
+        self.__step = self.__physics_step
+
+    def speed_down(self):
+        self.__physics_iteration /= 2
+
+    def speed_up(self):
+        self.__physics_iteration *= 2
 
     def _run(self, dt):
 
         if self.__is_play or self.__step > 0:
-
-            dt = self.__step if (self.__step > 0) else dt
+            self.__lag += self.__step if (self.__step > 0) else dt
             self.__step = 0
 
             # Physics
-            for entity in self._entities:
-                if entity.physics:
-                    entity.physics.update(entity, None, dt)
+            while self.__lag >= self.__physics_step:
 
-            self._world.physics.update(self._world, None, dt)
+                self.__lag -= self.__physics_step
+
+                for _ in range(0, int(self.__physics_iteration)):
+
+                    for entity in self._entities:
+                        if entity.physics:
+                            entity.physics.update(
+                                entity, None, self.__physics_step)
+
+                    self._world.physics.update(
+                        self._world, None, self.__physics_step)
 
         # Graphics
         for entity in self._entities:
@@ -74,6 +89,8 @@ class GameSystem():
                 entity.render.render(entity, self._world.render)
 
         self._world.render.render(self._world, None)
+
+        self.__trigger()
 
     def _create_world(self):
         pos = (0, 0)

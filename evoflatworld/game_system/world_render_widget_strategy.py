@@ -14,7 +14,7 @@ class WorldRenderWidgetStrategy(IRenderStrategy, Widget):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         with self.canvas:
-            Color(*colors.green)
+            Color(*colors.black)
             self.__rect = Rectangle(pos=self.pos, size=self.size)
 
 #         self.bind(pos=self._update_rect, size=self._update_rect)
