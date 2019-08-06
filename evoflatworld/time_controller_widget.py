@@ -15,21 +15,23 @@ class TimeControllerWidget(BoxLayout):
 
         self.game_system = game_system
 
-        self.size = (160, 30)
+        self.size = (180, 30)
         self.size_hint = (None, None)
 
         self._btn_play_pause = ToggleButton(text="Pause")
         btn_step = Button(text="Step")
+        btn_speed_down = Button(text='-', size_hint=(.5, 1))
+        btn_speed_up = Button(text='+', size_hint=(.5, 1))
 
         self._btn_play_pause.bind(state=self._on_play_pause_state)
         btn_step.bind(on_press=lambda x: self.game_system.step())
+        btn_speed_down.bind(on_press=lambda x: self.game_system.speed_down())
+        btn_speed_up.bind(on_press=lambda x: self.game_system.speed_up())
 
-        for b in [self._btn_play_pause, btn_step]:
+        for b in [btn_speed_down, self._btn_play_pause, btn_step, btn_speed_up]:
             self.add_widget(b)
 
     def _on_play_pause_state(self, widget, value):
-
-        print(value)
 
         if value == 'down':
             self._btn_play_pause.text = 'Play'
