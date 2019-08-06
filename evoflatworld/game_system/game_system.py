@@ -28,14 +28,14 @@ class GameSystem():
 
         self._world = self._create_world()
 
-        for _ in range(0, 1):
+        for _ in range(0, 10):
             self._create_creature()
 
         self.__is_play = True
         self.__step = 0.0
         self.__physics_step = 1.0 / 30  # time step
         self.__lag = 0.0
-        self.__physics_iteration = 2
+        self.__physics_multiplier = 1
 
         # call -1:before, 0:after the next frame
         self.__trigger = Clock.create_trigger(self._run)
@@ -57,14 +57,21 @@ class GameSystem():
         self.__step = self.__physics_step
 
     def speed_down(self):
-        self.__physics_iteration /= 2
+        self.__physics_multiplier /= 2
 
     def speed_up(self):
-        self.__physics_iteration *= 2
+        self.__physics_multiplier *= 2
+        
+    @property
+    def speed(self):
+        return self.__physics_multiplier
 
     def _run(self, dt):
 
         if self.__is_play or self.__step > 0:
+            
+            dt *= self.__physics_multiplier
+            
             self.__lag += self.__step if (self.__step > 0) else dt
             self.__step = 0
 
@@ -73,15 +80,13 @@ class GameSystem():
 
                 self.__lag -= self.__physics_step
 
-                for _ in range(0, int(self.__physics_iteration)):
+                for entity in self._entities:
+                    if entity.physics:
+                        entity.physics.update(
+                            entity, None, self.__physics_step)
 
-                    for entity in self._entities:
-                        if entity.physics:
-                            entity.physics.update(
-                                entity, None, self.__physics_step)
-
-                    self._world.physics.update(
-                        self._world, None, self.__physics_step)
+                self._world.physics.update(
+                    self._world, None, self.__physics_step)
 
         # Graphics
         for entity in self._entities:
