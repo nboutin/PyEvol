@@ -13,6 +13,7 @@ Config.set('input', 'mouse', 'mouse,disable_multitouch,disable_on_activity')
 # pymunkoptions.options["debug"] = False
 
 from kivy.app import App
+from kivy.core.window import Window
 from kivy.uix.floatlayout import FloatLayout
 
 from evoflatworld.game_system.game_system import GameSystem
@@ -21,6 +22,8 @@ from evoflatworld.player_widget import PlayerWidget
 
 class EvoFlatWorldApp(App):
     def build(self):
+#         Window.maximize()
+        
         root = FloatLayout()
 
         self.game_system = GameSystem()
