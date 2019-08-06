@@ -18,6 +18,7 @@ from kivy.uix.floatlayout import FloatLayout
 
 from evoflatworld.game_system.game_system import GameSystem
 from evoflatworld.time_controller_widget import TimeControllerWidget
+from evoflatworld.fps_monitor_widget import FPSMonitorWidget
 
 
 class EvoFlatWorldApp(App):
@@ -36,7 +37,9 @@ class EvoFlatWorldApp(App):
 #         info_layout.add_widget(Widget()) # blank
 
         root.add_widget(TimeControllerWidget(self.game_system,
-                                             pos_hint={'center_x': .5, 'top': .99}))
+                                             pos_hint={'center_x': .5, 'top': 1}))
+
+        root.add_widget(FPSMonitorWidget(pos_hint={'x': 0.02, 'top': .99}))
 
         return root
 

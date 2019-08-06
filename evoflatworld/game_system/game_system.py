@@ -28,7 +28,7 @@ class GameSystem():
 
         self._world = self._create_world()
 
-        for _ in range(0, 3):
+        for _ in range(0, 0):
             self._create_creature()
 
         self.__is_play = True
