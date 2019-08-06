@@ -22,6 +22,7 @@ class CreatureRenderStrategy(IRenderStrategy, Widget):
 
         # Widget
         self.size = (diameter, diameter)
+        self._info = None
 
         with self.canvas:
             Color(*color)
@@ -47,6 +48,7 @@ class CreatureRenderStrategy(IRenderStrategy, Widget):
             if touch.button == 'right':
                 if self._info:
                     self.remove_widget(self._info)
+                    self._info = None
                 else:
                     self._info = Label(font_size='10sp')
                     self.add_widget(self._info)
