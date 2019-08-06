@@ -5,6 +5,7 @@ Created on Aug 5, 2019
 '''
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
+from kivy.uix.togglebutton import ToggleButton
 
 
 class TimeControllerWidget(BoxLayout):
@@ -17,13 +18,22 @@ class TimeControllerWidget(BoxLayout):
         self.size = (160, 30)
         self.size_hint = (None, None)
 
-        btn_play = Button(text="Play")
-        btn_pause = Button(text="Pause")
+        self._btn_play_pause = ToggleButton(text="Pause")
         btn_step = Button(text="Step")
 
-        btn_play.bind(on_press=lambda x: self.game_system.play())
-        btn_pause.bind(on_press=lambda x: self.game_system.pause())
+        self._btn_play_pause.bind(state=self._on_play_pause_state)
         btn_step.bind(on_press=lambda x: self.game_system.step())
 
-        for b in [btn_play, btn_pause, btn_step]:
+        for b in [self._btn_play_pause, btn_step]:
             self.add_widget(b)
+
+    def _on_play_pause_state(self, widget, value):
+
+        print(value)
+
+        if value == 'down':
+            self._btn_play_pause.text = 'Play'
+            self.game_system.pause()
+        elif value == 'normal':
+            self._btn_play_pause.text = 'Pause'
+            self.game_system.play()
