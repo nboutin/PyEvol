@@ -1,13 +1,13 @@
 '''
 Created on Aug 5, 2019
 
-@author: tbmnxvmuser
+@author: nboutin
 '''
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 
 
-class PlayerWidget(BoxLayout):
+class TimeControllerWidget(BoxLayout):
 
     def __init__(self, game_system, **k):
         super().__init__(**k)

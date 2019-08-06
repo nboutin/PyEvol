@@ -17,13 +17,13 @@ from kivy.core.window import Window
 from kivy.uix.floatlayout import FloatLayout
 
 from evoflatworld.game_system.game_system import GameSystem
-from evoflatworld.player_widget import PlayerWidget
+from evoflatworld.time_controller_widget import TimeControllerWidget
 
 
 class EvoFlatWorldApp(App):
     def build(self):
-#         Window.maximize()
-        
+        #         Window.maximize()
+
         root = FloatLayout()
 
         self.game_system = GameSystem()
@@ -35,8 +35,8 @@ class EvoFlatWorldApp(App):
 #         info_layout = BoxLayout(orientation='vertical', size_hint=(.2, 1))
 #         info_layout.add_widget(Widget()) # blank
 
-        root.add_widget(PlayerWidget(self.game_system,
-                                     pos_hint={'center_x': .5, 'top': .99}))
+        root.add_widget(TimeControllerWidget(self.game_system,
+                                             pos_hint={'center_x': .5, 'top': .99}))
 
         return root
 
