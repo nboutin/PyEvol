@@ -18,7 +18,7 @@ class CreatureRenderStrategy(IRenderStrategy, Widget):
         super().__init__()
 
         # Parameters
-        radius = diameter / 2
+#         radius = diameter / 2
 
         # Widget
         self.size = (diameter, diameter)
@@ -26,9 +26,10 @@ class CreatureRenderStrategy(IRenderStrategy, Widget):
 
         with self.canvas:
             Color(*color)
-            x, y = pos
-            self.__circle = Ellipse(
-                pos=(x - radius, y - radius), size=self.size)
+#             x, y = pos
+#             self.__circle = Ellipse(
+#                 pos=(x - radius, y - radius), size=self.size)
+            self.__circle = Ellipse(pos=pos, size=self.size)
 
         self.bind(pos=self._update, size=self._update)
 

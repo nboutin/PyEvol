@@ -33,7 +33,7 @@ class CreaturePhysicsStrategy(IPhysicsStrategy):
         moment = pymunk.moment_for_circle(mass, 0, self.__radius)
 
         self.__body = pymunk.Body(mass, moment)
-        self.__body.position = pos
+        self.__body.position = pos      # circle center
         self.__body.angle = angle
 
         self.__shape = pymunk.Circle(self.__body, self.__radius)

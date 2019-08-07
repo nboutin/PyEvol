@@ -28,28 +28,27 @@ class WorldPhysicsStrategy(IPhysicsStrategy):
         # Handle donut world for each body in space
         for body in self._space.bodies:
 
-            bx = body.position.x
-            by = body.position.y
+            # Body
+            bx, by = body.position
             shape = next(iter(body.shapes))
             bb = shape.bb
-            radius = shape.radius
+#             radius = shape.radius
 
-            world_right = game_entity.size[0]
-            world_left = 0
-            world_down = 0
-            world_up = game_entity.size[1]
+            # World
+            world_bb = pymunk.BB(
+                0, 0, game_entity.size[0], game_entity.size[1])
 
-            if bb.right > world_right:
-                body.position = (world_left + radius, by)
+            if bb.right > world_bb.right:
+                body.position = (world_bb.left, by)
                 self._space.reindex_shapes_for_body(body)
-            elif bb.left < world_left:
-                body.position = (world_right - radius, by)
+            elif bb.left < world_bb.left:
+                body.position = (world_bb.right, by)
                 self._space.reindex_shapes_for_body(body)
-            elif bb.top > world_up:
-                body.position = (bx, world_down + radius)
+            elif bb.top > world_bb.top:
+                body.position = (bx, world_bb.bottom)
                 self._space.reindex_shapes_for_body(body)
-            elif bb.bottom < world_down:
-                body.position = (bx, world_up - radius)
+            elif bb.bottom < world_bb.bottom:
+                body.position = (bx, world_bb.top)
                 self._space.reindex_shapes_for_body(body)
 
         self._space.step(dt)
