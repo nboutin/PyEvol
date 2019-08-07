@@ -1,34 +1,25 @@
-# Food
-
-## Shape
-
-* round
-* green
-
-## Growing
-
-### Model A
-
-* constant food quantity at anytime
-* auto spawing at random location
-
-### Model B
-
-
-
 # Water
 
-## Shape
+## Model A
+
+### Shape
 
 Like a lake
+
 * round
 * blue
 
-## Model A
+### Quantity
 
 * constant water volume available
 
 ## Model B
+
+### Shape
+
+[Model A](#Model-A)
+
+### Quantity
 
 * lake level is shrinking when drinked from
 * slowly grow to its full size with time

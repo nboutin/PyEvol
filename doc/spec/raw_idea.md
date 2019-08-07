@@ -1,0 +1,96 @@
+- évolution du corps au fur et à mesure. Survivre x génération = eye model b
+
+- nourriture. Full = 30s. <10% malade/faible ralentissement. Overeating obésité malade/faible ralenti
+- Eau comme nourriture. Full = 60s
+- stockage eau et good max relatif sise. Augmente mass
+- formule mouvement p*water*fois...
+- lifespan. Input ? Usefull for fitness.
+- input good and water status 
+- créature can born and died
+- look at kinetic formule for energy. Cost per time step = Size3*speed2
+- eye model. Radius around créature chat detect good
+- food quantity oscillate over time
+- food qualité par couleur?
+- ouput share food to other
+- input. detect that other créature is  Family. Parent or Children 
+- graphies can be rogue like. Ascii art
+- enable disable field or view représentation for creature 
+- sound 8bit classic music 
+- naturel sélection. Realtime or by round or both 
+- input touch sensor 
+- define roadmap 
+- evolution choose if un nouveau input et le quel doit être ajouter. Initial input type and number are random 
+- food grow like buisson and reproduce near existant one and at à random location in radius
+- water can be lake and à river lié au lac
+- Input relié to ouput = memory 
+- Ne rien faire consomme aussi de l ernegie mais moins. Output sleep ne bouge pas mais  consomme moins d énergie que de ne pas bouger mais ne pas dormir non plus
+- Definir statut énergie en fonction de food et water.
+- input timer avec différents fréquence 
+- input magnetic field 
+- food à un rayon autour représentant l odeur.
+- Input smell food et créature 
+- créature dégage une odeur sur un rayon
+- eye model. Line avec rgb plus distance. 
+- Input sound. Proportionnel au nombre de créature autour 
+- input. Constant value rgb that représentant body color 
+- world biome generator. Not sure
+- optimisation. Pass render object à la créature et elle le sauvegarde comme un weekref. Objet est sauvegarder dans la liste du game System. Si vitesse simulation trop rapide alors détruire objet dans la liste
+- gui speed-+ et pause
+- food model. Food type 1 provide nutrient A et B. Food type 2 provide nutrient B et C
+- model shape. Simple choix avec différents forme géométrique. Rond, carré.triangle.losange.rectangle...
+- model shape. Body part.actuator.muscle...
+- try simulation on a serveur with lots of power.
+- save/load  creature 
+- save/load full simulation
+- vidéo. Record son with phone
+- video zoom on créature
+- gui graph of population 
+- world has cyclic température that impact food growing and water régénération
+- input température
+- terrain type water, grass, montagne. 
+- montage freine plus on monte
+- ouput mate. Generate multiple Children. Define à paramètre pour le nombre...
+- simple biome. High middle low and none fertility. Forêt, prairie, aride, désert. Forêt with  tree 
+- keep bugs for final vidéo, démo
+- food grow overtime if not eated. Elle peut alors semer des graine qui pousseront aussi. Definir seuil minimal de food pour auto génération.
+- input speed 
+- input accélération 
+- behavior. Si assez de nourriture plus assez vieux. Grandit d un niveau. Definir niveau. Niveau pourrait être more input.
+- immortalité ralenti l evolution 
+- food pousse mais s arrête si collision. Da taille max dépend de son espace autour et de la distance de la graine par rapport à la plante mère
+- optimisation. Cython...
+- eye model. Cone de vue avec couleur et distance
+- rgb 3 valeur. Hue 1 valeur ?
+- lake model. Circle les uns sur les autres
+- gui. Paint/add lake.
+- quand une créature meurs, une nouvelle est créé avec comme parents les deux meilleurs du moment.
+- feature. Collision détection et physics engine 
+- créature have body and metabolism 
+- eye model. 1D flatland. One with cones 
+- fitness fonction. Stay alive. 
+- simuler les marée 
+- Input. Accéléromètre 2d
+- Input. Nociception sens de la douleur 
+- input. Thermoception sens du chaud et froid
+- lake can be colder than land.
+- créature paramètre. Bday 
+- feature. Save and restore all world
+- feature. Réal sensors 
+- ouput. Eat drink
+- ouput. Mate. Define radius zone of intimité. More that two parents at the time can produce à child
+- ouput reproduce. Asexuel. Pas besoin de partenaire.
+- output reproduce. Add cool down mechanism 
+- swimming take more energy than walking
+- plant grandi brunch et feuille autour d elle
+- body part. Localisation de la bouche. Bouche doit toucher nourriture pour manger
+- eye position. On the edge of the shape
+- créature shape. Each segment can have à color. Rond have 1 segment.
+- name. FlatWorld. EvoFlatWorld
+- eye field of view block by body part 
+- tick biologique différent tick physique et tick graphique, tick eye 60hz
+- input. Use normalize value
+-  eye 150°. 90+60
+-  head first design pattern 
+-  use I for class interface
+-  object rock. Not movable or with great force. Block field of view.
+-  and pymunk object téléporter To do donut world

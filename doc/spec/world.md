@@ -4,3 +4,8 @@
 
 * 3D donuts
 * 2D flat and borderless
+
+### Lake
+
+- Depth is growing toward center
+- So Creature movement are slow down the more it goes toward center
