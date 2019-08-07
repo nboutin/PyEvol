@@ -1,14 +1,13 @@
 - évolution du corps au fur et à mesure. Survivre x génération = eye model b
 
-- nourriture. Full = 30s. <10% malade/faible ralentissement. Overeating obésité malade/faible ralenti
 - Eau comme nourriture. Full = 60s
 - stockage eau et good max relatif sise. Augmente mass
 - formule mouvement p*water*fois...
 - lifespan. Input ? Usefull for fitness.
-- input good and water status 
+- input food and water status 
 - créature can born and died
 - look at kinetic formule for energy. Cost per time step = Size3*speed2
-- eye model. Radius around créature chat detect good
+- eye model. Radius around créature that detect food
 - food quantity oscillate over time
 - food qualité par couleur?
 - ouput share food to other
@@ -48,7 +47,7 @@
 - world has cyclic température that impact food growing and water régénération
 - input température
 - terrain type water, grass, montagne. 
-- montage freine plus on monte
+- montagne freine plus on monte
 - ouput mate. Generate multiple Children. Define à paramètre pour le nombre...
 - simple biome. High middle low and none fertility. Forêt, prairie, aride, désert. Forêt with  tree 
 - keep bugs for final vidéo, démo
@@ -58,7 +57,6 @@
 - behavior. Si assez de nourriture plus assez vieux. Grandit d un niveau. Definir niveau. Niveau pourrait être more input.
 - immortalité ralenti l evolution 
 - food pousse mais s arrête si collision. Da taille max dépend de son espace autour et de la distance de la graine par rapport à la plante mère
-- optimisation. Cython...
 - eye model. Cone de vue avec couleur et distance
 - rgb 3 valeur. Hue 1 valeur ?
 - lake model. Circle les uns sur les autres
