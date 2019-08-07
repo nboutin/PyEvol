@@ -13,3 +13,7 @@ class CreatureEntity(IGameEntity):
 
         self.pos = pos
         self.diameter = diameter
+
+    @property
+    def body(self):
+        return self.physics.__body
