@@ -27,24 +27,20 @@ class CreatureRenderStrategy(IRenderStrategy, Widget):
 
         with self.canvas:
             Color(*color)
-#             x, y = pos
-#             self._circle = Ellipse(
-#                 pos=(x - radius, y - radius), size=self.size)
             self._circle = Ellipse(pos=pos, size=self.size)
 
-            Color(1, 0, 0, .2)
-            self._rect_bb = Rectangle()
-
-            Color(0, 0, 1, .2)
-            self._rect_widget = Rectangle(size=self.size)
+#             Color(1, 0, 0, .2)
+#             self._rect_bb = Rectangle()
+# 
+#             Color(0, 0, 1, .2)
+#             self._rect_widget = Rectangle(size=self.size)
 
         self.bind(pos=self._update, size=self._update)
 
         widget_parent.add_widget(self)
 
     def _update(self, *args):
-        '''Todo: move this to render ?
-           use self.pos - radius ?'''
+        '''Todo: move this to render ?'''
         self._circle.pos = self.pos
         self._circle.size = self.size
 
@@ -74,10 +70,10 @@ class CreatureRenderStrategy(IRenderStrategy, Widget):
         radius = game_entity.diameter / 2
         self.pos = [x - radius for x in game_entity.pos]
 
-        body = game_entity.body
-        bb = next(iter(body.shapes)).bb
-
-        self._rect_bb.pos = (bb.left, bb.bottom)
-        self._rect_bb.size = (bb.right - bb.left, bb.top - bb.bottom)
-
-        self._rect_widget.pos = self.pos
+#         body = game_entity.body
+#         bb = next(iter(body.shapes)).bb
+# 
+#         self._rect_bb.pos = (bb.left, bb.bottom)
+#         self._rect_bb.size = (bb.right - bb.left, bb.top - bb.bottom)
+# 
+#         self._rect_widget.pos = self.pos
