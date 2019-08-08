@@ -27,31 +27,31 @@ class CreaturePhysicsStrategy(IPhysicsStrategy):
         mass = 4
 
         # Pymunk
-        self.__radius = radius
-        self.__force = force
+        self._radius = radius
+        self._force = force
 
-        moment = pymunk.moment_for_circle(mass, 0, self.__radius)
+        moment = pymunk.moment_for_circle(mass, 0, self._radius)
 
-        self.__body = pymunk.Body(mass, moment)
-        self.__body.position = pos      # circle center
-        self.__body.angle = angle
+        self._body = pymunk.Body(mass, moment)
+        self._body.position = pos      # circle center
+        self._body.angle = angle
 
-        self.__shape = pymunk.Circle(self.__body, self.__radius)
-        self.__shape.elasticity = 0.95    # bounce realism
-        self.__shape.friction = 0.9       # 0:frictionless
+        self._shape = pymunk.Circle(self._body, self._radius)
+        self._shape.elasticity = 0.95    # bounce realism
+        self._shape.friction = 0.9       # 0:frictionless
 
-        self.__shape.collision_type = collision_types['creature']
-        self.__shape.filter = pymunk.ShapeFilter(
+        self._shape.collision_type = collision_types['creature']
+        self._shape.filter = pymunk.ShapeFilter(
             categories=categories['creature'])
 
-        space.add(self.__body, self.__shape)
+        space.add(self._body, self._shape)
 
     def update(self, game_entity, world, dt):
         """physics code..."""
         powers = [2, 2]
-        p1 = powers[0] * self.__force
-        p2 = powers[1] * self.__force
-        self.__body.apply_force_at_local_point((p1, 0), (0, -self.__radius))
-        self.__body.apply_force_at_local_point((p2, 0), (0, +self.__radius))
+        p1 = powers[0] * self._force
+        p2 = powers[1] * self._force
+        self._body.apply_force_at_local_point((p1, 0), (0, -self._radius))
+        self._body.apply_force_at_local_point((p2, 0), (0, +self._radius))
 
-        game_entity.pos = self.__body.position.int_tuple
+        game_entity.pos = self._body.position.int_tuple

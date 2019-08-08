@@ -32,23 +32,23 @@ class WorldPhysicsStrategy(IPhysicsStrategy):
             bx, by = body.position
             shape = next(iter(body.shapes))
             bb = shape.bb
-#             radius = shape.radius
+            radius = shape.radius
 
             # World
             world_bb = pymunk.BB(
                 0, 0, game_entity.size[0], game_entity.size[1])
 
             if bb.right > world_bb.right:
-                body.position = (world_bb.left, by)
+                body.position = (world_bb.left + radius, by)
                 self._space.reindex_shapes_for_body(body)
             elif bb.left < world_bb.left:
-                body.position = (world_bb.right, by)
+                body.position = (world_bb.right - radius, by)
                 self._space.reindex_shapes_for_body(body)
             elif bb.top > world_bb.top:
-                body.position = (bx, world_bb.bottom)
+                body.position = (bx, world_bb.bottom + radius)
                 self._space.reindex_shapes_for_body(body)
             elif bb.bottom < world_bb.bottom:
-                body.position = (bx, world_bb.top)
+                body.position = (bx, world_bb.top - radius)
                 self._space.reindex_shapes_for_body(body)
 
         self._space.step(dt)
