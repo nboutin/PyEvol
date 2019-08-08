@@ -14,3 +14,9 @@
 ### Nutrition
 
 * 1 food = 1 food unit
+
+## Idea/Concept
+
+- Food mass is transfered when eaten (at least some of it)
+- Overall food quantity oscillate overtime
+- Food quality defined by color

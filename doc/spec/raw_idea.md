@@ -1,18 +1,6 @@
 - évolution du corps au fur et à mesure. Survivre x génération = eye model b
-
-- Eau comme nourriture. Full = 60s
-- stockage eau et good max relatif sise. Augmente mass
 - formule mouvement p*water*fois...
-- lifespan. Input ? Usefull for fitness.
-- input food and water status 
-- créature can born and died
-- look at kinetic formule for energy. Cost per time step = Size3*speed2
-- eye model. Radius around créature that detect food
-- food quantity oscillate over time
-- food qualité par couleur?
-- ouput share food to other
-- input. detect that other créature is  Family. Parent or Children 
-- graphies can be rogue like. Ascii art
+
 - enable disable field or view représentation for creature 
 - sound 8bit classic music 
 - naturel sélection. Realtime or by round or both 
@@ -34,7 +22,6 @@
 - input. Constant value rgb that représentant body color 
 - world biome generator. Not sure
 - optimisation. Pass render object à la créature et elle le sauvegarde comme un weekref. Objet est sauvegarder dans la liste du game System. Si vitesse simulation trop rapide alors détruire objet dans la liste
-- gui speed-+ et pause
 - food model. Food type 1 provide nutrient A et B. Food type 2 provide nutrient B et C
 - model shape. Simple choix avec différents forme géométrique. Rond, carré.triangle.losange.rectangle...
 - model shape. Body part.actuator.muscle...

@@ -9,3 +9,6 @@
 - status
  - food quantity
 
+# Idea/Concept
+
+- Can born and died

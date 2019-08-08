@@ -22,3 +22,25 @@ Outer sensors:
 * Eat (wants to eat)
 * Drink (wants to drink)
 * Mate (wants to reproduce)
+
+## Idea/Concept
+
+Input:
+
+- Constant:
+ - bias
+ - tick (periodic pulse)
+ - wave (sinusoidale)
+
+- Inner:
+ - food_status
+ - water_status
+ - Lifespan
+
+- Outer:
+ - eyes
+ - detect that other are familly (parent,children)
+ 
+Output:
+
+- share food with other

@@ -20,3 +20,7 @@ Parameters:
 ## Model B1
 
 * add RGB colors
+
+## Idea/Concept
+
+- radius around body where object are visible
