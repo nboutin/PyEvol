@@ -28,7 +28,7 @@ class GameSystem():
 
         self._world = self._create_world()
 
-        for _ in range(0, 30):
+        for _ in range(0, 100):
             self._create_creature()
 
         self._is_play = True
@@ -61,7 +61,7 @@ class GameSystem():
 
     def speed_up(self):
         self._physics_multiplier *= 2
-        
+
     @property
     def speed(self):
         return self._physics_multiplier
@@ -69,9 +69,9 @@ class GameSystem():
     def _run(self, dt):
 
         if self._is_play or self._step > 0:
-            
+
             dt *= self._physics_multiplier
-            
+
             self._lag += self._step if (self._step > 0) else dt
             self._step = 0
 
@@ -98,8 +98,8 @@ class GameSystem():
         self._trigger()
 
     def _create_world(self):
-        pos = (0, 0)
-        size = (600, 550)
+        pos = (50, 50)
+        size = (1200, 700)
 
         return WorldEntity(
             None,
@@ -109,8 +109,7 @@ class GameSystem():
             pos, size)
 
     def _create_creature(self):
-        #         pos = self._world.render.center
-        pos = (100, 100)
+        pos = (random.randint(0, 1200), random.randint(0, 700))
         diameter = 30
         angle = math.radians(random.randint(-180, 180))
         color = get_random_color()

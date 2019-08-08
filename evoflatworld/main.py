@@ -23,7 +23,7 @@ from evoflatworld.fps_monitor_widget import FPSMonitorWidget
 
 class EvoFlatWorldApp(App):
     def build(self):
-        #         Window.maximize()
+        Window.maximize()
 
         root = FloatLayout()
 

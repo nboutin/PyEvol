@@ -25,6 +25,11 @@ class WorldPhysicsStrategy(IPhysicsStrategy):
 
     def update(self, game_entity, world, dt):
 
+        # World
+        wx, wy = game_entity.pos
+        ww, wh = game_entity.size
+        world_bb = pymunk.BB(wx, wy, ww + wx, wh + wy)
+
         # Handle donut world for each body in space
         for body in self._space.bodies:
 
@@ -33,10 +38,6 @@ class WorldPhysicsStrategy(IPhysicsStrategy):
             shape = next(iter(body.shapes))
             bb = shape.bb
             radius = shape.radius
-
-            # World
-            world_bb = pymunk.BB(
-                0, 0, game_entity.size[0], game_entity.size[1])
 
             if bb.right > world_bb.right:
                 body.position = (world_bb.left + radius, by)
