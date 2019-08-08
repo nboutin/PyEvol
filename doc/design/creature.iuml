@@ -1,0 +1,25 @@
+@startuml
+
+abstract class CreatureEntity
+{
+	-pos
+	-diameter
+	+CreatureEntity(icontroller, iphysics, irender, pos, diameter)
+}
+
+class CreaturePhysicsStrategy
+{
+	-radius
+	-force
+	-body
+	-shape
+	+CreaturePhysicsStrategy(pos, diameter, angle, space)
+	+update(i_game_entity, world, dt)
+}
+
+class CreatureRenderStrategy
+{
+
+}
+
+@enduml
