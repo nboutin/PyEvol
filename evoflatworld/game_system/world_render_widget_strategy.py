@@ -9,6 +9,7 @@ from kivy.graphics import (Color, Rectangle)
 from evoflatworld.game_system.i_render_strategy import IRenderStrategy
 import colors
 
+
 class WorldRenderWidgetStrategy(IRenderStrategy, Widget):
 
     def __init__(self, **kwargs):
@@ -17,12 +18,5 @@ class WorldRenderWidgetStrategy(IRenderStrategy, Widget):
             Color(*colors.green)
             self._rect = Rectangle(pos=self.pos, size=self.size)
 
-#         self.bind(pos=self._update_rect, size=self._update_rect)
-
-#     def _update_rect(self, instance, pos):
-#         self._rect.pos = self.pos
-#         self._rect.size = self.size
-
     def render(self, game_entity, render):
-        #         self.size = game_entity.size
         pass
