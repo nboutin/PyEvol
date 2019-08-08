@@ -69,7 +69,10 @@ class CreatureRenderStrategy(IRenderStrategy, Widget):
 #         self.pos = render.to_parent(*game_entity.pos)
 #         print(render.pos)
 #         self.pos = (game_entity.pos[0] + render.pos[0], game_entity.pos[1] + render.pos[1])
-        self.pos = game_entity.pos
+
+#         self.pos = game_entity.pos
+        radius = game_entity.diameter / 2
+        self.pos = [x - radius for x in game_entity.pos]
 
         body = game_entity.body
         bb = next(iter(body.shapes)).bb
