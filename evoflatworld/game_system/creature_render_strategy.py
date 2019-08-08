@@ -10,6 +10,7 @@ from kivy.graphics import (Color, Ellipse, Rectangle)
 from evoflatworld.game_system.i_render_strategy import IRenderStrategy
 import colors
 
+
 class CreatureRenderStrategy(IRenderStrategy, Widget):
     def __init__(self, pos, diameter, color, widget_parent):
         '''
@@ -30,9 +31,12 @@ class CreatureRenderStrategy(IRenderStrategy, Widget):
 #             self._circle = Ellipse(
 #                 pos=(x - radius, y - radius), size=self.size)
             self._circle = Ellipse(pos=pos, size=self.size)
-            
-            Color(colors.red)
+
+            Color(1, 0, 0, .2)
             self._rect_bb = Rectangle()
+
+            Color(0, 0, 1, .2)
+            self._rect_widget = Rectangle(size=self.size)
 
         self.bind(pos=self._update, size=self._update)
 
@@ -43,7 +47,7 @@ class CreatureRenderStrategy(IRenderStrategy, Widget):
            use self.pos - radius ?'''
         self._circle.pos = self.pos
         self._circle.size = self.size
-        
+
         if self._info:
             self._info.pos = self.pos
             self._info.text = 'pos:{}\nsize:{}'.format(self.pos, self.size)
@@ -66,19 +70,11 @@ class CreatureRenderStrategy(IRenderStrategy, Widget):
 #         print(render.pos)
 #         self.pos = (game_entity.pos[0] + render.pos[0], game_entity.pos[1] + render.pos[1])
         self.pos = game_entity.pos
-        
+
         body = game_entity.body
         bb = next(iter(body.shapes)).bb
-        
+
         self._rect_bb.pos = (bb.left, bb.bottom)
-        self._rect_bb.size= (bb.right - bb.left, bb.top - bb.bottom) 
+        self._rect_bb.size = (bb.right - bb.left, bb.top - bb.bottom)
 
-
-
-
-
-
-
-
-
-
+        self._rect_widget.pos = self.pos
