@@ -25,8 +25,7 @@ class WorldRenderScatterStrategy(IRenderStrategy, Scatter):
         # canvas.after mandatory ?
         with self.canvas:
             Color(0, 1, 0, 1)
-            #Todo: make rect private
-            self.rect = Rectangle(pos=self.pos, size=self.bbox[1])
+            self._rect = Rectangle(pos=self.pos, size=self.bbox[1])
 
         self.bind(pos=self._update_rect, size=self._update_rect)
 
@@ -36,11 +35,11 @@ class WorldRenderScatterStrategy(IRenderStrategy, Scatter):
         ((x, y), (w, h))
         x, y = lower left corner
         '''
-        #         self.rect.pos = self.pos
-#         print(pos, self.pos, self.rect.pos)
+        #         self._rect.pos = self.pos
+#         print(pos, self.pos, self._rect.pos)
 #         print(self.bbox)
-        self.rect.pos = self.bbox[0]
-        self.rect.size = self.bbox[1]
+        self._rect.pos = self.bbox[0]
+        self._rect.size = self.bbox[1]
 
     def on_touch_up(self, touch):
         if self.collide_point(*touch.pos):

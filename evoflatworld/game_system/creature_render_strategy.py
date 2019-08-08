@@ -27,9 +27,9 @@ class CreatureRenderStrategy(IRenderStrategy, Widget):
         with self.canvas:
             Color(*color)
 #             x, y = pos
-#             self.__circle = Ellipse(
+#             self._circle = Ellipse(
 #                 pos=(x - radius, y - radius), size=self.size)
-            self.__circle = Ellipse(pos=pos, size=self.size)
+            self._circle = Ellipse(pos=pos, size=self.size)
             
             Color(colors.red)
             self._rect_bb = Rectangle()
@@ -41,8 +41,8 @@ class CreatureRenderStrategy(IRenderStrategy, Widget):
     def _update(self, *args):
         '''Todo: move this to render ?
            use self.pos - radius ?'''
-        self.__circle.pos = self.pos
-        self.__circle.size = self.size
+        self._circle.pos = self.pos
+        self._circle.size = self.size
         
         if self._info:
             self._info.pos = self.pos
@@ -70,8 +70,8 @@ class CreatureRenderStrategy(IRenderStrategy, Widget):
         body = game_entity.body
         bb = next(iter(body.shapes)).bb
         
-        self._rect.pos = (bb.left, bb.bottom)
-        self._rect.size= (bb.right - bb.left, bb.top - bb.bottom) 
+        self._rect_bb.pos = (bb.left, bb.bottom)
+        self._rect_bb.size= (bb.right - bb.left, bb.top - bb.bottom) 
 
 
 

@@ -16,4 +16,4 @@ class CreatureEntity(IGameEntity):
 
     @property
     def body(self):
-        return self.physics.__body
+        return self.physics._body

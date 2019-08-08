@@ -15,13 +15,13 @@ class WorldRenderWidgetStrategy(IRenderStrategy, Widget):
         super().__init__(**kwargs)
         with self.canvas:
             Color(*colors.green)
-            self.__rect = Rectangle(pos=self.pos, size=self.size)
+            self._rect = Rectangle(pos=self.pos, size=self.size)
 
 #         self.bind(pos=self._update_rect, size=self._update_rect)
 
 #     def _update_rect(self, instance, pos):
-#         self.__rect.pos = self.pos
-#         self.__rect.size = self.size
+#         self._rect.pos = self.pos
+#         self._rect.size = self.size
 
     def render(self, game_entity, render):
         #         self.size = game_entity.size
