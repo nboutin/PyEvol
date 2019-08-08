@@ -1,36 +1,11 @@
 # Creature
 
-## Body part
+## Model A
 
-### Head
+- body part
+ - body [Model A](body.md)
+ - eye [Model A](eye.md)
 
-- Head that is independent from body
-- It can rotate
-- Eyes are on the head
+- status
+ - food quantity
 
-## Shape
-
-* circle
-
-## Eyes
-
-### Model A
-
-* nearest food distance
-* two values
-
-### Model B
-
-* 2D eyes
-* see res/eye_model_b.png
-* field of view is overlaping
-* horizontal bargraph for each eyes
-* How many inputs to represents bargraph ?
-
-Parameters:
-* angle
-* distance
-
-### Model B1
-
-* add RGB colors

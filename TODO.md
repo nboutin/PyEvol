@@ -30,6 +30,7 @@
 - [ ] Compile Chipmunk in release mode
 - [ ] Create Pymunk space with option threaded=True and Space.threads=x
 - [ ] Creature is not a widget but a drawing instruction (Rectangle)
+- [ ] Use Cython
 
 ## Nice to have
 
