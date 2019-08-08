@@ -10,6 +10,7 @@
 
 ## Task
 
+- [ ] Mark selected Creature
 - [x] Display creature info (pos, size) when selected
 - [x] Add buton play/pause, step time
 

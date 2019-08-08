@@ -9,9 +9,13 @@ from kivy.graphics import (Color, Ellipse, Rectangle)
 
 from evoflatworld.game_system.i_render_strategy import IRenderStrategy
 import colors
+from kivent_core.gameworld import BooleanProperty
 
 
 class CreatureRenderStrategy(IRenderStrategy, Widget):
+
+    _is_selected = BooleanProperty(False)
+
     def __init__(self, pos, diameter, color, widget_parent):
         '''
         Todo: update widget pos at init ?
@@ -31,7 +35,7 @@ class CreatureRenderStrategy(IRenderStrategy, Widget):
 
 #             Color(1, 0, 0, .2)
 #             self._rect_bb = Rectangle()
-# 
+#
 #             Color(0, 0, 1, .2)
 #             self._rect_widget = Rectangle(size=self.size)
 
@@ -48,8 +52,13 @@ class CreatureRenderStrategy(IRenderStrategy, Widget):
             self._info.pos = self.pos
             self._info.text = 'pos:{}\nsize:{}'.format(self.pos, self.size)
 
+    def game_system(self, value):
+        self._game_system = value
+
     def on_touch_down(self, touch):
         if self.collide_point(*touch.pos):
+            if touch.button == 'left':
+                self.game_system._is_selected = False if self.game_system._is_selected else True
             if touch.button == 'right':
                 if self._info:
                     self.remove_widget(self._info)
@@ -72,8 +81,8 @@ class CreatureRenderStrategy(IRenderStrategy, Widget):
 
 #         body = game_entity.body
 #         bb = next(iter(body.shapes)).bb
-# 
+#
 #         self._rect_bb.pos = (bb.left, bb.bottom)
 #         self._rect_bb.size = (bb.right - bb.left, bb.top - bb.bottom)
-# 
+#
 #         self._rect_widget.pos = self.pos
