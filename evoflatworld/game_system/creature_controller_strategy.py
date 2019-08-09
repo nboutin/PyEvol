@@ -32,7 +32,12 @@ class CreatureControllerStrategy(IControllerStrategy, EventDispatcher):
         self._game_entity._is_selected = False
 
     def _on_key_down(self, keyboard, keycode, text, modifiers):
-        print(keycode, text, modifiers)
+        print("k", keycode, "t", text, "m", modifiers)
+
+#         (273, 'up') None ['numlock']
+#         (276, 'left') None ['numlock']
+#         (274, 'down') None ['numlock']
+#         (275, 'right') None ['numlock']
 
         # Todo: update game_entity.powers
 

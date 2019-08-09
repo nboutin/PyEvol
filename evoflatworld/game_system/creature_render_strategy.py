@@ -36,7 +36,11 @@ class CreatureRenderStrategy(IRenderStrategy, Widget):
         widget_parent.add_widget(self)
 
     def _update(self, *args):
-        '''Todo: move this to render ?'''
+        '''
+        Todo: move this to render ?
+        Is it usefull ?
+        '''
+        
         self._circle.pos = self.pos
         self._circle.size = self.size
 
@@ -67,9 +71,6 @@ class CreatureRenderStrategy(IRenderStrategy, Widget):
 
         return super().on_touch_down(touch)
     
-    def _on_is_selected(self):
-        print("on is selected")
-
     def render(self, game_entity, render):
         '''graphics code ...'''
 #         self.pos = render.to_parent(*game_entity.pos)
