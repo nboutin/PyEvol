@@ -10,6 +10,7 @@
 
 ## Task
 
+- [ ] Use Space.current_time_step for Simulation time
 - [x] Display creature info (pos, size) when selected
 - [x] Add buton play/pause, step time
 

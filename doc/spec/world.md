@@ -1,11 +1,14 @@
 # World
 
-## Shape
+## Model A
 
-* 3D donuts
-* 2D flat and borderless
+Shape:
 
-### Lake
+- 3D donuts / 2D flat and borderless
 
-- Depth is growing toward center
-- So Creature movement are slow down the more it goes toward center
+
+## Idea/Concept
+
+- Ground type (water, land/grass, mountain)
+- Lake Depth is growing toward center
+	- So Creature movement are slow down the more it goes toward center

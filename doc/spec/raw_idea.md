@@ -21,7 +21,6 @@
 - gui graph of population 
 - world has cyclic température that impact food growing and water régénération
 - input température
-- terrain type water, grass, montagne. 
 - montagne freine plus on monte
 - ouput mate. Generate multiple Children. Define à paramètre pour le nombre...
 - simple biome. High middle low and none fertility. Forêt, prairie, aride, désert. Forêt with  tree 
@@ -35,7 +34,6 @@
 - lake model. Circle les uns sur les autres
 - gui. Paint/add lake.
 - quand une créature meurs, une nouvelle est créé avec comme parents les deux meilleurs du moment.
-- feature. Collision détection et physics engine 
 - créature have body and metabolism 
 - eye model. 1D flatland. One with cones 
 - fitness fonction. Stay alive. 

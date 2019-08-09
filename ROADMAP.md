@@ -2,6 +2,7 @@
 
 ## 0.2.0
 
+- [ ] Display Simulation time
 
 ## 0.1.0
 
@@ -9,5 +10,5 @@
 - [ ] Control selected Creature with arrow keys
 - [x] Render World
 - [x] Moving Creature on World
-- [x] Physics system
-- [x] Play/Pause/Speed up/down/Step boutton
+- [x] Physics engine, collision, damping
+- [x] Play/Pause/Speed up-down/Step button
