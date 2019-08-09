@@ -1,3 +1,17 @@
+# Task Roadmap
+
+## 0.2.0
+
+- [ ] Use Space.current_time_step for Simulation time
+
+## 0.1.0
+
+- [ ] Control selected Creature with arrow keys
+	- [ ] Add Creature's eye(graphic) to represent current angle
+	- [x] Mark selected Creature, red rectangle using Bouncing Box
+- [x] Display creature info (pos, size) when selected
+- [x] Add buton play/pause, step time
+
 # TODO
 
 - [ ] Use factory pattern to create Creature
@@ -7,12 +21,6 @@
 - [x] Add FPS display (see kivy-examples/kv)
 - [x] Create EvoFlatWorld skeleton from poc/design_pattern/component
 - [x] Rename to EvoFlatWorld
-
-## Task
-
-- [ ] Use Space.current_time_step for Simulation time
-- [x] Display creature info (pos, size) when selected
-- [x] Add buton play/pause, step time
 
 ## ToFix
 

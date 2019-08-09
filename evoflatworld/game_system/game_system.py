@@ -3,19 +3,21 @@ Created on Aug 1, 2019
 
 @author: nboutin
 '''
+import math
+import random
 
 from kivy.clock import Clock
+from kivy.utils import get_random_color
+
 from evoflatworld.game_system.world_entity import WorldEntity
 from evoflatworld.game_system.world_render_scatter_strategy import WorldRenderScatterStrategy
 from evoflatworld.game_system.world_render_widget_strategy import WorldRenderWidgetStrategy
 from evoflatworld.game_system.creature_entity import CreatureEntity
 from evoflatworld.game_system.creature_render_strategy import CreatureRenderStrategy
+from evoflatworld.game_system.creature_controller_strategy import CreatureControllerStrategy
 from evoflatworld.game_system.world_physics_strategy import WorldPhysicsStrategy
 from evoflatworld.game_system.creature_physics_strategy import CreaturePhysicsStrategy
-from kivy.utils import get_random_color
-
-import math
-import random
+import colors
 
 
 class GameSystem():
@@ -28,14 +30,14 @@ class GameSystem():
 
         self._world = self._create_world()
 
-        for _ in range(0, 100):
+        for _ in range(0, 1):
             self._create_creature()
 
         self._is_play = True
         self._step = 0.0
         self._physics_step = 1.0 / 30  # time step
         self._lag = 0.0
-        self._physics_multiplier = 1
+        self._physics_multiplier = .25
 
         # call -1:before, 0:after the next frame
         self._trigger = Clock.create_trigger(self._run)
@@ -68,6 +70,12 @@ class GameSystem():
 
     def _run(self, dt):
 
+        # Controller
+        for entity in self._entities:
+            if entity.controller:
+                entity.controller.update(entity)
+
+        # Physics
         if self._is_play or self._step > 0:
 
             dt *= self._physics_multiplier
@@ -75,7 +83,6 @@ class GameSystem():
             self._lag += self._step if (self._step > 0) else dt
             self._step = 0
 
-            # Physics
             while self._lag >= self._physics_step:
 
                 self._lag -= self._physics_step
@@ -113,9 +120,10 @@ class GameSystem():
         diameter = 30
         angle = math.radians(random.randint(-180, 180))
         color = get_random_color()
+#         color = colors.Gray
 
         creature_entity = CreatureEntity(
-            None,
+            CreatureControllerStrategy(),
             CreaturePhysicsStrategy(
                 pos, diameter, angle, self._world.physics.space),
             CreatureRenderStrategy(pos, diameter, color, self._world.render), pos, diameter)
