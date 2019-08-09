@@ -7,8 +7,8 @@
 
 ## 0.1.0
 
-- [ ] Display current version in Window Title
-- [x] Control selected Creature with arrow keys
+- [ ] Control selected Creature with arrow keys
+- [x] Display current version in Window Title
 - [x] Render World
 - [x] Moving Creature on World
 - [x] Physics engine, collision, damping

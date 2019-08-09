@@ -35,16 +35,21 @@ class CreatureControllerStrategy(IControllerStrategy, Widget):
         '''Todo: launch timer that decrease power step by step'''
         
         key = keycode[1]
+        turn = 0.05
+        speed = 0.5
+        
         if key =='right':
-            self._game_entity.powers[1] += 1
+            self._game_entity.powers[0] -= turn
+            self._game_entity.powers[1] += turn
         if key =='left':
-            self._game_entity.powers[0] += 1
+            self._game_entity.powers[0] += turn
+            self._game_entity.powers[1] -= turn
         if key =='up':
-            self._game_entity.powers[0] += 1
-            self._game_entity.powers[1] += 1
+            self._game_entity.powers[0] += speed
+            self._game_entity.powers[1] += speed
         if key =='down':
-            self._game_entity.powers[0] -= 1
-            self._game_entity.powers[1] -= 1
+            self._game_entity.powers[0] -= speed
+            self._game_entity.powers[1] -= speed
 
         # Accept the key otherwise it will be used by the system
         return True

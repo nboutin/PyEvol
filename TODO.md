@@ -6,7 +6,7 @@
 
 ## 0.1.0
 
-- [ ] Control selected Creature with arrow keys
+- [x] Control selected Creature with arrow keys
 	- [ ] Add Creature's eye(graphic) to represent current angle
 	- [x] Mark selected Creature, red rectangle using Bouncing Box
 - [x] Display creature info (pos, size) when selected

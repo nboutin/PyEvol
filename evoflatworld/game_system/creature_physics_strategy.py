@@ -48,7 +48,8 @@ class CreaturePhysicsStrategy(IPhysicsStrategy):
     def update(self, game_entity, world, dt):
         """physics code..."""
         if game_entity._is_selected:
-            game_entity.powers = [max(x - .1, 0) for x in game_entity.powers]
+            #             game_entity.powers = [max(x - .1, 0) for x in game_entity.powers]
+            game_entity.powers = [max(x - .3, 0) for x in game_entity.powers]
 
         p1, p2 = [x * self._power for x in game_entity.powers]
 
