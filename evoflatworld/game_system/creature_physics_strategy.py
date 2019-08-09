@@ -16,19 +16,18 @@ class CreaturePhysicsStrategy(IPhysicsStrategy):
 
     def __init__(self, pos, diameter, angle, space):
         '''
-        Good value are radius:[10,50], mass:4, force:180
+        Good value are radius:[10,50], mass:4, power:180
         :param angle in radians
         '''
 
         # Parameters
+        self._power = 180
+        mass = 4
         radius = diameter / 2
         angle = angle
-        force = 180
-        mass = 4
 
         # Pymunk
         self._radius = radius
-        self._force = force
 
         moment = pymunk.moment_for_circle(mass, 0, self._radius)
 
@@ -48,11 +47,9 @@ class CreaturePhysicsStrategy(IPhysicsStrategy):
 
     def update(self, game_entity, world, dt):
         """physics code..."""
-        if not game_entity._is_selected:
-            powers = [2, 2]
-            p1 = powers[0] * self._force
-            p2 = powers[1] * self._force
-            self._body.apply_force_at_local_point((p1, 0), (0, -self._radius))
-            self._body.apply_force_at_local_point((p2, 0), (0, +self._radius))
-    
+        p1, p2 = [x * self._power for x in game_entity.powers]
+        
+        self._body.apply_force_at_local_point((p1, 0), (0, -self._radius))
+        self._body.apply_force_at_local_point((p2, 0), (0, +self._radius))
+        
         game_entity.pos = self._body.position.int_tuple

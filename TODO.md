@@ -10,7 +10,9 @@
 
 ## Task
 
-- [ ] Mark selected Creature
+- [ ] Control selected Creature with arrow keys
+	- [ ] Add Creature's eye(graphic) to represent current angle
+	- [ ] Mark selected Creature, red rectangle using Bouncing Box
 - [x] Display creature info (pos, size) when selected
 - [x] Add buton play/pause, step time
 
