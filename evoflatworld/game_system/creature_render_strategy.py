@@ -44,17 +44,17 @@ class CreatureRenderStrategy(IRenderStrategy, Widget):
             self._info.pos = self.pos
             self._info.text = 'pos:{}\nsize:{}'.format(self.pos, self.size)
 
-    def game_system(self, value):
-        self._game_system = value
-
+    def game_entity(self, value):
+        self._game_entity = value
+        
     def on_touch_down(self, touch):
         if self.collide_point(*touch.pos):
             if touch.button == 'left':
-                if self.game_system._is_selected:
-                    self.game_system._is_selected = False
+                if self._game_entity._is_selected:
+                    self._game_entity._is_selected = False
                     self._bb_render = None
                 else:
-                    self.game_system._is_selected = True
+                    self._game_entity._is_selected = True
                     self._bb_render = BBRender(self.canvas)
 
             if touch.button == 'right':
@@ -66,6 +66,9 @@ class CreatureRenderStrategy(IRenderStrategy, Widget):
                     self.add_widget(self._info)
 
         return super().on_touch_down(touch)
+    
+    def _on_is_selected(self):
+        print("on is selected")
 
     def render(self, game_entity, render):
         '''graphics code ...'''

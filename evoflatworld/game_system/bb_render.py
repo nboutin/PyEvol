@@ -12,7 +12,7 @@ class BBRender():
 
     def __init__(self, canvas):
         with canvas:
-            Color(*colors.red)
+            Color(*colors.Red)
             self._left = Line()
             self._top = Line()
 

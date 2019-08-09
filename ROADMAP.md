@@ -2,6 +2,7 @@
 
 ## 0.2.0
 
+- [ ] Add food, model TBD
 
 ## 0.1.0
 
