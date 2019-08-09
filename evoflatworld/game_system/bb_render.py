@@ -9,8 +9,10 @@ import colors
 
 
 class BBRender():
+    ''' Todo: inherit from InstructionGroup'''
 
     def __init__(self, canvas):
+        self._canvas = canvas
         with canvas:
             Color(*colors.Red)
             self._left = Line()
@@ -19,10 +21,10 @@ class BBRender():
             self._bottom = Line()
 
     def __del__(self):
-        self._left = None
-        self._top = None
-        self._right = None
-        self._bottom = None
+        self._canvas.remove(self._left)
+        self._canvas.remove(self._top)
+        self._canvas.remove(self._right)
+        self._canvas.remove(self._bottom)
 
     def render(self, bb):
         self._left.points = [bb.left, bb.bottom, bb.left, bb.top]

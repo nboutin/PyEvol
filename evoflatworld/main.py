@@ -29,7 +29,7 @@ class EvoFlatWorldApp(App):
         root = FloatLayout()
 
         self._game_system = GameSystem()
-        root.add_widget(self.game_system.widget)
+        root.add_widget(self._game_system.widget)
 
 #         splitter = Splitter(min_size=0, strip_size='6pt',
 # sizable_from='left', rescale_with_parent=True, size_hint=(0.2, 1))
