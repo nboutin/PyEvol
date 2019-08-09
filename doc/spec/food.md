@@ -20,3 +20,6 @@
 - Food mass is transfered when eaten (at least some of it)
 - Overall food quantity oscillate overtime
 - Food quality defined by color
+- Food grow like a bush.
+ - Reproduce near exiting one (random location in a radius)
+- Generate odour around it (vanishing with distance)

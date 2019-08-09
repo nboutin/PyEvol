@@ -1,22 +1,10 @@
 - évolution du corps au fur et à mesure. Survivre x génération = eye model b
 - formule mouvement p*water*fois...
-
 - enable disable field or view représentation for creature 
-- sound 8bit classic music 
 - naturel sélection. Realtime or by round or both 
-- input touch sensor 
-- define roadmap 
 - evolution choose if un nouveau input et le quel doit être ajouter. Initial input type and number are random 
-- food grow like buisson and reproduce near existant one and at à random location in radius
-- water can be lake and à river lié au lac
-- Input relié to ouput = memory 
-- Ne rien faire consomme aussi de l ernegie mais moins. Output sleep ne bouge pas mais  consomme moins d énergie que de ne pas bouger mais ne pas dormir non plus
 - Definir statut énergie en fonction de food et water.
-- input timer avec différents fréquence 
-- input magnetic field 
-- food à un rayon autour représentant l odeur.
-- Input smell food et créature 
-- créature dégage une odeur sur un rayon
+
 - eye model. Line avec rgb plus distance. 
 - Input sound. Proportionnel au nombre de créature autour 
 - input. Constant value rgb that représentant body color 
@@ -39,8 +27,6 @@
 - simple biome. High middle low and none fertility. Forêt, prairie, aride, désert. Forêt with  tree 
 - keep bugs for final vidéo, démo
 - food grow overtime if not eated. Elle peut alors semer des graine qui pousseront aussi. Definir seuil minimal de food pour auto génération.
-- input speed 
-- input accélération 
 - behavior. Si assez de nourriture plus assez vieux. Grandit d un niveau. Definir niveau. Niveau pourrait être more input.
 - immortalité ralenti l evolution 
 - food pousse mais s arrête si collision. Da taille max dépend de son espace autour et de la distance de la graine par rapport à la plante mère
@@ -61,7 +47,6 @@
 - créature paramètre. Bday 
 - feature. Save and restore all world
 - feature. Réal sensors 
-- ouput. Eat drink
 - ouput. Mate. Define radius zone of intimité. More that two parents at the time can produce à child
 - ouput reproduce. Asexuel. Pas besoin de partenaire.
 - output reproduce. Add cool down mechanism 
@@ -70,7 +55,6 @@
 - body part. Localisation de la bouche. Bouche doit toucher nourriture pour manger
 - eye position. On the edge of the shape
 - créature shape. Each segment can have à color. Rond have 1 segment.
-- name. FlatWorld. EvoFlatWorld
 - eye field of view block by body part 
 - tick biologique différent tick physique et tick graphique, tick eye 60hz
 - input. Use normalize value
