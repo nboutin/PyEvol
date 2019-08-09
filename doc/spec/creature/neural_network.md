@@ -29,18 +29,28 @@ Input:
 
 - Constant:
  - bias
- - tick (periodic pulse)
+ - tick (periodic pulse, different frequence)
  - wave (sinusoidale)
 
 - Inner:
  - food_status
  - water_status
  - Lifespan
+ - speed
+ - acceleration
 
 - Outer:
  - eyes
+ - touch sensor
+ - smell sensor (food, other creature)
+ - magnetic field (knows North direction, add noise to avoid perfection)
+ - memory slots
  - detect that other are familly (parent,children)
  
 Output:
 
+- sleep
+- eat
+- drink
 - share food with other
+- memory slots

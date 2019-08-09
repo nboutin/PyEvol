@@ -28,7 +28,7 @@ class EvoFlatWorldApp(App):
 
         root = FloatLayout()
 
-        self.game_system = GameSystem()
+        self._game_system = GameSystem()
         root.add_widget(self.game_system.widget)
 
 #         splitter = Splitter(min_size=0, strip_size='6pt',
@@ -37,7 +37,7 @@ class EvoFlatWorldApp(App):
 #         info_layout = BoxLayout(orientation='vertical', size_hint=(.2, 1))
 #         info_layout.add_widget(Widget()) # blank
 
-        root.add_widget(TimeControllerWidget(self.game_system,
+        root.add_widget(TimeControllerWidget(self._game_system,
                                              pos_hint={'center_x': .5, 'top': 1}))
 
         root.add_widget(FPSMonitorWidget(pos_hint={'x': 0.02, 'top': .99}))
