@@ -119,8 +119,8 @@ class GameSystem():
         pos = (random.randint(0, 1200), random.randint(0, 700))
         diameter = 30
         angle = math.radians(random.randint(-180, 180))
-#         color = get_random_color()
-        color = colors.Gray
+        color = get_random_color()
+#         color = colors.Gray
 
         creature_entity = CreatureEntity(
             CreatureControllerStrategy(),

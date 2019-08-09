@@ -6,7 +6,7 @@
 
 ## 0.1.0
 
-- [ ] Control selected Creature with arrow keys
+- [x] Control selected Creature with arrow keys
 - [x] Render World
 - [x] Moving Creature on World
 - [x] Physics system

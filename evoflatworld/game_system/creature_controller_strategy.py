@@ -5,10 +5,10 @@ Created on Aug 8, 2019
 '''
 from evoflatworld.game_system.i_controller_strategy import IControllerStrategy
 from kivy.core.window import Window
-from kivy.event import EventDispatcher
+from kivy.uix.widget import Widget
 
 
-class CreatureControllerStrategy(IControllerStrategy, EventDispatcher):
+class CreatureControllerStrategy(IControllerStrategy, Widget):
 
     def __init__(self, **k):
         super().__init__(**k)

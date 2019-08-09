@@ -40,17 +40,18 @@ class CreatureRenderStrategy(IRenderStrategy, Widget):
         Todo: move this to render ?
         Is it usefull ?
         '''
-        
+
         self._circle.pos = self.pos
         self._circle.size = self.size
 
         if self._info:
             self._info.pos = self.pos
-            self._info.text = 'pos:{}\nsize:{}'.format(self.pos, self.size)
+            self._info.text = 'pos:{}\nsize:{}\npowers:{}'.format(
+                self.pos, self.size, ["{0:0.2f}".format(i) for i in self._game_entity.powers])
 
     def game_entity(self, value):
         self._game_entity = value
-        
+
     def on_touch_down(self, touch):
         if self.collide_point(*touch.pos):
             if touch.button == 'left':
@@ -70,7 +71,7 @@ class CreatureRenderStrategy(IRenderStrategy, Widget):
                     self.add_widget(self._info)
 
         return super().on_touch_down(touch)
-    
+
     def render(self, game_entity, render):
         '''graphics code ...'''
 #         self.pos = render.to_parent(*game_entity.pos)
