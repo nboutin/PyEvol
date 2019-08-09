@@ -9,7 +9,7 @@ import colors
 
 
 class BBRender():
-    ''' Todo: inherit from InstructionGroup'''
+    ''' Todo: inherit from Widget to avoid Exception during Window resize'''
 
     def __init__(self, canvas):
         self._canvas = canvas

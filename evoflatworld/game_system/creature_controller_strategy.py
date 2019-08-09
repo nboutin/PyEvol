@@ -32,15 +32,19 @@ class CreatureControllerStrategy(IControllerStrategy, EventDispatcher):
         self._game_entity._is_selected = False
 
     def _on_key_down(self, keyboard, keycode, text, modifiers):
-        print("k", keycode, "t", text, "m", modifiers)
-
-        # k (275, 'right') t None m ['numlock']
-        # k (273, 'up') t None m ['numlock']
-        # k (276, 'left') t None m ['numlock']
-        # k (274, 'down') t None m ['numlock']
-        # k (275, 'right') t None m ['numlock']
-
-        # Todo: update game_entity.powers
+        '''Todo: launch timer that decrease power step by step'''
+        
+        key = keycode[1]
+        if key =='right':
+            self._game_entity.powers[1] += 1
+        if key =='left':
+            self._game_entity.powers[0] += 1
+        if key =='up':
+            self._game_entity.powers[0] += 1
+            self._game_entity.powers[1] += 1
+        if key =='down':
+            self._game_entity.powers[0] -= 1
+            self._game_entity.powers[1] -= 1
 
         # Accept the key otherwise it will be used by the system
         return True
