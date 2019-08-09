@@ -10,6 +10,7 @@ from evoflatworld.game_system.world_render_scatter_strategy import WorldRenderSc
 from evoflatworld.game_system.world_render_widget_strategy import WorldRenderWidgetStrategy
 from evoflatworld.game_system.creature_entity import CreatureEntity
 from evoflatworld.game_system.creature_render_strategy import CreatureRenderStrategy
+from evoflatworld.game_system.creature_controller_strategy import CreatureControllerStrategy
 from evoflatworld.game_system.world_physics_strategy import WorldPhysicsStrategy
 from evoflatworld.game_system.creature_physics_strategy import CreaturePhysicsStrategy
 from kivy.utils import get_random_color
@@ -115,7 +116,7 @@ class GameSystem():
         color = get_random_color()
 
         creature_entity = CreatureEntity(
-            None,
+            CreatureControllerStrategy(),
             CreaturePhysicsStrategy(
                 pos, diameter, angle, self._world.physics.space),
             CreatureRenderStrategy(pos, diameter, color, self._world.render), pos, diameter)
