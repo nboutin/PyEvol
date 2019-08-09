@@ -69,6 +69,7 @@ class GameSystem():
 
     def _run(self, dt):
 
+        # Physics
         if self._is_play or self._step > 0:
 
             dt *= self._physics_multiplier
@@ -76,7 +77,6 @@ class GameSystem():
             self._lag += self._step if (self._step > 0) else dt
             self._step = 0
 
-            # Physics
             while self._lag >= self._physics_step:
 
                 self._lag -= self._physics_step

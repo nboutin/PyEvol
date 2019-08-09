@@ -5,7 +5,7 @@ Created on Aug 8, 2019
 '''
 
 
-class IController():
+class IControllerStrategy():
     '''
     This an interface.
     Method update must be implemented by subclasses.
