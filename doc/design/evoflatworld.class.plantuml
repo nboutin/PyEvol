@@ -1,0 +1,129 @@
+@startuml
+
+package "kivy" {
+
+class App {
+	+build()
+}
+
+class Widget {
+	+pos
+	+size
+}
+
+class Label
+}
+
+class EvoFlatWorldApp
+{
+	-GameSystem game_system
+}
+
+class GameSystem
+{
+	-entities
+	-world
+	-is_play
+	-step
+	-physics_step
+	-lag
+	-physics_multiplier
+	-trigger
+	+widget()
+	+play()
+	+pause()
+	+step()
+	+speed_up()
+	+speed_down()
+	-run()
+	-create_world()
+	-create_creature()
+}
+
+interface IGameEntity
+{
+	-icontroller
+	-iphysics
+	-irender
+	+IGameEntity(icontroller, iphysics, irender)
+	+controller()
+	+physics()
+	+render()
+}
+
+interface IPhysicsStrategy
+{
+	+{abstract}update(i_game_entity, world, dt)
+}
+
+interface IRenderStrategy
+{
+	+{abstract}render(i_game_entity, render)
+}
+
+abstract class WorldEntity
+{
+	-pos
+	-size
+}
+
+class WorldPhysicsStrategy
+{
+	-space
+	+space()
+	+update(game_entity, world, dt)
+}
+
+class WorldRenderWidgetStrategy
+{
+	-rect
+	+render(game_entity, render)
+}
+
+abstract class CreatureEntity
+{
+	-pos
+	-diameter
+	+CreatureEntity(icontroller, iphysics, irender, pos, diameter)
+	+body()
+}
+
+class CreaturePhysicsStrategy
+{
+	-radius
+	-force
+	-body
+	-shape
+	+CreaturePhysicsStrategy(pos, diameter, angle, space)
+	+update(i_game_entity, world, dt)
+}
+
+class CreatureRenderStrategy
+{
+	-circle
+	-info
+	-upate(instance, pos)
+	+on_touch_down(touch)
+	+render(game_entity, render)
+}
+
+App <|-- EvoFlatWorldApp
+EvoFlatWorldApp "1" *-- GameSystem
+
+GameSystem *-- CreatureEntity
+
+IGameEntity <|-- CreatureEntity
+IGameEntity <|-- WorldEntity
+IGameEntity o-- IPhysicsStrategy
+IGameEntity o-- IRenderStrategy
+
+IPhysicsStrategy <|-- WorldPhysicsStrategy
+IPhysicsStrategy <|-- CreaturePhysicsStrategy
+IRenderStrategy <|-- WorldRenderWidgetStrategy
+Widget <|-- WorldRenderWidgetStrategy
+IRenderStrategy <|-- CreatureRenderStrategy
+Widget <|-- CreatureRenderStrategy
+
+CreatureRenderStrategy *-- Label
+
+@enduml

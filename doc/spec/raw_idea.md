@@ -1,0 +1,63 @@
+- évolution du corps au fur et à mesure. Survivre x génération = eye model b
+- formule mouvement p*water*fois...
+- enable disable field or view représentation for creature 
+- naturel sélection. Realtime or by round or both 
+- evolution choose if un nouveau input et le quel doit être ajouter. Initial input type and number are random 
+- Definir statut énergie en fonction de food et water.
+
+- eye model. Line avec rgb plus distance. 
+- Input sound. Proportionnel au nombre de créature autour 
+- input. Constant value rgb that représentant body color 
+- world biome generator. Not sure
+- optimisation. Pass render object à la créature et elle le sauvegarde comme un weekref. Objet est sauvegarder dans la liste du game System. Si vitesse simulation trop rapide alors détruire objet dans la liste
+- food model. Food type 1 provide nutrient A et B. Food type 2 provide nutrient B et C
+- model shape. Simple choix avec différents forme géométrique. Rond, carré.triangle.losange.rectangle...
+- model shape. Body part.actuator.muscle...
+- try simulation on a serveur with lots of power.
+- save/load  creature 
+- save/load full simulation
+- vidéo. Record son with phone
+- video zoom on créature
+- gui graph of population 
+- world has cyclic température that impact food growing and water régénération
+- input température
+- montagne freine plus on monte
+- ouput mate. Generate multiple Children. Define à paramètre pour le nombre...
+- simple biome. High middle low and none fertility. Forêt, prairie, aride, désert. Forêt with  tree 
+- keep bugs for final vidéo, démo
+- food grow overtime if not eated. Elle peut alors semer des graine qui pousseront aussi. Definir seuil minimal de food pour auto génération.
+- behavior. Si assez de nourriture plus assez vieux. Grandit d un niveau. Definir niveau. Niveau pourrait être more input.
+- immortalité ralenti l evolution 
+- food pousse mais s arrête si collision. Da taille max dépend de son espace autour et de la distance de la graine par rapport à la plante mère
+- eye model. Cone de vue avec couleur et distance
+- rgb 3 valeur. Hue 1 valeur ?
+- lake model. Circle les uns sur les autres
+- gui. Paint/add lake.
+- quand une créature meurs, une nouvelle est créé avec comme parents les deux meilleurs du moment.
+- créature have body and metabolism 
+- eye model. 1D flatland. One with cones 
+- fitness fonction. Stay alive. 
+- simuler les marée 
+- Input. Accéléromètre 2d
+- Input. Nociception sens de la douleur 
+- input. Thermoception sens du chaud et froid
+- lake can be colder than land.
+- créature paramètre. Bday 
+- feature. Save and restore all world
+- feature. Réal sensors 
+- ouput. Mate. Define radius zone of intimité. More that two parents at the time can produce à child
+- ouput reproduce. Asexuel. Pas besoin de partenaire.
+- output reproduce. Add cool down mechanism 
+- swimming take more energy than walking
+- plant grandi brunch et feuille autour d elle
+- body part. Localisation de la bouche. Bouche doit toucher nourriture pour manger
+- eye position. On the edge of the shape
+- créature shape. Each segment can have à color. Rond have 1 segment.
+- eye field of view block by body part 
+- tick biologique différent tick physique et tick graphique, tick eye 60hz
+- input. Use normalize value
+-  eye 150°. 90+60
+-  head first design pattern 
+-  use I for class interface
+-  object rock. Not movable or with great force. Block field of view.
+-  and pymunk object téléporter To do donut world
