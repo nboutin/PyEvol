@@ -18,36 +18,35 @@ class CreatureControllerStrategy(IControllerStrategy, Widget):
         self._game_entity = value
 
     def _request_keyboard(self):
-        print("request keyboard")
         self._keyboard = Window.request_keyboard(
             self._on_keyboard_closed, self)
         self._keyboard.bind(on_key_down=self._on_key_down)
 
     def _on_keyboard_closed(self):
-        print("_on_keyboard_closed")
-        self._keyboard.unbind(on_key_down=self._on_key_down)
-        self._keyboard = None
+        if self._keyboard:
+            self._keyboard.unbind(on_key_down=self._on_key_down)
+            self._keyboard = None
 
         # Keyboard requested elsewhere, so creature not selected anymore
         self._game_entity._is_selected = False
 
     def _on_key_down(self, keyboard, keycode, text, modifiers):
         '''Todo: launch timer that decrease power step by step'''
-        
+
         key = keycode[1]
         turn = 0.05
         speed = 0.5
-        
-        if key =='right':
+
+        if key == 'right':
             self._game_entity.powers[0] -= turn
             self._game_entity.powers[1] += turn
-        if key =='left':
+        if key == 'left':
             self._game_entity.powers[0] += turn
             self._game_entity.powers[1] -= turn
-        if key =='up':
+        if key == 'up':
             self._game_entity.powers[0] += speed
             self._game_entity.powers[1] += speed
-        if key =='down':
+        if key == 'down':
             self._game_entity.powers[0] -= speed
             self._game_entity.powers[1] -= speed
 
@@ -58,5 +57,6 @@ class CreatureControllerStrategy(IControllerStrategy, Widget):
 
         if not self._keyboard and game_entity._is_selected:
             self._request_keyboard()
-        elif self._keyboard and not game_entity._is_selected:
-            self._on_keyboard_closed()
+
+        # Do not release keyboard manually, it will be release when something else
+        # request it
