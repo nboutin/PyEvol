@@ -3,11 +3,11 @@
 ## 0.2.0
 
 - [ ] Use Space.current_time_step for Simulation time
+- [ ] Add Creature's eye(graphic) to represent current angle
 
 ## 0.1.0
 
 - [x] Control selected Creature with arrow keys
-	- [ ] Add Creature's eye(graphic) to represent current angle
 	- [x] Mark selected Creature, red rectangle using Bouncing Box
 - [x] Display creature info (pos, size) when selected
 - [x] Add buton play/pause, step time

@@ -30,14 +30,14 @@ class GameSystem():
 
         self._world = self._create_world()
 
-        for _ in range(0, 10):
+        for _ in range(0, 50):
             self._create_creature()
 
         self._is_play = True
         self._step = 0.0
         self._physics_step = 1.0 / 30  # time step
         self._lag = 0.0
-        self._physics_multiplier = .25
+        self._physics_multiplier = 1.0
 
         # call -1:before, 0:after the next frame
         self._trigger = Clock.create_trigger(self._run)
