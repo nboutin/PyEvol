@@ -15,18 +15,18 @@ from evoflatworld.game_system.bb_render import BBRender
 
 class CreatureRenderStrategy(IRenderStrategy, Widget):
 
-    def __init__(self, pos, diameter, color, widget_parent, **k):
+    def __init__(self, pos, radius, color, widget_parent, **k):
 
         super().__init__(**k)
 
         # Parameters
 
         # Widget
-        self.pos = [x - diameter / 2 for x in pos]
-        self.size = [diameter, diameter]
+        self.pos = [x - radius for x in pos]
+        self.size = [radius * 2, radius * 2]
         self._info = None
         self._bb_render = None
-        
+
         with self.canvas:
             # Body
             Color(*color)
@@ -75,7 +75,7 @@ class CreatureRenderStrategy(IRenderStrategy, Widget):
     def render(self, game_entity, render):
         '''graphics code ...'''
 #         self.pos = render.to_parent(*game_entity.pos)
-    
+
         self.pos = (game_entity.body_bb.left, game_entity.body_bb.bottom)
 
         self._circle.pos = self.pos

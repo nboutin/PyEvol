@@ -14,31 +14,28 @@ categories = {"border": 0x01, "creature": 0x02, "food": 0x04, }
 
 class CreaturePhysicsStrategy(IPhysicsStrategy):
 
-    def __init__(self, pos, diameter, angle, space):
+    def __init__(self, pos, radius, angle, space):
         '''
         Good value are radius:[10,50], mass:4, power:180
         :param angle in radians
         '''
 
         # Parameters
-        self._power = 180
-        mass = 4
-        radius = diameter / 2
+        self.__POWER = 180
+        __MASS = 4
         angle = angle
         eye_radius = 3
 
         # Pymunk
-        self._radius = radius
-
-        moment = pm.moment_for_circle(mass, 0, self._radius)
+        moment = pm.moment_for_circle(__MASS, 0, radius)
 
         # Body
-        self._body = pm.Body(mass, moment)
+        self._body = pm.Body(__MASS, moment)
         self._body.position = pos      # circle center
         self._body.angle = angle
 
         # Body shape
-        self._body_shape = pm.Circle(self._body, self._radius)
+        self._body_shape = pm.Circle(self._body, radius)
         self._body_shape.elasticity = 0.95    # bounce realism
         self._body_shape.friction = 0.9       # 0:frictionless
 
@@ -63,10 +60,11 @@ class CreaturePhysicsStrategy(IPhysicsStrategy):
             # with manual control decrease power overtime untill zero
             game_entity.powers = [max(x - .3, 0) for x in game_entity.powers]
 
-        p1, p2 = [x * self._power for x in game_entity.powers]
+        p1, p2 = [x * self.__POWER for x in game_entity.powers]
 
-        self._body.apply_force_at_local_point((p1, 0), (0, -self._radius))
-        self._body.apply_force_at_local_point((p2, 0), (0, +self._radius))
+        radius = self._body_shape.radius
+        self._body.apply_force_at_local_point((p1, 0), (0, -radius))
+        self._body.apply_force_at_local_point((p2, 0), (0, +radius))
 
         game_entity.body_bb = self._body_shape.bb
         game_entity.eye_left_bb = self._eye_left_shape.bb

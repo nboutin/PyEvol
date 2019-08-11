@@ -116,7 +116,7 @@ class GameSystem():
 
     def _create_creature(self):
         pos = (random.randint(0, 1200), random.randint(0, 700))
-        diameter = 30
+        radius = 15
         angle = math.radians(random.randint(-180, 180))
         color = get_random_color()
 #         color = colors.Gray
@@ -124,9 +124,8 @@ class GameSystem():
         creature_entity = CreatureEntity(
             CreatureControllerStrategy(),
             CreaturePhysicsStrategy(
-                pos, diameter, angle, self._world.physics.space),
-            CreatureRenderStrategy(pos, diameter, color,
-                                   self._world.render, size_hint=(None, None)),
-            pos, diameter)
+                pos, radius, angle, self._world.physics.space),
+            CreatureRenderStrategy(pos, radius, color,
+                                   self._world.render, size_hint=(None, None)))
 
         self._entities.append(creature_entity)
