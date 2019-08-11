@@ -105,15 +105,14 @@ class GameSystem():
         self._trigger()
 
     def _create_world(self):
-        pos = (50, 50)
         size = (1200, 700)
 
         return WorldEntity(
             None,
             WorldPhysicsStrategy(),
             # WorldRenderScatterStrategy(size=size, pos=pos,
-            WorldRenderWidgetStrategy(size=size, pos=pos),
-            pos, size)
+            WorldRenderWidgetStrategy(
+                size=size, pos=(50, 50), size_hint=(None, None)), size)
 
     def _create_creature(self):
         pos = (random.randint(0, 1200), random.randint(0, 700))
@@ -126,6 +125,8 @@ class GameSystem():
             CreatureControllerStrategy(),
             CreaturePhysicsStrategy(
                 pos, diameter, angle, self._world.physics.space),
-            CreatureRenderStrategy(pos, diameter, color, self._world.render), pos, diameter)
+            CreatureRenderStrategy(pos, diameter, color,
+                                   self._world.render, size_hint=(None, None)),
+            pos, diameter)
 
         self._entities.append(creature_entity)
