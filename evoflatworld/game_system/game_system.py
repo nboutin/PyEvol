@@ -9,6 +9,7 @@ import random
 from kivy.clock import Clock
 from kivy.utils import get_random_color
 
+import colors
 from evoflatworld.game_system.world.world_entity import WorldEntity
 from evoflatworld.game_system.world.world_physics_strategy import WorldPhysicsStrategy
 from evoflatworld.game_system.world.world_render_scatter_strategy import WorldRenderScatterStrategy
@@ -17,7 +18,8 @@ from evoflatworld.game_system.creature.creature_entity import CreatureEntity
 from evoflatworld.game_system.creature.creature_controller_strategy import CreatureControllerStrategy
 from evoflatworld.game_system.creature.creature_physics_strategy import CreaturePhysicsStrategy
 from evoflatworld.game_system.creature.creature_render_strategy import CreatureRenderStrategy
-import colors
+from evoflatworld.game_system.food.food_entity import FoodEntity
+from evoflatworld.game_system.food.food_render_strategy import FoodRenderStrategy
 
 
 class GameSystem():
@@ -29,6 +31,9 @@ class GameSystem():
         self._entities = list()
 
         self._world = self._create_world()
+        
+        for _ in range (0, 20):
+            self._create_food()
 
         for _ in range(0, 50):
             self._create_creature()
@@ -124,8 +129,21 @@ class GameSystem():
 
         creature_entity = CreatureEntity(
             CreatureControllerStrategy(),
-            CreaturePhysicsStrategy(
-                pos, diameter, angle, self._world.physics.space),
-            CreatureRenderStrategy(pos, diameter, color, self._world.render), pos, diameter)
+            CreaturePhysicsStrategy(pos, diameter, angle, self._world.physics.space),
+            CreatureRenderStrategy(pos, diameter, color, self._world.render), 
+            pos, diameter)
 
         self._entities.append(creature_entity)
+        
+    def _create_food(self):
+        
+        pos = (random.randint(0, 1200), random.randint(0, 700))
+        diameter = 20
+        
+        food_entity = FoodEntity(
+            None,
+            None,
+            FoodRenderStrategy(pos, diameter, self._world.render),
+            pos, diameter)
+        
+        self._entities.append(food_entity)

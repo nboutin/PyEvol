@@ -14,11 +14,11 @@ from evoflatworld.game_system.bb_render import BBRender
 
 class CreatureRenderStrategy(IRenderStrategy, Widget):
 
-    def __init__(self, pos, diameter, color, widget_parent):
+    def __init__(self, pos, diameter, color, widget_parent, **k):
         '''
         Todo: update widget pos at init ?
         '''
-        super().__init__()
+        super().__init__(**k)
 
         # Parameters
 
