@@ -12,9 +12,9 @@ class CreatureEntity(IGameEntity):
         super().__init__(icontroller, iphysics, irender)
 
         # Parameters
-        self.body_bb = None
-        self.eye_left_bb = None
-        self.eye_right_bb = None
+        self.body_shape = None
+        self.eye_left_shape = None
+        self.eye_right_shape = None
 
         self.powers = [2, 2]
         self._is_selected = False

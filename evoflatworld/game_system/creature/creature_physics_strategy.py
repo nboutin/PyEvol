@@ -66,6 +66,6 @@ class CreaturePhysicsStrategy(IPhysicsStrategy):
         self._body.apply_force_at_local_point((p1, 0), (0, -radius))
         self._body.apply_force_at_local_point((p2, 0), (0, +radius))
 
-        game_entity.body_bb = self._body_shape.bb
-        game_entity.eye_left_bb = self._eye_left_shape.bb
-        game_entity.eye_right_bb = self._eye_right_shape.bb
+        game_entity.body_shape = self._body_shape
+        game_entity.eye_left_shape = self._eye_left_shape
+        game_entity.eye_right_shape = self._eye_right_shape

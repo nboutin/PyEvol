@@ -11,6 +11,7 @@ import colors
 import evoflatworld.utils.pymunk_util
 from evoflatworld.game_system.i_render_strategy import IRenderStrategy
 from evoflatworld.game_system.bb_render import BBRender
+from evoflatworld.utils.pymunk_util import update_ellipse_from_circle
 
 
 class CreatureRenderStrategy(IRenderStrategy, Widget):
@@ -76,20 +77,15 @@ class CreatureRenderStrategy(IRenderStrategy, Widget):
         '''graphics code ...'''
 #         self.pos = render.to_parent(*game_entity.pos)
 
-        self.pos = (game_entity.body_bb.left, game_entity.body_bb.bottom)
-
-        self._circle.pos = self.pos
-        self._circle.size = self.size
+        update_ellipse_from_circle(self._circle, game_entity.body_shape)
+        self.pos = self._circle.pos
 
         # Render eyes
-        # Todo: use bb size
-        self._eye_left_circle.pos = (game_entity.eye_left_bb.left,
-                                     game_entity.eye_left_bb.bottom)
-        self._eye_left_circle.size = (3, 3)
-        self._eye_right_circle.pos = (game_entity.eye_right_bb.left,
-                                      game_entity.eye_right_bb.bottom)
-        self._eye_right_circle.size = (3, 3)
+        update_ellipse_from_circle(
+            self._eye_left_circle, game_entity.eye_left_shape)
+        update_ellipse_from_circle(
+            self._eye_right_circle, game_entity.eye_right_shape)
 
         # Render Bouncing Box
         if self._bb_render:
-            self._bb_render.render(game_entity.body_bb)
+            self._bb_render.render(game_entity.body_shape.bb)
