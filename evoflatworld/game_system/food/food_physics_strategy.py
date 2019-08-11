@@ -12,3 +12,6 @@ class FoodPhysicsStrategy(IPhysicsStrategy):
 
     def __init__(self, pos, diameter, space):
         pass
+
+    def update(self, i_game_entity, world, dt):
+        pass
