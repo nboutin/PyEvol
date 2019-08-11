@@ -12,7 +12,10 @@ class CreatureEntity(IGameEntity):
         super().__init__(icontroller, iphysics, irender)
 
         # Parameters
-        self.pos = pos
+        self.body_bb = None
+        self.eye_left_bb = None
+        self.eye_right_bb = None
+
         self.diameter = diameter
         self.powers = [2, 2]
         self._is_selected = False
@@ -20,7 +23,3 @@ class CreatureEntity(IGameEntity):
         # Setup
         icontroller.game_entity(self)
         irender.game_entity(self)
-
-    @property
-    def body(self):
-        return self.physics._body

@@ -34,7 +34,7 @@ class CreatureControllerStrategy(IControllerStrategy, Widget):
         '''Todo: launch timer that decrease power step by step'''
 
         key = keycode[1]
-        turn = 0.05
+        turn = 0.5
         speed = 0.5
 
         if key == 'right':
