@@ -3,21 +3,22 @@ Created on Aug 2, 2019
 
 @author: nboutin
 '''
-from kivy.uix.widget import Widget
 from kivy.graphics import (Color, Rectangle)
+from kivy.uix.relativelayout import RelativeLayout
 
 from evoflatworld.game_system.i_render_strategy import IRenderStrategy
 import colors
 
 
-class WorldRenderWidgetStrategy(IRenderStrategy, Widget):
+class WorldRenderWidgetStrategy(IRenderStrategy, RelativeLayout):
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+    def __init__(self, **k):
+        super().__init__(**k)
+        
         with self.canvas:
             Color(*colors.Green2246c)
 #             Color(*colors.Black)
-            self._rect = Rectangle(pos=self.pos, size=self.size)
+            self._rect = Rectangle(pos=(0, 0), size=self.size)
 
     def render(self, game_entity, render):
         pass
