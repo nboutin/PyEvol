@@ -9,14 +9,14 @@ import random
 from kivy.clock import Clock
 from kivy.utils import get_random_color
 
-from evoflatworld.game_system.world_entity import WorldEntity
-from evoflatworld.game_system.world_render_scatter_strategy import WorldRenderScatterStrategy
-from evoflatworld.game_system.world_render_widget_strategy import WorldRenderWidgetStrategy
-from evoflatworld.game_system.creature_entity import CreatureEntity
-from evoflatworld.game_system.creature_render_strategy import CreatureRenderStrategy
-from evoflatworld.game_system.creature_controller_strategy import CreatureControllerStrategy
-from evoflatworld.game_system.world_physics_strategy import WorldPhysicsStrategy
-from evoflatworld.game_system.creature_physics_strategy import CreaturePhysicsStrategy
+from evoflatworld.game_system.world.world_entity import WorldEntity
+from evoflatworld.game_system.world.world_physics_strategy import WorldPhysicsStrategy
+from evoflatworld.game_system.world.world_render_scatter_strategy import WorldRenderScatterStrategy
+from evoflatworld.game_system.world.world_render_widget_strategy import WorldRenderWidgetStrategy
+from evoflatworld.game_system.creature.creature_entity import CreatureEntity
+from evoflatworld.game_system.creature.creature_controller_strategy import CreatureControllerStrategy
+from evoflatworld.game_system.creature.creature_physics_strategy import CreaturePhysicsStrategy
+from evoflatworld.game_system.creature.creature_render_strategy import CreatureRenderStrategy
 import colors
 
 
