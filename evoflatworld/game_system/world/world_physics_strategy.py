@@ -26,9 +26,8 @@ class WorldPhysicsStrategy(IPhysicsStrategy):
     def update(self, game_entity, world, dt):
 
         # World
-        wx, wy = game_entity.pos
         ww, wh = game_entity.size
-        world_bb = pymunk.BB(wx, wy, ww + wx, wh + wy)
+        world_bb = pymunk.BB(0, 0, ww, wh)
 
         # Handle donut world for each body in space
         for body in self._space.bodies:

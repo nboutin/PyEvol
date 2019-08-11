@@ -8,15 +8,14 @@ from evoflatworld.game_system.i_game_entity import IGameEntity
 
 class CreatureEntity(IGameEntity):
 
-    def __init__(self, icontroller, iphysics, irender, pos, diameter):
+    def __init__(self, icontroller, iphysics, irender):
         super().__init__(icontroller, iphysics, irender)
 
         # Parameters
-        self.body_bb = None
-        self.eye_left_bb = None
-        self.eye_right_bb = None
+        self.body_shape = None
+        self.eye_left_shape = None
+        self.eye_right_shape = None
 
-        self.diameter = diameter
         self.powers = [2, 2]
         self._is_selected = False
 
