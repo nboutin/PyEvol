@@ -36,7 +36,7 @@ class GameSystem():
 
         self._world = self._create_world()
 
-        for _ in range(0, 20):
+        for _ in range(0, 1):
             self._create_food()
 
         for _ in range(0, 50):
@@ -144,12 +144,12 @@ class GameSystem():
     def _create_food(self):
 
         pos = (random.randint(0, 1200), random.randint(0, 700))
-        diameter = 20
+        radius = 10
 
         food_entity = FoodEntity(
             None,
-            FoodPhysicsStrategy(pos, diameter, self._physics_controller.space),
+            FoodPhysicsStrategy(pos, radius, self._physics_controller.space),
             FoodRenderStrategy(
-                pos, diameter, self._world.render, size_hint=(None, None)))
+                pos, radius, self._world.render, size_hint=(None, None)))
 
         self._entities.append(food_entity)

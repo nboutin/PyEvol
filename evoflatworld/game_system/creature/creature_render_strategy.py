@@ -55,21 +55,22 @@ class CreatureRenderStrategy(IRenderStrategy, Widget):
 
     def on_touch_down(self, touch):
         if self.collide_point(*touch.pos):
-            if touch.button == 'left':
-                if self._game_entity._is_selected:
-                    self._game_entity._is_selected = False
-                    self._bb_render = None
-                else:
-                    self._game_entity._is_selected = True
-                    self._bb_render = BBRender(self.canvas)
-
-            if touch.button == 'right':
-                if self._info:
-                    self.remove_widget(self._info)
-                    self._info = None
-                else:
-                    self._info = Label(font_size='10sp')
-                    self.add_widget(self._info)
+            if touch.button:
+                if touch.button == 'left':
+                    if self._game_entity._is_selected:
+                        self._game_entity._is_selected = False
+                        self._bb_render = None
+                    else:
+                        self._game_entity._is_selected = True
+                        self._bb_render = BBRender(self.canvas)
+    
+                if touch.button == 'right':
+                    if self._info:
+                        self.remove_widget(self._info)
+                        self._info = None
+                    else:
+                        self._info = Label(font_size='10sp')
+                        self.add_widget(self._info)
 
         return super().on_touch_down(touch)
 

@@ -8,22 +8,23 @@ from kivy.graphics import (Color, Ellipse)
 
 import colors
 from evoflatworld.game_system.i_render_strategy import IRenderStrategy
+from evoflatworld.utils.pymunk_util import update_ellipse_from_circle
 
 
 class FoodRenderStrategy(IRenderStrategy, Widget):
 
-    def __init__(self, pos, diameter, widget_parent, **k):
+    def __init__(self, pos, radius, widget_parent, **k):
         super().__init__(**k)
 
-        self.pos = pos
-        self.size = (diameter, diameter)
+        # Widget
+        self.pos = [x - radius for x in pos]
+        self.size = [radius * 2, radius * 2]
 
         with self.canvas:
             Color(*colors.Lime)
-            self._circle = Ellipse(pos=pos, size=self.size)
+            self._circle = Ellipse(pos=self.pos, size=self.size)
 
         widget_parent.add_widget(self)
 
     def render(self, game_entity, render):
-        self._circle.pos = self.pos
-        self._circle.size = self.size
+        update_ellipse_from_circle(self._circle, game_entity.body_shape)

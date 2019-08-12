@@ -11,3 +11,4 @@ class FoodEntity(IGameEntity):
         super().__init__(icontroller, iphysics, irender)
 
         # Parameters
+        self.body_shape = None

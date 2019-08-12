@@ -5,11 +5,8 @@ Created on Aug 1, 2019
 '''
 import pymunk as pm
 
+from evoflatworld.game_system.physics_controller import (collision_types, categories)
 from evoflatworld.game_system.i_physics_strategy import IPhysicsStrategy
-
-# Todo: find a better place for this
-collision_types = {"creature": 1, "food": 2, }
-categories = {"border": 0x01, "creature": 0x02, "food": 0x04, }
 
 
 class CreaturePhysicsStrategy(IPhysicsStrategy):
