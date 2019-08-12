@@ -26,21 +26,22 @@ class CreaturePhysicsStrategy(IPhysicsStrategy):
         # Pymunk
         moment = pm.moment_for_circle(__MASS, 0, radius)
 
-        # Body
+        ## Body
         self._body = pm.Body(__MASS, moment)
         self._body.position = pos      # circle center
         self._body.angle = angle
 
-        # Body shape
+        ## Body shape
         self._body_shape = pm.Circle(self._body, radius)
         self._body_shape.elasticity = 0.95    # bounce realism
         self._body_shape.friction = 0.9       # 0:frictionless
+        self._body_shape.controller = self
 
         self._body_shape.collision_type = collision_types['creature']
         self._body_shape.filter = pm.ShapeFilter(
             categories=categories['creature'])
 
-        # Eye shape
+        ## Eye shape
         # Todo: create class
         qradius = radius / 2  # eye positon from body center
         self._eye_left_shape = pm.Circle(
@@ -50,6 +51,13 @@ class CreaturePhysicsStrategy(IPhysicsStrategy):
 
         space.add(self._body, self._body_shape,
                   self._eye_left_shape, self._eye_right_shape)
+        
+    def game_entity(self, value):
+        self._game_entity = value
+        
+    def eat(self, food):
+        self._game_entity.energy += food.eaten(0.50)
+        print('creature eat:', self._game_entity.energy)
 
     def update(self, game_entity, world, dt):
         """physics code..."""

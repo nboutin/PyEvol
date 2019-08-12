@@ -12,3 +12,7 @@ class FoodEntity(IGameEntity):
 
         # Parameters
         self.body_shape = None
+        self.calories = 5
+
+        # Setup
+        iphysics.game_entity(self)

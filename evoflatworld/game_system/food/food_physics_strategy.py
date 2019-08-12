@@ -20,19 +20,28 @@ class FoodPhysicsStrategy(IPhysicsStrategy):
         # Pymunk
         moment = pm.moment_for_circle(__MASS, 0, radius)
 
-        # Body
+        ## Body
         self._body = pm.Body(__MASS, moment)
         self._body.position = pos
         self._body.angle = 0
 
-        # Shape
+        ## Shape
         self._body_shape = pm.Circle(self._body, radius)
-#         self._body_shape.sensor = True
+        self._body_shape.sensor = True
+        self._body_shape.controller = self
         self._body_shape.collision_type = collision_types['food']
         self._body_shape.filter = pm.ShapeFilter(categories=categories['food'])
 
-        # Space
+        ## Space
         space.add(self._body, self._body_shape)
+        
+    def game_entity(self, value):
+        self._game_entity = value
+        
+    def eaten(self, quantity):
+        self._game_entity.calories -= quantity
+        print('food eaten', self._game_entity.calories)
+        return quantity
 
     def update(self, game_entity, world, dt):
         game_entity.body_shape = self._body_shape

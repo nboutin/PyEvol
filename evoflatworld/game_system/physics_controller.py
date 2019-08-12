@@ -20,23 +20,15 @@ class PhysicsController():
         handler = self._space.add_collision_handler(
             collision_types['creature'],
             collision_types['food'])
-#         handler.post_solve = post_solve_food
-        handler.begin = begin_food
+        handler.begin = creature_eat_food
 
     @property
     def space(self):
         return self._space
 
-
-def post_solve_food(arbiter, space, data):
-    #     print(arbiter, space, data)
-    print(arbiter.contact_point_set, arbiter.is_first_contact)
-    for s in arbiter.shapes:
-        print(s.bb)
-
-
-def begin_food(arbiter, space, data):
-    print("begin")
-    print(arbiter.contact_point_set, arbiter.is_first_contact)
-    for s in arbiter.shapes:
-        print(s.bb)
+def creature_eat_food(arbiter, space, data):
+    creature = arbiter.shapes[0].controller
+    food = arbiter.shapes[1].controller
+    
+    if creature and food:
+        creature.eat(food)
