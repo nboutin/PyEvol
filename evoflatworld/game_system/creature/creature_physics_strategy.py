@@ -57,7 +57,6 @@ class CreaturePhysicsStrategy(IPhysicsStrategy):
         
     def eat(self, food):
         self._game_entity.energy += food.eaten(0.50)
-        print('creature eat:', self._game_entity.energy)
 
     def update(self, game_entity, world, dt):
         """physics code..."""

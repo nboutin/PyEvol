@@ -40,7 +40,6 @@ class FoodPhysicsStrategy(IPhysicsStrategy):
         
     def eaten(self, quantity):
         self._game_entity.calories -= quantity
-        print('food eaten', self._game_entity.calories)
         return quantity
 
     def update(self, game_entity, world, dt):

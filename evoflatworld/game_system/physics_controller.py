@@ -32,3 +32,5 @@ def creature_eat_food(arbiter, space, data):
     
     if creature and food:
         creature.eat(food)
+        
+    return True
