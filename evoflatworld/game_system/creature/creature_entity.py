@@ -16,9 +16,11 @@ class CreatureEntity(IGameEntity):
         self.eye_left_shape = None
         self.eye_right_shape = None
 
+        self.energy = 0    # Food
         self.powers = [2, 2]
         self._is_selected = False
 
         # Setup
         icontroller.game_entity(self)
+        iphysics.game_entity(self)
         irender.game_entity(self)

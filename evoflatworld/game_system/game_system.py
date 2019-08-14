@@ -9,6 +9,7 @@ import random
 from kivy.clock import Clock
 from kivy.utils import get_random_color
 
+import colors
 from evoflatworld.game_system.world.world_entity import WorldEntity
 from evoflatworld.game_system.world.world_physics_strategy import WorldPhysicsStrategy
 from evoflatworld.game_system.world.world_render_scatter_strategy import WorldRenderScatterStrategy
@@ -17,7 +18,10 @@ from evoflatworld.game_system.creature.creature_entity import CreatureEntity
 from evoflatworld.game_system.creature.creature_controller_strategy import CreatureControllerStrategy
 from evoflatworld.game_system.creature.creature_physics_strategy import CreaturePhysicsStrategy
 from evoflatworld.game_system.creature.creature_render_strategy import CreatureRenderStrategy
-import colors
+from evoflatworld.game_system.food.food_entity import FoodEntity
+from evoflatworld.game_system.food.food_render_strategy import FoodRenderStrategy
+from evoflatworld.game_system.food.food_physics_strategy import FoodPhysicsStrategy
+from evoflatworld.game_system.physics_controller import PhysicsController
 
 
 class GameSystem():
@@ -26,9 +30,14 @@ class GameSystem():
         '''
         TODO for better data locality use a list for each component type
         '''
+        self._physics_controller = PhysicsController()
+
         self._entities = list()
 
         self._world = self._create_world()
+
+        for _ in range(0, 1):
+            self._create_food()
 
         for _ in range(0, 50):
             self._create_creature()
@@ -36,8 +45,8 @@ class GameSystem():
         self._is_play = True
         self._step = 0.0
         self._physics_step = 1.0 / 30  # time step
-        self._lag = 0.0
         self._physics_multiplier = 1.0
+        self._lag = 0.0
 
         # call -1:before, 0:after the next frame
         self._trigger = Clock.create_trigger(self._run)
@@ -93,7 +102,9 @@ class GameSystem():
                             entity, None, self._physics_step)
 
                 self._world.physics.update(
-                    self._world, None, self._physics_step)
+                    self._world, self._physics_controller.space, self._physics_step)
+
+                self._physics_controller.space.step(self._physics_step)
 
         # Graphics
         for entity in self._entities:
@@ -124,8 +135,21 @@ class GameSystem():
         creature_entity = CreatureEntity(
             CreatureControllerStrategy(),
             CreaturePhysicsStrategy(
-                pos, radius, angle, self._world.physics.space),
+                pos, radius, angle, self._physics_controller.space),
             CreatureRenderStrategy(pos, radius, color,
                                    self._world.render, size_hint=(None, None)))
 
         self._entities.append(creature_entity)
+
+    def _create_food(self):
+
+		pos = (random.randint(0, 1200), random.randint(0, 700))
+        radius = 10
+
+        food_entity = FoodEntity(
+            None,
+            FoodPhysicsStrategy(pos, radius, self._physics_controller.space),
+            FoodRenderStrategy(
+                pos, radius, self._world.render, size_hint=(None, None)))
+
+        self._entities.append(food_entity)

@@ -11,7 +11,12 @@ mkdir venv repo
 
 python3 -m pip install --user virtualenv
 virtualenv venv/pyevol
+
 source venv/pyevol/bin/activate
 
-python -m pip install kivy pymunk
+pip install kivy pymunk
+
+git clone .../pymunk
+cd pymunk
+python setup.py build_ext --inplace
 ```

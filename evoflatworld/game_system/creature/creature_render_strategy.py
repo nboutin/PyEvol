@@ -45,31 +45,33 @@ class CreatureRenderStrategy(IRenderStrategy, Widget):
     def _update(self, *args):
         if self._info:
             self._info.pos = self.pos
-            self._info.text = 'pos:{}\nsize:{}\npowers:{}'.format(
+            self._info.text = 'pos:{}\nsize:{}\npowers:{}\nfoods:{}'.format(
                 ['{:0.0f}'.format(i) for i in self.pos],
                 self.size,
-                ["{0:0.2f}".format(i) for i in self._game_entity.powers])
+                ["{0:0.2f}".format(i) for i in self._game_entity.powers],
+                self._game_entity.energy)
 
     def game_entity(self, value):
         self._game_entity = value
 
     def on_touch_down(self, touch):
         if self.collide_point(*touch.pos):
-            if touch.button == 'left':
-                if self._game_entity._is_selected:
-                    self._game_entity._is_selected = False
-                    self._bb_render = None
-                else:
-                    self._game_entity._is_selected = True
-                    self._bb_render = BBRender(self.canvas)
-
-            if touch.button == 'right':
-                if self._info:
-                    self.remove_widget(self._info)
-                    self._info = None
-                else:
-                    self._info = Label(font_size='10sp')
-                    self.add_widget(self._info)
+            if touch.button:
+                if touch.button == 'left':
+                    if self._game_entity._is_selected:
+                        self._game_entity._is_selected = False
+                        self._bb_render = None
+                    else:
+                        self._game_entity._is_selected = True
+                        self._bb_render = BBRender(self.canvas)
+    
+                if touch.button == 'right':
+                    if self._info:
+                        self.remove_widget(self._info)
+                        self._info = None
+                    else:
+                        self._info = Label(font_size='10sp', color=colors.Black)
+                        self.add_widget(self._info)
 
         return super().on_touch_down(touch)
 
