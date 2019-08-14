@@ -143,7 +143,7 @@ class GameSystem():
 
     def _create_food(self):
 
-		pos = (random.randint(0, 1200), random.randint(0, 700))
+        pos = (random.randint(0, 1200), random.randint(0, 700))
         radius = 10
 
         food_entity = FoodEntity(

@@ -8,7 +8,7 @@ from evoflatworld.game_system.i_game_entity import IGameEntity
 
 class FoodEntity(IGameEntity):
 
-	def __init__(self, icontroller, iphysics, irender):
+    def __init__(self, icontroller, iphysics, irender):
         super().__init__(icontroller, iphysics, irender)
 
         # Parameters
