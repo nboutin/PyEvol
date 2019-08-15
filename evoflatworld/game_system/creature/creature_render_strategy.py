@@ -55,24 +55,27 @@ class CreatureRenderStrategy(IRenderStrategy, Widget):
         self._game_entity = value
 
     def on_touch_down(self, touch):
-        if self.collide_point(*touch.pos):
-            if touch.button:
-                if touch.button == 'left':
-                    if self._game_entity._is_selected:
-                        self._game_entity._is_selected = False
-                        self._bb_render = None
-                    else:
-                        self._game_entity._is_selected = True
-                        self._bb_render = BBRender(self.canvas)
-    
-                if touch.button == 'right':
-                    if self._info:
-                        self.remove_widget(self._info)
-                        self._info = None
-                    else:
-                        self._info = Label(font_size='10sp', color=colors.Black)
-                        self.add_widget(self._info)
-
+        try:
+            if self.collide_point(*touch.pos):
+                if touch.button:
+                    if touch.button == 'left':
+                        if self._game_entity._is_selected:
+                            self._game_entity._is_selected = False
+                            self._bb_render = None
+                        else:
+                            self._game_entity._is_selected = True
+                            self._bb_render = BBRender(self.canvas)
+        
+                    if touch.button == 'right':
+                        if self._info:
+                            self.remove_widget(self._info)
+                            self._info = None
+                        else:
+                            self._info = Label(font_size='10sp', color=colors.Black)
+                            self.add_widget(self._info)
+        except AttributeError as e:
+            print(e)
+                
         return super().on_touch_down(touch)
 
     def render(self, game_entity, render):
