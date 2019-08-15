@@ -36,7 +36,7 @@ class GameSystem():
 
         self._world = self._create_world()
 
-        for _ in range(0, 1):
+        for _ in range(0, 10):
             self._create_food()
 
         for _ in range(0, 50):
