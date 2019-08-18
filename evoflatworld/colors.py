@@ -27,3 +27,4 @@ Teal    = rgba(0,128,128)
 Navy    = rgba(0,0,128)
 
 Green2246c = rgba(168, 213, 186)  # pantone 2246c
+Coral = rgba(255,127,80)

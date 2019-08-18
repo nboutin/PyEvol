@@ -23,7 +23,7 @@ class FoodRenderStrategy(IRenderStrategy, Widget):
         self._info = None
 
         with self.canvas:
-            Color(*colors.Lime)
+            Color(*colors.Coral)
             self._circle = Ellipse(pos=self.pos, size=self.size)
 
         widget_parent.add_widget(self)
