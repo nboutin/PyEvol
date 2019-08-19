@@ -11,7 +11,7 @@ categories = {'border': 0x01, 'creature': 0x02, 'food': 0x04, }
 
 class PhysicsController():
 
-    def __init__(self):
+    def __init__(self, world_size):
 
         self._space = pymunk.Space()
         self._space.gravity = (0.0, 0.0)
@@ -26,6 +26,7 @@ class PhysicsController():
             collision_types['border'],
             collision_types['creature'])
         handler.begin = border_out
+        handler.data['world_size'] = world_size
 
     @property
     def space(self):
@@ -42,25 +43,19 @@ def creature_eat_food(arbiter, space, data):
     return True
 
 
-# left
-# BB(-20.0, -10.0, 0.0, 410.0)
-# <pymunk.shapes.Circle object at 0x7fe3ccd56550>
 def border_out(arbiter, space, data):
     border, creature = arbiter.shapes
 
-    print(border.side)
-    print(border.bb)
-    print(creature)
-
     x, y = creature.body.position
+    ww, wh = data['world_size']
 
     if border.side == 'left':
-        pass
+        creature.body.position = (ww - creature.radius, y)
     elif border.side == 'top':
         creature.body.position = (x, 0 + creature.radius)
     elif border.side == 'right':
         creature.body.position = (0 + creature.radius, y)
     elif border.side == 'bottom':
-        pass
+        creature.body.position = (x, wh - creature.radius)
 
     return True
