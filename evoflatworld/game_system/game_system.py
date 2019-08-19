@@ -36,10 +36,10 @@ class GameSystem():
 
         self._world = self._create_world()
 
-        for _ in range(0, 10):
+        for _ in range(0, 1):
             self._create_food()
 
-        for _ in range(0, 50):
+        for _ in range(0, 1):
             self._create_creature()
 
         self._is_play = True
@@ -120,7 +120,7 @@ class GameSystem():
 
         return WorldEntity(
             None,
-            WorldPhysicsStrategy(),
+            WorldPhysicsStrategy(size, self._physics_controller.space),
             # WorldRenderScatterStrategy(size=size, pos=pos,
             WorldRenderWidgetStrategy(
                 size=size, pos=(50, 50), size_hint=(None, None)), size)
@@ -129,8 +129,8 @@ class GameSystem():
         pos = (random.randint(0, 1200), random.randint(0, 700))
         radius = 15
         angle = math.radians(random.randint(-180, 180))
-        color = get_random_color()
-#         color = Colors.Gray
+#         color = get_random_color()
+        color = Colors.Gray
 
         creature_entity = CreatureEntity(
             CreatureControllerStrategy(),

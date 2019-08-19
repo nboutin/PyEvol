@@ -49,6 +49,7 @@ class CreaturePhysicsStrategy(IPhysicsStrategy):
         self._eye_right_shape = pm.Circle(
             self._body, eye_radius, (qradius, -qradius))
 
+        ## Space
         space.add(self._body, self._body_shape,
                   self._eye_left_shape, self._eye_right_shape)
         

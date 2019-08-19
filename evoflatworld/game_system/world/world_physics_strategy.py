@@ -3,21 +3,40 @@ Created on Aug 1, 2019
 
 @author: nboutin
 '''
-import pymunk
+import pymunk as pm
 
+from evoflatworld.game_system.physics_controller import (categories)
 from evoflatworld.game_system.i_physics_strategy import IPhysicsStrategy
 
 
 class WorldPhysicsStrategy(IPhysicsStrategy):
 
-    def __init__(self):
-        pass
-    
+    def __init__(self, size, space):
+
+        # Parameters
+        w, h = size
+
+        # Pymunk
+
+        # Body
+        self._body = pm.Body(0, 0, pm.Body.STATIC)
+
+        # Shapes
+        __THICKNESS = 10
+        self._left = pm.Segment(self._body, (0, 0), (0, h), __THICKNESS)
+        self._top = pm.Segment(self._body, (0, h), (w, h), __THICKNESS)
+
+        for s in [self._left, self._top]:
+            s.filter = pm.ShapeFilter(categories=categories['border'])
+
+        # Space
+        space.add(self._body, self._left, self._top)
+
     def update(self, game_entity, world, dt):
 
         # World
         ww, wh = game_entity.size
-        world_bb = pymunk.BB(0, 0, ww, wh)
+        world_bb = pm.BB(0, 0, ww, wh)
 
         # Handle donut world for each body in space
         for body in world.bodies:
