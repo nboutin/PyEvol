@@ -5,7 +5,7 @@ Created on Aug 9, 2019
 '''
 from kivy.graphics import (Color, Line)
 
-import colors
+from evoflatworld.utils.colors import Colors
 
 
 class BBRender():
@@ -14,7 +14,7 @@ class BBRender():
     def __init__(self, canvas):
         self._canvas = canvas
         with canvas:
-            Color(*colors.Red)
+            Color(*Colors.Red)
             self._left = Line()
             self._top = Line()
             self._right = Line()

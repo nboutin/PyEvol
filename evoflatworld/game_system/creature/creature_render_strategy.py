@@ -7,11 +7,10 @@ from kivy.uix.widget import Widget
 from kivy.uix.label import Label
 from kivy.graphics import (Color, Ellipse)
 
-import colors
-import evoflatworld.utils.pymunk_util
+from evoflatworld.utils.colors import Colors
+from evoflatworld.utils.pymunk_util import update_ellipse_from_circle
 from evoflatworld.game_system.i_render_strategy import IRenderStrategy
 from evoflatworld.game_system.bb_render import BBRender
-from evoflatworld.utils.pymunk_util import update_ellipse_from_circle
 
 
 class CreatureRenderStrategy(IRenderStrategy, Widget):
@@ -34,7 +33,7 @@ class CreatureRenderStrategy(IRenderStrategy, Widget):
             self._circle = Ellipse(pos=self.pos, size=self.size)
 
             # Eyes
-            Color(*colors.Black)
+            Color(*Colors.Black)
             self._eye_left_circle = Ellipse(pos=pos, size=(10, 10))
             self._eye_right_circle = Ellipse(pos=pos, size=(10, 10))
 
@@ -71,7 +70,7 @@ class CreatureRenderStrategy(IRenderStrategy, Widget):
                             self.remove_widget(self._info)
                             self._info = None
                         else:
-                            self._info = Label(font_size='10sp', color=colors.Black)
+                            self._info = Label(font_size='10sp', color=Colors.Black)
                             self.add_widget(self._info)
         except AttributeError as e:
             print(e)

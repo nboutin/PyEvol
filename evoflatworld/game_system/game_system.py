@@ -9,7 +9,7 @@ import random
 from kivy.clock import Clock
 from kivy.utils import get_random_color
 
-import colors
+from evoflatworld.utils.colors import Colors
 from evoflatworld.game_system.world.world_entity import WorldEntity
 from evoflatworld.game_system.world.world_physics_strategy import WorldPhysicsStrategy
 from evoflatworld.game_system.world.world_render_scatter_strategy import WorldRenderScatterStrategy
@@ -130,7 +130,7 @@ class GameSystem():
         radius = 15
         angle = math.radians(random.randint(-180, 180))
         color = get_random_color()
-#         color = colors.Gray
+#         color = Colors.Gray
 
         creature_entity = CreatureEntity(
             CreatureControllerStrategy(),
