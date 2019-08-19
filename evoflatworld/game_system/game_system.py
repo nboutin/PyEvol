@@ -37,10 +37,10 @@ class GameSystem():
 
         self._world = self._create_world()
 
-        for _ in range(0, 1):
+        for _ in range(0, param.FOOD_COUNT):
             self._create_food()
 
-        for _ in range(0, 5):
+        for _ in range(0, param.CREATURE_COUNT):
             self._create_creature()
 
         self._is_play = True
@@ -132,8 +132,8 @@ class GameSystem():
         radius = 15
         angle = math.radians(random.randint(-180, 180))
 #         angle = math.radians(180)
-#         color = get_random_color()
-        color = Colors.Gray
+        color = get_random_color()
+#         color = Colors.Gray
 
         creature_entity = CreatureEntity(
             CreatureControllerStrategy(),
