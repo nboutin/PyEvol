@@ -11,7 +11,7 @@
 - [ ] Display Simulation time
 - [ ] Add Creature's eyes (graphic)
 - [ ] Add pictures to Roadmap or Readme
-- [ ] Use Pymunk collision to simulate Donut shape world
+- [x] Use Pymunk collision to simulate Donut shape world
 
 ## 0.1.0
 
