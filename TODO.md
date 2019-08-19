@@ -2,7 +2,6 @@
 
 ## 0.2.0
 
-- [ ] Use Space.current_time_step for Simulation time
 - [ ] Add Creature's eye(graphic) to represent current angle
  - [ ] Use kivy.Widget for eye to anticipate resizing
 
