@@ -130,7 +130,8 @@ class GameSystem():
 #         pos = (random.randint(0, 1200), random.randint(0, 700))
         pos = (random.randint(0, 400), random.randint(0, 400))
         radius = 15
-        angle = math.radians(random.randint(-180, 180))
+#         angle = math.radians(random.randint(-180, 180))
+        angle = math.radians(180)
 #         color = get_random_color()
         color = Colors.Gray
 

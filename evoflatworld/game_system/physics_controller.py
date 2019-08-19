@@ -42,6 +42,25 @@ def creature_eat_food(arbiter, space, data):
     return True
 
 
+# left
+# BB(-20.0, -10.0, 0.0, 410.0)
+# <pymunk.shapes.Circle object at 0x7fe3ccd56550>
 def border_out(arbiter, space, data):
-    print("border_out")
+    border, creature = arbiter.shapes
+
+    print(border.side)
+    print(border.bb)
+    print(creature)
+
+    x, y = creature.body.position
+
+    if border.side == 'left':
+        pass
+    elif border.side == 'top':
+        creature.body.position = (x, 0 + creature.radius)
+    elif border.side == 'right':
+        creature.body.position = (0 + creature.radius, y)
+    elif border.side == 'bottom':
+        pass
+
     return True
