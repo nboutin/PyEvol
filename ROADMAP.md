@@ -8,9 +8,9 @@
 ## 0.2.0
 
 - [ ] Add food, model TBD
-- [ ] Display Simulation time
 - [ ] Add Creature's eyes (graphic)
 - [ ] Add pictures to Roadmap or Readme
+- [x] Display Simulation time
 - [x] Use Pymunk collision to simulate Donut shape world
 
 ## 0.1.0
