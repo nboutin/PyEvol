@@ -67,6 +67,7 @@ class CreaturePhysicsStrategy(IPhysicsStrategy):
 
         p1, p2 = [x * self.__POWER for x in game_entity.powers]
 
+        # todo: take a look at pymunk.Body.update_velocity(body, gravity, damping, dt)
         radius = self._body_shape.radius
         self._body.apply_force_at_local_point((p1, 0), (0, -radius))
         self._body.apply_force_at_local_point((p2, 0), (0, +radius))
