@@ -116,7 +116,8 @@ class GameSystem():
         self._trigger()
 
     def _create_world(self):
-        size = (1200, 700)
+        #         size = (1200, 700)
+        size = (400, 400)
 
         return WorldEntity(
             None,
@@ -126,7 +127,8 @@ class GameSystem():
                 size=size, pos=(50, 50), size_hint=(None, None)), size)
 
     def _create_creature(self):
-        pos = (random.randint(0, 1200), random.randint(0, 700))
+#         pos = (random.randint(0, 1200), random.randint(0, 700))
+        pos = (random.randint(0, 400), random.randint(0, 400))
         radius = 15
         angle = math.radians(random.randint(-180, 180))
 #         color = get_random_color()

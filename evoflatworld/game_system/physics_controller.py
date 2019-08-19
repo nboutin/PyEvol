@@ -5,7 +5,7 @@ Created on Aug 11, 2019
 '''
 import pymunk
 
-collision_types = {'creature': 1, 'food': 2, }
+collision_types = {'border': 1, 'creature': 2, 'food': 3, }
 categories = {'border': 0x01, 'creature': 0x02, 'food': 0x04, }
 
 
@@ -22,15 +22,26 @@ class PhysicsController():
             collision_types['food'])
         handler.begin = creature_eat_food
 
+        handler = self._space.add_collision_handler(
+            collision_types['border'],
+            collision_types['creature'])
+        handler.begin = border_out
+
     @property
     def space(self):
         return self._space
 
+
 def creature_eat_food(arbiter, space, data):
     creature = arbiter.shapes[0].controller
     food = arbiter.shapes[1].controller
-    
+
     if creature and food:
         creature.eat(food)
-        
+
+    return True
+
+
+def border_out(arbiter, space, data):
+    print("border_out")
     return True
