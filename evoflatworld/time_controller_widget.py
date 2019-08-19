@@ -3,6 +3,7 @@ Created on Aug 5, 2019
 
 @author: nboutin
 '''
+from kivy.clock import Clock
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.label import Label
@@ -16,7 +17,7 @@ class TimeControllerWidget(BoxLayout):
 
         self.game_system = game_system
 
-        self.size = (180, 30)
+        self.size = (260, 30)
         self.size_hint = (None, None)
 
         self._btn_play_pause = ToggleButton(text="Pause")
@@ -25,14 +26,22 @@ class TimeControllerWidget(BoxLayout):
         btn_speed_up = Button(text='+', size_hint=(.5, 1))
         self._lb_speed = Label(
             size_hint=(.5, 1), text='{}'.format(self.game_system.speed))
+        self._lb_simu_time = Label(text='{}'.format(
+            self.game_system._simulation_time))
 
         self._btn_play_pause.bind(state=self._on_play_pause_state)
         btn_step.bind(on_press=lambda x: self.game_system.step())
         btn_speed_down.bind(on_press=self._on_speed_down)
         btn_speed_up.bind(on_press=self._on_speed_up)
 
-        for b in [btn_speed_down, self._btn_play_pause, btn_step, btn_speed_up, self._lb_speed]:
+        for b in [btn_speed_down, self._btn_play_pause, btn_step, btn_speed_up, self._lb_speed, self._lb_simu_time]:
             self.add_widget(b)
+
+        Clock.schedule_interval(self._update, 0.1)
+
+    def _update(self, dt):
+        self._lb_simu_time.text = '{:.1f}'.format(
+            self.game_system._simulation_time)
 
     def _on_speed_down(self, _):
         self.game_system.speed_down()

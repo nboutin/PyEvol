@@ -48,6 +48,7 @@ class GameSystem():
         self._physics_step = 1.0 / 30  # time step
         self._physics_multiplier = 1.0
         self._lag = 0.0
+        self._simulation_time = 0
 
         # call -1:before, 0:after the next frame
         self._trigger = Clock.create_trigger(self._run)
@@ -95,6 +96,7 @@ class GameSystem():
 
             while self._lag >= self._physics_step:
 
+                self._simulation_time += self._physics_step
                 self._lag -= self._physics_step
 
                 for entity in self._entities:
