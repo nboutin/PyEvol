@@ -3,40 +3,47 @@ Created on Aug 1, 2019
 
 @author: nboutin
 '''
-import pymunk
+import pymunk as pm
 
+from evoflatworld.game_system.physics_controller import (
+    categories, collision_types)
 from evoflatworld.game_system.i_physics_strategy import IPhysicsStrategy
 
 
 class WorldPhysicsStrategy(IPhysicsStrategy):
 
-    def __init__(self):
-        pass
-    
+    def __init__(self, size, space):
+
+        # Parameters
+        w, h = size
+
+        # Pymunk
+
+        # Body
+        body = pm.Body(0, 0, pm.Body.STATIC)
+
+        # Shapes
+        __THICKNESS = 10
+        x = 0 - __THICKNESS
+        left = pm.Segment(body, (x, 0), (x, h), __THICKNESS)
+
+        y = h + __THICKNESS
+        top = pm.Segment(body, (0, y), (w, y), __THICKNESS)
+
+        x = w + __THICKNESS
+        right = pm.Segment(body, (x, h), (x, 0), __THICKNESS)
+
+        y = 0 - __THICKNESS
+        bottom = pm.Segment(body, (w, y), (0, y), __THICKNESS)
+
+        for s, side in zip([left, top, right, bottom], ['left', 'top', 'right', 'bottom']):
+            s.side = side
+            s.sensor = True
+            s.collision_type = collision_types['border']
+            s.filter = pm.ShapeFilter(categories=categories['border'])
+
+        # Space
+        space.add(body, left, top, right, bottom)
+
     def update(self, game_entity, world, dt):
-
-        # World
-        ww, wh = game_entity.size
-        world_bb = pymunk.BB(0, 0, ww, wh)
-
-        # Handle donut world for each body in space
-        for body in world.bodies:
-
-            # Body
-            bx, by = body.position
-            shape = next(iter(body.shapes))
-            bb = shape.bb
-            radius = shape.radius
-
-            if bb.right > world_bb.right:
-                body.position = (world_bb.left + radius, by)
-                world.reindex_shapes_for_body(body)
-            elif bb.left < world_bb.left:
-                body.position = (world_bb.right - radius, by)
-                world.reindex_shapes_for_body(body)
-            elif bb.top > world_bb.top:
-                body.position = (bx, world_bb.bottom + radius)
-                world.reindex_shapes_for_body(body)
-            elif bb.bottom < world_bb.bottom:
-                body.position = (bx, world_bb.top - radius)
-                world.reindex_shapes_for_body(body)
+        pass

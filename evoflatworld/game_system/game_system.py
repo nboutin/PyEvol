@@ -10,6 +10,7 @@ from kivy.clock import Clock
 from kivy.utils import get_random_color
 
 from evoflatworld.utils.colors import Colors
+import evoflatworld.parameters as param
 from evoflatworld.game_system.world.world_entity import WorldEntity
 from evoflatworld.game_system.world.world_physics_strategy import WorldPhysicsStrategy
 from evoflatworld.game_system.world.world_render_scatter_strategy import WorldRenderScatterStrategy
@@ -30,16 +31,16 @@ class GameSystem():
         '''
         TODO for better data locality use a list for each component type
         '''
-        self._physics_controller = PhysicsController()
+        self._physics_controller = PhysicsController(param.WORLD_SIZE)
 
         self._entities = list()
 
         self._world = self._create_world()
 
-        for _ in range(0, 10):
+        for _ in range(0, param.FOOD_COUNT):
             self._create_food()
 
-        for _ in range(0, 50):
+        for _ in range(0, param.CREATURE_COUNT):
             self._create_creature()
 
         self._is_play = True
@@ -116,19 +117,21 @@ class GameSystem():
         self._trigger()
 
     def _create_world(self):
-        size = (1200, 700)
+        size = param.WORLD_SIZE
 
         return WorldEntity(
             None,
-            WorldPhysicsStrategy(),
+            WorldPhysicsStrategy(size, self._physics_controller.space),
             # WorldRenderScatterStrategy(size=size, pos=pos,
             WorldRenderWidgetStrategy(
                 size=size, pos=(50, 50), size_hint=(None, None)), size)
 
     def _create_creature(self):
-        pos = (random.randint(0, 1200), random.randint(0, 700))
+        w, h = param.WORLD_SIZE
+        pos = (random.randint(0, w), random.randint(0, h))
         radius = 15
         angle = math.radians(random.randint(-180, 180))
+#         angle = math.radians(180)
         color = get_random_color()
 #         color = Colors.Gray
 
@@ -143,7 +146,8 @@ class GameSystem():
 
     def _create_food(self):
 
-        pos = (random.randint(0, 1200), random.randint(0, 700))
+        w, h = param.WORLD_SIZE
+        pos = (random.randint(0, w), random.randint(0, h))
         radius = 10
 
         food_entity = FoodEntity(
