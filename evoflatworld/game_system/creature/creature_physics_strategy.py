@@ -35,7 +35,6 @@ class CreaturePhysicsStrategy(IPhysicsStrategy):
         self._body_shape = pm.Circle(self._body, radius)
         self._body_shape.elasticity = 0.95    # bounce realism
         self._body_shape.friction = 0.9       # 0:frictionless
-        self._body_shape.controller = self
 
         self._body_shape.collision_type = collision_types['creature']
         self._body_shape.filter = pm.ShapeFilter(
@@ -55,6 +54,7 @@ class CreaturePhysicsStrategy(IPhysicsStrategy):
         
     def game_entity(self, value):
         self._game_entity = value
+        self._body_shape.game_entity = value
         
     def eat(self, food):
         self._game_entity.energy += food.eaten(0.50)

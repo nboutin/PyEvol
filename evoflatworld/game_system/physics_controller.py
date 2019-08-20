@@ -36,11 +36,11 @@ class PhysicsController():
 
 
 def creature_eat_food(arbiter, space, data):
-    creature = arbiter.shapes[0].controller
-    food = arbiter.shapes[1].controller
+    creature = arbiter.shapes[0].game_entity
+    food = arbiter.shapes[1].game_entity
 
     if creature and food:
-        creature.eat(food)
+        creature.physics.eat(food.physics)
 
         # If food has no more calories, remove it from game_system and space
         if not food.calories > 0:
