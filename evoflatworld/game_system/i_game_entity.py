@@ -12,6 +12,9 @@ class IGameEntity():
         self._iphysics = iphysics
         self._irender = irender
 
+    def __del__(self):
+        print("del i_game_entity")
+
     @property
     def controller(self):
         return self._icontroller

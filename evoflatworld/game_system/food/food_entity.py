@@ -13,10 +13,10 @@ class FoodEntity(IGameEntity):
 
         # Parameters
         self.body_shape = None
-        self.calories = 5
+        self.calories = 1
 
         # Setup
         iphysics.game_entity(self)
 
     def __del__(self):
-        print("__del__ FoodEntity")
+        print("del food entity")

@@ -18,6 +18,7 @@ class FoodRenderStrategy(IRenderStrategy, Widget):
         super().__init__(**k)
 
         # Widget
+        self._widget_parent = widget_parent
         self.pos = [x - radius for x in pos]
         self.size = [radius * 2, radius * 2]
         self._info = None
@@ -27,6 +28,10 @@ class FoodRenderStrategy(IRenderStrategy, Widget):
             self._circle = Ellipse(pos=self.pos, size=self.size)
 
         widget_parent.add_widget(self)
+        
+    def __del__(self):
+        print("del food render")
+        self._widget_parent.remove_widget(self)
 
     def render(self, game_entity, render):
         update_ellipse_from_circle(self._circle, game_entity.body_shape)
