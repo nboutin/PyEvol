@@ -2,8 +2,7 @@
 
 ## 0.2.0
 
-- [ ] Add Creature's eye(graphic) to represent current angle
- - [ ] Use kivy.Widget for eye to anticipate resizing
+- [x] Add Creature's eye(graphic) to represent current angle
 
 ## 0.1.0
 
