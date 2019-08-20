@@ -17,3 +17,6 @@ class FoodEntity(IGameEntity):
 
         # Setup
         iphysics.game_entity(self)
+
+    def __del__(self):
+        print("__del__ FoodEntity")

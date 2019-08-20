@@ -79,6 +79,9 @@ class GameSystem():
     def speed(self):
         return self._physics_multiplier
 
+    def remove_entity(self, entity):
+        self._entities.remove(entity)
+
     def _run(self, dt):
 
         # Controller

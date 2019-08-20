@@ -11,7 +11,7 @@ categories = {'border': 0x01, 'creature': 0x02, 'food': 0x04, }
 
 class PhysicsController():
 
-    def __init__(self, world_size):
+    def __init__(self, world_size, game_system):
 
         self._space = pymunk.Space()
         self._space.gravity = (0.0, 0.0)
@@ -22,6 +22,7 @@ class PhysicsController():
             collision_types['creature'],
             collision_types['food'])
         handler.begin = creature_eat_food
+        handler.data['game_system'] = game_system
 
         # Border and Creature
         handler = self._space.add_collision_handler(
@@ -38,13 +39,14 @@ class PhysicsController():
 def creature_eat_food(arbiter, space, data):
     creature = arbiter.shapes[0].game_entity
     food = arbiter.shapes[1].game_entity
-
+    game_system = data['game_system']
+    
     if creature and food:
         creature.physics.eat(food.physics)
 
-        # If food has no more calories, remove it from game_system and space
+        # If food has no more calories, remove it from game_system
         if not food.calories > 0:
-            pass
+            game_system.remove_entity(food)
 
     return True
 
