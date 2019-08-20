@@ -17,11 +17,13 @@ class PhysicsController():
         self._space.gravity = (0.0, 0.0)
         self._space.damping = 0.1  # lose 1-x% of its velocity per second
 
+        # Creature and Food
         handler = self._space.add_collision_handler(
             collision_types['creature'],
             collision_types['food'])
         handler.begin = creature_eat_food
 
+        # Border and Creature
         handler = self._space.add_collision_handler(
             collision_types['border'],
             collision_types['creature'])
@@ -39,6 +41,10 @@ def creature_eat_food(arbiter, space, data):
 
     if creature and food:
         creature.eat(food)
+
+        # If food has no more calories, remove it from game_system and space
+        if not food.calories > 0:
+            pass
 
     return True
 
