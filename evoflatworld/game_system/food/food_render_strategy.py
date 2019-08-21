@@ -3,6 +3,8 @@ Created on Aug 11, 2019
 
 @author: nboutin
 '''
+import weakref
+
 from kivy.uix.widget import Widget
 from kivy.uix.label import Label
 from kivy.graphics import (Color, Ellipse)
@@ -20,6 +22,8 @@ class FoodRenderStrategy(IRenderStrategy, Widget):
         # Widget
         self.pos = [x - radius for x in pos]
         self.size = [radius * 2, radius * 2]
+
+        # Parameter
         self._info = None
 
         with self.canvas:
@@ -28,12 +32,10 @@ class FoodRenderStrategy(IRenderStrategy, Widget):
 
         widget_parent.add_widget(self)
 
-    def render(self, game_entity, render):
-        update_ellipse_from_circle(self._circle, game_entity.body_shape)
-
+    def remove(self):
         if self._info:
-            self._info.center = self.center
-            self._info.text = 'calories:{}'.format(game_entity.calories)
+            self.remove_widget(self._info)
+        self.parent.remove_widget(self)
 
     def on_touch_down(self, touch):
         try:
@@ -51,3 +53,10 @@ class FoodRenderStrategy(IRenderStrategy, Widget):
             print(e)
 
         return super().on_touch_down(touch)
+
+    def render(self, game_entity, render):
+        update_ellipse_from_circle(self._circle, game_entity.body_shape)
+
+        if self._info:
+            self._info.center = self.center
+            self._info.text = 'calories:{}'.format(game_entity.calories)

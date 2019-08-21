@@ -31,7 +31,7 @@ class GameSystem():
         '''
         TODO for better data locality use a list for each component type
         '''
-        self._physics_controller = PhysicsController(param.WORLD_SIZE)
+        self._physics_controller = PhysicsController(param.WORLD_SIZE, self)
 
         self._entities = list()
 
@@ -78,6 +78,14 @@ class GameSystem():
     @property
     def speed(self):
         return self._physics_multiplier
+
+    def remove_entity(self, entity):
+        entity.render.remove()
+        self._entities.remove(entity)
+
+    def remove_food(self, food):
+        self.remove_entity(food)
+        self._create_food()
 
     def _run(self, dt):
 
@@ -156,6 +164,7 @@ class GameSystem():
             None,
             FoodPhysicsStrategy(pos, radius, self._physics_controller.space),
             FoodRenderStrategy(
-                pos, radius, self._world.render, size_hint=(None, None)))
+                pos, radius, self._world.render, size_hint=(None, None)),
+            param.FOOD_CALORIES)
 
         self._entities.append(food_entity)
