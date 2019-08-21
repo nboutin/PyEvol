@@ -15,18 +15,19 @@ To compare with :
 * https://github.com/drallensmith/neat-python
 * https://github.com/bennr01/neat-python
 
-## flxsosa/neat-python
+## peter-ch/MultiNEAT
 
-* https://github.com/flxsosa/neat-python
+* http://multineat.com/index.html
+* https://github.com/peter-ch/MultiNEAT
 
 ## crisbodnar/TensorFlow-NEAT
 
 * https://github.com/crisbodnar/TensorFlow-NEAT
 
-## peter-ch/MultiNEAT
+## flxsosa/neat-python
 
-* http://multineat.com/index.html
-* https://github.com/peter-ch/MultiNEAT
+* https://github.com/flxsosa/neat-python
+
 
 ## noio/peas
 
