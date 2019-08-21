@@ -42,7 +42,7 @@ def creature_eat_food(arbiter, space, data):
     game_system = data['game_system']
     
     if creature and food:
-        creature.physics.eat(food().physics)
+        creature().physics.eat(food().physics)
 
         # If food has no more calories, remove it from game_system
         if not food().calories > 0:

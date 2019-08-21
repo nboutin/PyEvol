@@ -3,9 +3,11 @@ Created on Aug 1, 2019
 
 @author: nboutin
 '''
+import weakref
 import pymunk as pm
 
-from evoflatworld.game_system.physics_controller import (collision_types, categories)
+from evoflatworld.game_system.physics_controller import (
+    collision_types, categories)
 from evoflatworld.game_system.i_physics_strategy import IPhysicsStrategy
 
 
@@ -20,18 +22,19 @@ class CreaturePhysicsStrategy(IPhysicsStrategy):
         # Parameters
         self.__POWER = 180
         __MASS = 4
+        self._space = weakref.ref(space)
         angle = angle
         eye_radius = 3
 
         # Pymunk
         moment = pm.moment_for_circle(__MASS, 0, radius)
 
-        ## Body
+        # Body
         self._body = pm.Body(__MASS, moment)
         self._body.position = pos      # circle center
         self._body.angle = angle
 
-        ## Body shape
+        # Body shape
         self._body_shape = pm.Circle(self._body, radius)
         self._body_shape.elasticity = 0.95    # bounce realism
         self._body_shape.friction = 0.9       # 0:frictionless
@@ -40,7 +43,7 @@ class CreaturePhysicsStrategy(IPhysicsStrategy):
         self._body_shape.filter = pm.ShapeFilter(
             categories=categories['creature'])
 
-        ## Eye shape
+        # Eye shape
         # Todo: create class
         qradius = radius / 2  # eye positon from body center
         self._eye_left_shape = pm.Circle(
@@ -48,16 +51,21 @@ class CreaturePhysicsStrategy(IPhysicsStrategy):
         self._eye_right_shape = pm.Circle(
             self._body, eye_radius, (qradius, -qradius))
 
-        ## Space
+        # Space
         space.add(self._body, self._body_shape,
                   self._eye_left_shape, self._eye_right_shape)
-        
+
+    def __del__(self):
+        print("del creature physics")
+        self._space().remove(self._body, self._body_shape,
+                             self._eye_left_shape, self._eye_right_shape)
+
     def game_entity(self, value):
-        self._game_entity = value
-        self._body_shape.game_entity = value
-        
+        self._game_entity = weakref.ref(value)
+        self._body_shape.game_entity = weakref.ref(value)
+
     def eat(self, food):
-        self._game_entity.energy += food.eaten(0.50)
+        self._game_entity().energy += food.eaten(0.50)
 
     def update(self, game_entity, world, dt):
         """physics code..."""
@@ -67,7 +75,6 @@ class CreaturePhysicsStrategy(IPhysicsStrategy):
 
         p1, p2 = [x * self.__POWER for x in game_entity.powers]
 
-        # todo: take a look at pymunk.Body.update_velocity(body, gravity, damping, dt)
         radius = self._body_shape.radius
         self._body.apply_force_at_local_point((p1, 0), (0, -radius))
         self._body.apply_force_at_local_point((p2, 0), (0, +radius))

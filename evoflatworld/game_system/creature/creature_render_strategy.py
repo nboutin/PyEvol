@@ -19,11 +19,11 @@ class CreatureRenderStrategy(IRenderStrategy, Widget):
 
         super().__init__(**k)
 
-        # Parameters
-
         # Widget
         self.pos = [x - radius for x in pos]
         self.size = [radius * 2, radius * 2]
+
+        # Parameters
         self._info = None
         self._bb_render = None
 
@@ -50,6 +50,14 @@ class CreatureRenderStrategy(IRenderStrategy, Widget):
                 ["{0:0.2f}".format(i) for i in self._game_entity.powers],
                 self._game_entity.energy)
 
+    def __del__(self):
+        print("del creature render")
+
+    def remove(self):
+        if self._info:
+            self.remove_widget(self._info)
+        self.parent.remove_widget(self)
+
     def game_entity(self, value):
         self._game_entity = value
 
@@ -64,17 +72,18 @@ class CreatureRenderStrategy(IRenderStrategy, Widget):
                         else:
                             self._game_entity._is_selected = True
                             self._bb_render = BBRender(self.canvas)
-        
+
                     if touch.button == 'right':
                         if self._info:
                             self.remove_widget(self._info)
                             self._info = None
                         else:
-                            self._info = Label(font_size='10sp', color=Colors.Black)
+                            self._info = Label(
+                                font_size='10sp', color=Colors.Black)
                             self.add_widget(self._info)
         except AttributeError as e:
             print(e)
-                
+
         return super().on_touch_down(touch)
 
     def render(self, game_entity, render):
