@@ -34,7 +34,6 @@ class GameSystem():
         self._physics_controller = PhysicsController(param.WORLD_SIZE, self)
 
         self._entities = list()
-        self._entities_to_remove = list()
 
         self._world = self._create_world()
 
@@ -81,8 +80,8 @@ class GameSystem():
         return self._physics_multiplier
 
     def remove_entity(self, entity):
+        entity.render.remove()
         self._entities.remove(entity)
-        self._entities_to_remove.append(entity)
 
     def _run(self, dt):
 
@@ -120,11 +119,6 @@ class GameSystem():
                 entity.render.render(entity, self._world.render)
 
         self._world.render.render(self._world, None)
-
-        # Remove entity
-        for e in self._entities_to_remove:
-            self._entities_to_remove.remove(e)
-            del e
 
         self._trigger()
 

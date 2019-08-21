@@ -3,6 +3,8 @@ Created on Aug 11, 2019
 
 @author: nboutin
 '''
+import weakref
+
 from kivy.uix.widget import Widget
 from kivy.uix.label import Label
 from kivy.graphics import (Color, Ellipse)
@@ -18,9 +20,10 @@ class FoodRenderStrategy(IRenderStrategy, Widget):
         super().__init__(**k)
 
         # Widget
-        self._widget_parent = widget_parent
         self.pos = [x - radius for x in pos]
         self.size = [radius * 2, radius * 2]
+
+        # Parameter
         self._info = None
 
         with self.canvas:
@@ -28,10 +31,14 @@ class FoodRenderStrategy(IRenderStrategy, Widget):
             self._circle = Ellipse(pos=self.pos, size=self.size)
 
         widget_parent.add_widget(self)
-        
+
     def __del__(self):
         print("del food render")
-        self._widget_parent.remove_widget(self)
+
+    def remove(self):
+        if self._info:
+            self.remove_widget(self._info)
+        self.parent.remove_widget(self)
 
     def render(self, game_entity, render):
         update_ellipse_from_circle(self._circle, game_entity.body_shape)
