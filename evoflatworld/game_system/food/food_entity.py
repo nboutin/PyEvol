@@ -8,15 +8,12 @@ from evoflatworld.game_system.i_game_entity import IGameEntity
 
 class FoodEntity(IGameEntity):
 
-    def __init__(self, icontroller, iphysics, irender):
+    def __init__(self, icontroller, iphysics, irender, calories):
         super().__init__(icontroller, iphysics, irender)
 
         # Parameters
         self.body_shape = None
-        self.calories = 1
+        self.calories = calories
 
         # Setup
         iphysics.game_entity(self)
-
-    def __del__(self):
-        print("del food entity")

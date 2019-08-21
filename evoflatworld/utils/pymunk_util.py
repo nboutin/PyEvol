@@ -22,7 +22,10 @@ def update_ellipse_from_circle(ellipse, shape):
     :param ellipse: kivy.graphics.Ellipse
     :param shape: pymunk.Shape
     '''
-    bb = shape.bb
-    radius = shape.radius
-    ellipse.pos = bb.left, bb.bottom
-    ellipse.size = (radius * 2, radius * 2)
+    try:
+        bb = shape.bb
+        radius = shape.radius
+        ellipse.pos = bb.left, bb.bottom
+        ellipse.size = (radius * 2, radius * 2)
+    except AttributeError:
+        pass

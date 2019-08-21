@@ -83,6 +83,10 @@ class GameSystem():
         entity.render.remove()
         self._entities.remove(entity)
 
+    def remove_food(self, food):
+        self.remove_entity(food)
+        self._create_food()
+
     def _run(self, dt):
 
         # Controller
@@ -160,6 +164,7 @@ class GameSystem():
             None,
             FoodPhysicsStrategy(pos, radius, self._physics_controller.space),
             FoodRenderStrategy(
-                pos, radius, self._world.render, size_hint=(None, None)))
+                pos, radius, self._world.render, size_hint=(None, None)),
+            param.FOOD_CALORIES)
 
         self._entities.append(food_entity)

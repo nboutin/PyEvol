@@ -3,6 +3,7 @@
 ## 0.2.0
 
 - [x] Add Creature's eye(graphic) to represent current angle
+- [x] Define Food model A
 
 ## 0.1.0
 

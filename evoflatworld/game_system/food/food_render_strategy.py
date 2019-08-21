@@ -32,20 +32,10 @@ class FoodRenderStrategy(IRenderStrategy, Widget):
 
         widget_parent.add_widget(self)
 
-    def __del__(self):
-        print("del food render")
-
     def remove(self):
         if self._info:
             self.remove_widget(self._info)
         self.parent.remove_widget(self)
-
-    def render(self, game_entity, render):
-        update_ellipse_from_circle(self._circle, game_entity.body_shape)
-
-        if self._info:
-            self._info.center = self.center
-            self._info.text = 'calories:{}'.format(game_entity.calories)
 
     def on_touch_down(self, touch):
         try:
@@ -63,3 +53,10 @@ class FoodRenderStrategy(IRenderStrategy, Widget):
             print(e)
 
         return super().on_touch_down(touch)
+
+    def render(self, game_entity, render):
+        update_ellipse_from_circle(self._circle, game_entity.body_shape)
+
+        if self._info:
+            self._info.center = self.center
+            self._info.text = 'calories:{}'.format(game_entity.calories)

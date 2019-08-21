@@ -37,7 +37,6 @@ class FoodPhysicsStrategy(IPhysicsStrategy):
         space.add(self._body, self._body_shape)
 
     def __del__(self):
-        print("del food physics")
         self._space().remove(self._body, self._body_shape)
 
     def game_entity(self, value):
