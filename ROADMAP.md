@@ -2,8 +2,11 @@
 
 ## Next
 
+- [ ] Use NEAT algorithm as Creature's brain
 - [ ] Zoomable and Movable world (Scatter widget)
-- [ ] Read/Write configuration from file 
+- [ ] Read/Write configuration from file
+
+## 0.3.0
 
 ## 0.2.0
 
