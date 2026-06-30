@@ -15,7 +15,7 @@ FOOD_COUNT = 20
 FOOD_CALORIES = 5
 
 # GUI
-MAXIMIZE = True
+MAXIMIZE = False  # True
 
 
 # Debug

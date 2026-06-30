@@ -13,10 +13,10 @@ class FPSMonitorWidget(BoxLayout):
     def __init__(self, **k):
         super().__init__(**k)
 
-        self.size = (30, 15)
+        self.size = (120, 60)
         self.size_hint = (None, None)
 
-        self._lb_fps = Label(font_size='10sp')
+        self._lb_fps = Label(font_size='20sp')
         self.add_widget(self._lb_fps)
 
         Clock.schedule_interval(self._update_fps, 1)
