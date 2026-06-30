@@ -18,18 +18,20 @@ class PhysicsController():
         self._space.damping = 0.1  # lose 1-x% of its velocity per second
 
         # Creature and Food
-        handler = self._space.add_collision_handler(
+        self._space.on_collision(
             collision_types['creature'],
-            collision_types['food'])
-        handler.begin = creature_eat_food
-        handler.data['game_system'] = game_system
+            collision_types['food'],
+            begin=creature_eat_food,
+            data={'game_system': game_system}
+        )
 
         # Border and Creature
-        handler = self._space.add_collision_handler(
+        self._space.on_collision(
             collision_types['border'],
-            collision_types['creature'])
-        handler.begin = border_out
-        handler.data['world_size'] = world_size
+            collision_types['creature'],
+            begin=border_out,
+            data={'world_size': world_size}
+        )
 
     @property
     def space(self):

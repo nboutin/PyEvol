@@ -57,8 +57,10 @@ class CreaturePhysicsStrategy(IPhysicsStrategy):
 
     def __del__(self):
         print("del creature physics")
-        self._space().remove(self._body, self._body_shape,
-                             self._eye_left_shape, self._eye_right_shape)
+        space = self._space()
+        if space is not None:
+            space.remove(self._body, self._body_shape,
+                         self._eye_left_shape, self._eye_right_shape)
 
     def game_entity(self, value):
         self._game_entity = weakref.ref(value)

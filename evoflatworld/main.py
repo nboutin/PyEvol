@@ -12,6 +12,10 @@ Config.set('input', 'mouse', 'mouse,disable_multitouch,disable_on_activity')
 # import pymunkoptions
 # pymunkoptions.options["debug"] = False
 
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from kivy.app import App
 from kivy.core.window import Window
 from kivy.uix.floatlayout import FloatLayout

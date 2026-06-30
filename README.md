@@ -14,7 +14,7 @@ virtualenv venv/pyevol
 
 source venv/pyevol/bin/activate
 
-pip install kivy pymunk
+pip install -r requirements.txt
 
 git clone .../pymunk
 cd pymunk

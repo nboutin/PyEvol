@@ -37,7 +37,9 @@ class FoodPhysicsStrategy(IPhysicsStrategy):
         space.add(self._body, self._body_shape)
 
     def __del__(self):
-        self._space().remove(self._body, self._body_shape)
+        space = self._space()
+        if space is not None:
+            space.remove(self._body, self._body_shape)
 
     def game_entity(self, value):
         self._game_entity = weakref.ref(value)
